@@ -1,3 +1,9 @@
+<p align="right">
+  <a href="./README.md">English</a> | <a href="./README.zh-CN.md"><strong>简体中文</strong></a>
+</p>
+
+![Biz Retro Analyzer banner](./assets/banner.svg)
+
 # Biz Retro Analyzer / 会后复盘分析 Skill
 
 把杂乱的会后材料，转成有证据支撑的分析资产。
@@ -156,6 +162,8 @@ biz-retro-analyzer/
 ├── SKILL.md
 ├── README.md
 ├── README.zh-CN.md
+├── assets/
+│   └── banner.svg
 ├── EVALUATION.md
 ├── LICENSE
 ├── agents/
@@ -173,6 +181,7 @@ biz-retro-analyzer/
 ### 文件职责
 
 - `SKILL.md`：触发条件、工作流、硬规则、输出模式导航
+- `assets/banner.svg`：仓库头图资产
 - `references/input-modes.md`：不同输入堆栈的处理方式
 - `references/output-templates.md`：可复用输出模板
 - `references/analysis-checks.md`：质量与分析检查清单

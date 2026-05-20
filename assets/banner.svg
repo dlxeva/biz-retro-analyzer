@@ -1,0 +1,77 @@
+<svg width="1600" height="420" viewBox="0 0 1600 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1020"/>
+      <stop offset="0.5" stop-color="#111A33"/>
+      <stop offset="1" stop-color="#0B1429"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="240" y1="70" x2="1060" y2="310" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#57D3FF"/>
+      <stop offset="0.5" stop-color="#7C8CFF"/>
+      <stop offset="1" stop-color="#8B5CFF"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1280 68) rotate(130.416) scale(321.466 582.913)">
+      <stop stop-color="#38BDF8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#38BDF8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="0" y="0" width="1600" height="420" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="420" rx="24" fill="url(#bg)"/>
+  <ellipse cx="1280" cy="68" rx="320" ry="180" fill="url(#glow)" filter="url(#soft)"/>
+
+  <g opacity="0.28" stroke="#6EE7FF" stroke-width="1.4">
+    <path d="M114 326H416"/>
+    <path d="M146 294H356"/>
+    <path d="M980 96H1456"/>
+    <path d="M1070 128H1498"/>
+    <path d="M1048 304H1478"/>
+  </g>
+
+  <g opacity="0.9">
+    <path d="M128 136C128 113.909 145.909 96 168 96H458C480.091 96 498 113.909 498 136V286C498 308.091 480.091 326 458 326H168C145.909 326 128 308.091 128 286V136Z" fill="#0E162C" stroke="#1E325D" stroke-width="2"/>
+    <path d="M168 150H458" stroke="#223A6A" stroke-width="2"/>
+    <circle cx="190" cy="124" r="6" fill="#57D3FF"/>
+    <circle cx="214" cy="124" r="6" fill="#7C8CFF"/>
+    <circle cx="238" cy="124" r="6" fill="#8B5CFF"/>
+  </g>
+
+  <g>
+    <path d="M205 223L258 170L317 206L378 154L427 191" stroke="url(#accent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="205" cy="223" r="10" fill="#57D3FF"/>
+    <circle cx="258" cy="170" r="10" fill="#62C4FF"/>
+    <circle cx="317" cy="206" r="10" fill="#7C8CFF"/>
+    <circle cx="378" cy="154" r="10" fill="#8B5CFF"/>
+    <circle cx="427" cy="191" r="10" fill="#57D3FF"/>
+  </g>
+
+  <g opacity="0.92">
+    <path d="M280 264H427" stroke="#2C4F8F" stroke-width="2"/>
+    <path d="M280 286H395" stroke="#2C4F8F" stroke-width="2"/>
+    <path d="M280 242H366" stroke="#2C4F8F" stroke-width="2"/>
+  </g>
+
+  <g transform="translate(602 116)">
+    <rect x="0" y="0" width="92" height="92" rx="22" fill="#0F1B35" stroke="#294A8D" stroke-width="2"/>
+    <path d="M22 62L36 48L48 56L68 34" stroke="url(#accent)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="22" cy="62" r="5" fill="#57D3FF"/>
+    <circle cx="36" cy="48" r="5" fill="#62C4FF"/>
+    <circle cx="48" cy="56" r="5" fill="#7C8CFF"/>
+    <circle cx="68" cy="34" r="5" fill="#8B5CFF"/>
+  </g>
+
+  <text x="720" y="166" fill="#F8FAFC" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="46" font-weight="700" letter-spacing="0">Biz Retro Analyzer</text>
+  <text x="720" y="212" fill="#93C5FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" font-weight="500" letter-spacing="0.2">Evidence-first debrief analysis for transcripts, notes, and follow-up reasoning</text>
+  <text x="720" y="258" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="400">Facts → Structure → Judgments → Reverse Audit → Next Actions</text>
+
+  <g opacity="0.95">
+    <rect x="718" y="292" width="142" height="40" rx="20" fill="#102445" stroke="#294A8D"/>
+    <text x="746" y="318" fill="#E0F2FE" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="16" font-weight="600">Evidence First</text>
+    <rect x="874" y="292" width="152" height="40" rx="20" fill="#111E3B" stroke="#3E57A5"/>
+    <text x="906" y="318" fill="#E9D5FF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="16" font-weight="600">Reverse Audit</text>
+    <rect x="1040" y="292" width="152" height="40" rx="20" fill="#0F233A" stroke="#2D72A8"/>
+    <text x="1076" y="318" fill="#CFFAFE" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="16" font-weight="600">Project Thread</text>
+  </g>
+</svg>

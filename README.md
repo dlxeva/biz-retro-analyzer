@@ -1,3 +1,9 @@
+<p align="right">
+  <a href="./README.md"><strong>English</strong></a> | <a href="./README.zh-CN.md">简体中文</a>
+</p>
+
+![Biz Retro Analyzer banner](./assets/banner.svg)
+
 # Biz Retro Analyzer
 
 Turn messy post-meeting materials into evidence-backed analysis artifacts.
@@ -156,6 +162,8 @@ biz-retro-analyzer/
 ├── SKILL.md
 ├── README.md
 ├── README.zh-CN.md
+├── assets/
+│   └── banner.svg
 ├── EVALUATION.md
 ├── LICENSE
 ├── agents/
@@ -173,6 +181,7 @@ biz-retro-analyzer/
 ### File Roles
 
 - `SKILL.md`: trigger rules, workflow, guardrails, output mode routing
+- `assets/banner.svg`: repository header artwork
 - `references/input-modes.md`: how to reason about different input stacks
 - `references/output-templates.md`: reusable output structures
 - `references/analysis-checks.md`: quality and interpretation checks
