@@ -23,6 +23,19 @@ Use when the user provides only raw materials such as:
 - strong motive attribution without enough support
 - heavy reverse-audit conclusions
 
+### Special case: Speaker-Unknown Mode
+
+If the source material does not reliably label who said what:
+
+- do not force person-level motive attribution
+- downgrade to anonymous position analysis
+- use labels such as:
+  - `one participant`
+  - `another speaker`
+  - `a pushing view`
+  - `a cautious view`
+- preserve uncertainty instead of assigning identity
+
 ---
 
 ## Mode 2: Source Evidence + Project Context
@@ -79,3 +92,10 @@ When inputs are mixed:
 3. tag follow-up reasoning third
 
 If unsure, preserve uncertainty instead of collapsing layers.
+
+When speaker labels are missing:
+
+1. mark `speaker-unknown mode`
+2. keep structure and issue extraction
+3. weaken stakeholder-specific outputs
+4. recommend speaker relabeling if later precision matters

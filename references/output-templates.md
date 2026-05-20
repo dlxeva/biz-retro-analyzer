@@ -40,6 +40,15 @@ Use these templates selectively. Do not force every section if the input is too 
 | --- | --- | --- | --- | --- |
 ```
 
+If speaker labels are unreliable, replace this with:
+
+```md
+## Position Readout (Speaker-Unknown Mode)
+
+| Position / Voice | What appears in the material | What this position seems to want | Confidence | Evidence basis |
+| --- | --- | --- | --- | --- |
+```
+
 ## 4. Judgment and Reverse Audit
 
 ```md

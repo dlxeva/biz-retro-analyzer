@@ -45,6 +45,27 @@ Different parties get collapsed into one generic "client" or "stakeholder" blob.
 
 ---
 
+## 2.5. Speaker Attribution Hallucination
+
+### What happens
+
+The analysis assigns specific statements or motives to named roles even though the source material did not reliably label speakers.
+
+### Typical symptoms
+
+- "the buyer said..." even though the transcript had no labels
+- strong role claims built from unlabeled text blocks
+- clean stakeholder tables built from ambiguous source material
+
+### Correction
+
+- enter `speaker-unknown mode`
+- preserve anonymous or position-level reading
+- explicitly state that stakeholder mapping is weakened by missing speaker labels
+- recommend relabeling the source if stronger motive analysis is needed
+
+---
+
 ## 3. Trial Scenario Lock-In
 
 ### What happens

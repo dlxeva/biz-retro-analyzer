@@ -75,11 +75,14 @@ This skill supports three input layers:
 
 Do not force all three. Work with the highest-confidence layer available.
 
+If speaker attribution is missing or unreliable, downgrade into `speaker-unknown mode` and avoid high-confidence person-by-person motive claims.
+
 ## Workflow
 
 1. Classify the input stack.
    - Identify which materials are raw evidence, contextual supplements, and later reasoning.
    - If the user mixed them together, separate them first.
+   - If speaker labels are missing, mark that explicitly before deeper analysis.
 2. Build the fact layer.
    - Follow `${CLAUDE_SKILL_DIR}/references/output-templates.md` for structured source-note output.
    - Keep original claims tied to specific meetings or materials.
@@ -132,6 +135,7 @@ Use when the user already has strong conclusions and wants a harder review.
 5. Do not let a trial scenario become the product definition unless the evidence supports that scope.
 6. Do not output only "meeting summary + action items" if the user clearly needs project intelligence.
 7. When preparing public-facing examples or repository docs, strip or generalize sensitive names, internal identifiers, and private project details.
+8. If source materials do not reliably identify speakers, preserve role ambiguity instead of hallucinating who said what.
 
 ## Output Format
 
