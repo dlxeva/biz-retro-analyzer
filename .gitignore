@@ -1,0 +1,32 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Local env
+.env
+.env.*
+
+# Temp / logs
+*.log
+tmp/
+temp/
+
+# Archive / exports
+artifacts/
+exports/
+out/
