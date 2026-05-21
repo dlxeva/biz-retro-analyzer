@@ -17,10 +17,12 @@ Use when the user provides only raw materials such as:
 - source-by-source summaries
 - factual open questions
 - light project thread inference
+- light participant-understanding inference only when evidence is explicit
 
 ### Avoid
 
 - strong motive attribution without enough support
+- strong competence or literacy claims without enough support
 - heavy reverse-audit conclusions
 
 ### Special case: Speaker-Unknown Mode
@@ -52,6 +54,7 @@ Use when raw materials are accompanied by:
 - structured fact records
 - cross-material project progression
 - stronger stakeholder motive analysis
+- participant understanding map
 - current-stage boundary recommendations
 
 ### Watch for
@@ -74,6 +77,7 @@ Use when the user also provides:
 - full retro pack
 - explicit fact/judgment split
 - reverse audit
+- participant understanding map with strategy implications
 - method notes
 
 ### Hard rule
@@ -99,3 +103,12 @@ When speaker labels are missing:
 2. keep structure and issue extraction
 3. weaken stakeholder-specific outputs
 4. recommend speaker relabeling if later precision matters
+
+When participant understanding is thin or ambiguous:
+
+1. keep the map partial rather than forcing a full rating
+2. distinguish observed understanding from assumed competence
+3. prefer phrases like:
+   - `shows strong workflow understanding`
+   - `appears politically fluent but delivery depth is unclear`
+   - `evidence of domain understanding is thin`

@@ -21,6 +21,7 @@ and converting them into:
 - structured fact records
 - progression summaries
 - stakeholder motive analysis
+- participant understanding analysis
 - judgment and reverse-audit notes
 - next-step actions
 - reusable method notes
@@ -29,6 +30,7 @@ It is designed for conversation-heavy work where the goal is not just to summari
 
 - how direction shifted
 - what each party actually wants
+- how well each party actually understands the issue
 - which issues block progress now
 - which evidence gaps can wait but must be revisited later
 
@@ -87,7 +89,7 @@ If all you need is "summary + next steps", this skill is probably too heavy.
 
 ## Core Design
 
-This skill follows four principles:
+This skill follows five principles:
 
 1. **Evidence first**  
    Source materials are preserved before interpretation.
@@ -98,7 +100,10 @@ This skill follows four principles:
 3. **Stakeholder motives matter**  
    It distinguishes what people said from what they appear to want.
 
-4. **Reverse audit when needed**  
+4. **Understanding depth matters too**  
+   It distinguishes what people want from what they actually understand.
+
+5. **Reverse audit when needed**  
    If the story feels too smooth or too confident, it stress-tests the conclusions.
 
 ---

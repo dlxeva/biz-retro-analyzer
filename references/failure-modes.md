@@ -104,6 +104,55 @@ Excitement, alignment, or forward motion gets treated as evidence that the direc
 
 ---
 
+## 4.5. Competence Illusion
+
+### What happens
+
+A speaker sounds decisive, senior, or fluent, and the analysis quietly upgrades that into real issue understanding.
+
+### Typical symptoms
+
+- airtime is mistaken for expertise
+- political understanding is mistaken for delivery understanding
+- high-level framing is mistaken for domain depth
+- a participant is treated as a reliable source on implementation when the material only shows strategic posture
+
+### Correction
+
+- add a participant understanding map
+- separate:
+  - domain understanding
+  - workflow understanding
+  - delivery understanding
+  - organizational/political understanding
+- preserve mixed or partial understanding when the material supports only that
+
+---
+
+## 4.6. Understanding-without-Strategy Drop
+
+### What happens
+
+The analysis correctly notices who understands the issue and who does not, but fails to turn that into practical strategy.
+
+### Typical symptoms
+
+- participant understanding map exists, but nothing changes downstream
+- the output says someone is shallow or deep, but does not explain why it matters
+- next-step advice ignores who should be educated, challenged, trusted, or bypassed
+
+### Correction
+
+- add a strategy implication block after participant understanding analysis
+- specify how understanding levels should change:
+  - explanation depth
+  - evidence burden
+  - demo style
+  - proposal wording
+  - whose feedback should shape scope
+
+---
+
 ## 5. Current Blocker / Later Gap Confusion
 
 ### What happens

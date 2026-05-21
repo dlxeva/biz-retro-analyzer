@@ -49,6 +49,34 @@ If speaker labels are unreliable, replace this with:
 | --- | --- | --- | --- | --- |
 ```
 
+## 3B. Participant Understanding Map
+
+```md
+## Participant Understanding Map
+
+| Party / Voice | Domain understanding | Workflow understanding | Delivery understanding | Organizational understanding | Confidence | Evidence basis |
+| --- | --- | --- | --- | --- | --- | --- |
+```
+
+Suggested labels:
+
+- `strong`
+- `mixed`
+- `thin`
+- `unclear from material`
+
+Optional follow-on block when strategy depends on understanding gaps:
+
+```md
+## Strategy Implications from Participant Understanding
+
+- **Who can validate domain truth**:
+- **Who can validate workflow reality**:
+- **Who can support or distort delivery planning**:
+- **Who may sound confident but needs translation or narrowing**:
+- **How this should change the next meeting / proposal / demo strategy**:
+```
+
 ## 4. Judgment and Reverse Audit
 
 ```md

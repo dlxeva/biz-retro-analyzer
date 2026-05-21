@@ -16,6 +16,16 @@ Run these checks before finalizing any serious retro.
 - If speaker labels were missing, did we avoid pretending we knew exactly who said each line?
 - If speaker labels were missing, did we downgrade to position-level rather than person-level analysis?
 
+## Understanding Reading
+
+- Did we assess who actually understands the issue rather than only who speaks most confidently?
+- Did we separate domain understanding from process understanding and from delivery understanding?
+- Did we avoid treating organizational authority as proof of technical or workflow understanding?
+- Did we note when a participant seems to understand the politics but not the implementation details?
+- Did we extract enough evidence to tell whether later strategy should be shaped around this person's understanding level?
+- Did we capture where a participant is strong versus where they are merely fluent or forceful?
+- Did we translate participant understanding into strategy, or did we stop at descriptive labels?
+
 ## Product / Scope Reading
 
 - Did we distinguish trial scenario from product body?

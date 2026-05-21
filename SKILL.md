@@ -22,6 +22,7 @@ and wants to produce:
 - structured fact records
 - project progression summaries
 - stakeholder motive analysis
+- participant understanding analysis
 - judgment and reverse-audit notes
 - next-step action recommendations
 - reusable method notes
@@ -36,6 +37,8 @@ and wants to produce:
 6. If the user already has a strong narrative, run a reverse audit before finalizing conclusions.
 7. Treat follow-up AI conversations as optional judgment-layer input, never as source-of-truth replacements for original evidence.
 8. Keep the open-source version generic. Do not hardcode private organizations, sensitive projects, or personally identifying details into reusable guidance.
+9. Evaluate not only motive, but also issue understanding: who seems to deeply understand the domain, who understands process, who understands politics, and who is mostly talking in positioning language.
+10. Treat participant understanding as strategy-critical output. Knowing what each party knows, and does not know, is necessary for routing explanation depth, pricing conversations, implementation sequencing, and risk control.
 
 ## Trigger Conditions
 
@@ -88,7 +91,12 @@ If speaker attribution is missing or unreliable, downgrade into `speaker-unknown
    - Keep original claims tied to specific meetings or materials.
 3. Build the project structure layer.
    - Merge materials by topic, not just chronology.
-   - Identify goal convergence, stakeholder motives, trial scenario choices, boundary shifts, and unresolved questions.
+   - Identify goal convergence, stakeholder motives, participant understanding levels, trial scenario choices, boundary shifts, and unresolved questions.
+   - Explicitly assess who understands:
+     - the domain itself
+     - the operating workflow
+     - delivery and implementation reality
+     - organizational or political constraints
 4. Build the judgment layer.
    - Summarize the user's current narrative.
    - Then run the checks in `${CLAUDE_SKILL_DIR}/references/analysis-checks.md`.
@@ -115,6 +123,7 @@ Use when the user wants project progression plus interpretation.
 - structured source notes
 - cross-material project thread
 - stakeholder motive analysis
+- participant understanding map
 - current boundaries and next actions
 
 ### Mode C: Audit Pack
@@ -125,6 +134,7 @@ Use when the user already has strong conclusions and wants a harder review.
 - reverse-audit section
 - overreach / under-evidence flags
 - confidence notes
+- participant understanding map when the material supports it
 
 ## Hard Rules
 
@@ -136,6 +146,8 @@ Use when the user already has strong conclusions and wants a harder review.
 6. Do not output only "meeting summary + action items" if the user clearly needs project intelligence.
 7. When preparing public-facing examples or repository docs, strip or generalize sensitive names, internal identifiers, and private project details.
 8. If source materials do not reliably identify speakers, preserve role ambiguity instead of hallucinating who said what.
+9. Do not confuse confidence, authority, or airtime with actual issue understanding.
+10. Do not stop at "what they want" if the source material also reveals "what they understand." Strategy often depends on both.
 
 ## Output Format
 
@@ -167,6 +179,22 @@ Always produce one or more of the following, depending on the request:
 - **Non-blocking but real gaps**:
 - **Current next actions**:
 ```
+
+### Structure B2: Participant Understanding Map
+
+```md
+## Participant Understanding Map
+
+| Party / Voice | Understands domain facts | Understands workflow/process | Understands delivery reality | Understands political or organizational constraints | Main evidence |
+| --- | --- | --- | --- | --- | --- |
+```
+
+Use this section when later project strategy depends on who really understands the issue.
+If the source supports it, add a short readout on:
+
+- where the participant is strongest
+- where they sound shallow or overconfident
+- how that should change explanation, expectation, or collaboration strategy
 
 ### Structure C: Judgment and Reverse Audit
 

@@ -14,8 +14,10 @@ The skill should reliably do five things:
 1. separate fact from judgment
 2. preserve source structure before collapsing into one story
 3. identify meaningful stakeholder motive differences
-4. distinguish current blockers from later gaps
-5. produce useful next actions without pretending missing evidence does not matter
+4. identify participant understanding depth when the material supports it
+5. distinguish current blockers from later gaps
+6. produce useful next actions without pretending missing evidence does not matter
+7. turn participant understanding into strategy-relevant advice when that understanding gap matters
 
 ---
 
@@ -83,13 +85,16 @@ Treat a run as healthy if it satisfies most of the following:
 ### Judgment Layer
 
 - identifies stakeholder differences that matter
+- identifies who actually seems to understand the issue, and on which dimension
 - distinguishes supported judgments from assumptions
 - flags at least some weakly-supported conclusions when appropriate
+- converts participant understanding into practical strategy guidance when relevant
 
 ### Action Layer
 
 - gives next actions that match the current evidence state
 - distinguishes immediate actions from later evidence-gathering steps
+- reflects who should be used for validation, who needs translation, and who should not anchor scope alone
 
 ---
 
@@ -99,6 +104,7 @@ The run should be reviewed for:
 
 - fact/judgment collapse
 - stakeholder flattening
+- competence illusion
 - trial scenario lock-in
 - momentum treated as validation
 - over-generic output
