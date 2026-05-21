@@ -158,6 +158,21 @@ The goal is to separate:
 - what is still missing
 - what should happen next
 
+### Evidence Tagging
+
+The skill now supports a lightweight evidence-tagging convention for important conclusions:
+
+- `Status`: `Confirmed` / `Inferred` / `Assumption` / `Needs validation`
+- `Strength`: `High` / `Medium` / `Low`
+- `Basis`: `Source quote/paraphrase` / `Cross-source pattern` / `User context` / `Later reasoning only`
+
+This is especially useful when the output includes:
+
+- stakeholder motive readings
+- project-boundary calls
+- pricing or leverage judgments
+- commitment-shaping next actions
+
 ---
 
 ## Repository Structure
@@ -222,6 +237,19 @@ Please output:
 2. Add context if needed.
 3. Add follow-up reasoning only after the fact layer is stable.
 4. Run reverse audit if the current story feels too clean.
+
+---
+
+## Iteration History
+
+Recent iterations are tracked in [CHANGELOG.md](./CHANGELOG.md).
+
+Current highlighted iteration:
+
+- added default evidence-tagging protocol
+- tightened output templates around evidence notes and validation targets
+- upgraded analysis checks to audit confidence and proof representation
+- added visible iteration tracking for future releases
 
 ---
 

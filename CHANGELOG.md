@@ -1,0 +1,75 @@
+# Changelog
+
+All notable changes to `biz-retro-analyzer` should be recorded in this file.
+
+The format is intentionally lightweight:
+
+- what changed
+- why it changed
+- what this enables
+
+---
+
+## 2026-05-22
+
+### Evidence-tagging upgrade
+
+- Added a default evidence-tagging protocol to `SKILL.md`
+- Standardized claim-status tags: `Confirmed`, `Inferred`, `Assumption`, `Needs validation`
+- Standardized evidence-strength tags: `High`, `Medium`, `Low`
+- Added source-basis guidance so outputs can distinguish direct source support from later reasoning
+
+Why:
+
+- Important retro judgments were useful, but still too easy to read as settled facts
+- High-impact calls around pricing, scope, leverage, and next actions needed clearer support labels
+
+Enables:
+
+- more auditable retros
+- cleaner fact-vs-judgment separation
+- safer reuse across multi-meeting project threads
+
+### Output-template tightening
+
+- Updated `references/output-templates.md` to include evidence-tagging guidance
+- Added structured slots for evidence notes, evidence-risk notes, high-impact claims requiring validation, and action evidence notes
+
+Why:
+
+- The skill needed a default output shape for evidence-aware writing instead of ad hoc annotation
+
+Enables:
+
+- easier repeated use
+- more consistent outputs across runs
+- clearer downstream review by humans
+
+### Analysis-check upgrade
+
+- Expanded `references/analysis-checks.md` to verify whether major claims are tagged correctly
+- Added checks for weak evidence, pricing/leverage overreach, and provisional next-step recommendations
+
+Why:
+
+- The skill needed to review not only content quality, but also whether confidence and proof were represented honestly
+
+Enables:
+
+- better self-auditing
+- fewer overconfident retros
+
+### Iteration visibility
+
+- Added this changelog
+- Added iteration-history sections to the public READMEs
+- Added publishing guidance to keep future iterations visible
+
+Why:
+
+- Once the skill starts evolving, users need to see what changed without diffing files
+
+Enables:
+
+- lightweight release tracking
+- easier public repo maintenance

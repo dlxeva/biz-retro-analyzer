@@ -39,6 +39,7 @@ and wants to produce:
 8. Keep the open-source version generic. Do not hardcode private organizations, sensitive projects, or personally identifying details into reusable guidance.
 9. Evaluate not only motive, but also issue understanding: who seems to deeply understand the domain, who understands process, who understands politics, and who is mostly talking in positioning language.
 10. Treat participant understanding as strategy-critical output. Knowing what each party knows, and does not know, is necessary for routing explanation depth, pricing conversations, implementation sequencing, and risk control.
+11. Tag important conclusions with evidence status. The reader should be able to tell what is directly supported, what is inferred, and what still needs validation.
 
 ## Trigger Conditions
 
@@ -80,6 +81,37 @@ Do not force all three. Work with the highest-confidence layer available.
 
 If speaker attribution is missing or unreliable, downgrade into `speaker-unknown mode` and avoid high-confidence person-by-person motive claims.
 
+## Evidence Tagging Protocol
+
+Use lightweight evidence tags whenever the output includes important judgments, stakeholder readings, project-boundary calls, or action recommendations.
+
+### Claim status tags
+
+- `Confirmed` — directly supported by source material
+- `Inferred` — a reasonable interpretation grounded in source material
+- `Assumption` — plausible working hypothesis, not yet supported enough
+- `Needs validation` — should be checked before using it for commitment, pricing, or strategy
+
+### Evidence strength tags
+
+- `High` — repeated or explicit support in the source
+- `Medium` — some support, but still interpretive or incomplete
+- `Low` — thin support, single-mention support, or mostly indirect support
+
+### Source basis tags
+
+When helpful, mark the basis briefly:
+
+- `Source quote/paraphrase`
+- `Cross-source pattern`
+- `User context`
+- `Later reasoning only`
+
+Hard rule:
+
+- Do not present an `Inferred` or `Assumption` claim in the same tone as a `Confirmed` fact.
+- If a judgment materially affects pricing, partner choice, next-step sequencing, or project scope, add both a claim-status tag and an evidence-strength tag.
+
 ## Workflow
 
 1. Classify the input stack.
@@ -89,6 +121,7 @@ If speaker attribution is missing or unreliable, downgrade into `speaker-unknown
 2. Build the fact layer.
    - Follow `${CLAUDE_SKILL_DIR}/references/output-templates.md` for structured source-note output.
    - Keep original claims tied to specific meetings or materials.
+   - Mark high-value factual statements as `Confirmed` unless the source itself is ambiguous.
 3. Build the project structure layer.
    - Merge materials by topic, not just chronology.
    - Identify goal convergence, stakeholder motives, participant understanding levels, trial scenario choices, boundary shifts, and unresolved questions.
@@ -97,14 +130,17 @@ If speaker attribution is missing or unreliable, downgrade into `speaker-unknown
      - the operating workflow
      - delivery and implementation reality
      - organizational or political constraints
+   - Mark where structure calls are `Inferred` versus `Needs validation`.
 4. Build the judgment layer.
    - Summarize the user's current narrative.
    - Then run the checks in `${CLAUDE_SKILL_DIR}/references/analysis-checks.md`.
+   - Label major judgments with claim status and evidence strength.
 5. Run reverse audit when needed.
    - If conclusions feel too neat, too fast, or too dependent on one narrator, read `${CLAUDE_SKILL_DIR}/references/reverse-audit.md`.
 6. Close with action output.
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
    - If important evidence is still missing, use `${CLAUDE_SKILL_DIR}/references/interview-gap-prompts.md`.
+   - For commitment-shaping actions, say what must be validated first.
 
 ## Output Modes
 
@@ -148,6 +184,7 @@ Use when the user already has strong conclusions and wants a harder review.
 8. If source materials do not reliably identify speakers, preserve role ambiguity instead of hallucinating who said what.
 9. Do not confuse confidence, authority, or airtime with actual issue understanding.
 10. Do not stop at "what they want" if the source material also reveals "what they understand." Strategy often depends on both.
+11. Do not hide thin evidence behind confident wording. If support is limited, tag it and keep the claim narrow.
 
 ## Output Format
 
@@ -165,6 +202,7 @@ Always produce one or more of the following, depending on the request:
 - **Explicit conclusions from the source**:
 - **Explicit follow-up actions**:
 - **Open factual gaps**:
+- **Evidence notes**:
 ```
 
 ### Structure B: Project Retro
@@ -178,6 +216,7 @@ Always produce one or more of the following, depending on the request:
 - **Current working direction**:
 - **Non-blocking but real gaps**:
 - **Current next actions**:
+- **Evidence-risk notes**:
 ```
 
 ### Structure B2: Participant Understanding Map
@@ -206,6 +245,7 @@ If the source supports it, add a short readout on:
 - **Judgments that need stronger evidence**:
 - **Likely overestimates / underestimates**:
 - **What should be treated as assumption for now**:
+- **High-impact claims requiring validation**:
 ```
 
 ### Structure D: Method Notes

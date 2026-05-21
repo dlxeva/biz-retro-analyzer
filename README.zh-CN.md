@@ -158,6 +158,21 @@
 - 哪些证据还缺
 - 下一步该做什么
 
+### 证据标注
+
+这个 skill 现在支持一套轻量的证据标注约定，用来标识重要判断的证据状态：
+
+- `Status`：`Confirmed` / `Inferred` / `Assumption` / `Needs validation`
+- `Strength`：`High` / `Medium` / `Low`
+- `Basis`：`Source quote/paraphrase` / `Cross-source pattern` / `User context` / `Later reasoning only`
+
+它尤其适合标注以下内容：
+
+- 角色诉求判断
+- 项目边界判断
+- 定价或杠杆判断
+- 会影响承诺和推进方式的下一步动作
+
 ---
 
 ## 仓库结构
@@ -222,6 +237,19 @@ biz-retro-analyzer/
 2. 再补背景
 3. 事实层稳定后，再补后续分析对话
 4. 如果当前叙事太顺，做一次反向审计
+
+---
+
+## 迭代记录
+
+最近的迭代变化见 [CHANGELOG.md](./CHANGELOG.md)。
+
+当前这一轮重点包括：
+
+- 新增默认的证据标注协议
+- 收紧输出模板中的证据说明和待验证项
+- 强化分析检查清单，对“判断是否有证据支撑”做显式复核
+- 增加可见的迭代记录，方便后续公开维护
 
 ---
 

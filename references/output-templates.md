@@ -2,6 +2,19 @@
 
 Use these templates selectively. Do not force every section if the input is too thin.
 
+## Evidence Tagging Legend
+
+Use these tags when the output includes important judgments or commitment-shaping recommendations.
+
+- `Status`: `Confirmed` / `Inferred` / `Assumption` / `Needs validation`
+- `Strength`: `High` / `Medium` / `Low`
+- `Basis`: `Source quote/paraphrase` / `Cross-source pattern` / `User context` / `Later reasoning only`
+
+Minimum rule:
+
+- Facts can stay untagged if they are obviously direct and low-risk.
+- Any major judgment about motive, scope, leverage, pricing, readiness, or next action should include tags.
+
 ## 1. Structured Meeting / Source Record
 
 ```md
@@ -15,6 +28,11 @@ Use these templates selectively. Do not force every section if the input is too 
 - **Explicit decisions**:
 - **Explicit requested actions**:
 - **Unresolved factual gaps**:
+- **Evidence notes**:
+  - `Claim`:
+  - `Status`:
+  - `Strength`:
+  - `Basis`:
 ```
 
 ## 2. Cross-Material Project Thread
@@ -29,6 +47,11 @@ Use these templates selectively. Do not force every section if the input is too 
 - **Current stage**:
 - **What is blocking now**:
 - **What is not blocking now but still missing**:
+- **Evidence-risk notes**:
+  - `Claim`:
+  - `Status`:
+  - `Strength`:
+  - `Basis`:
 ```
 
 ## 3. Stakeholder Motive Readout
@@ -84,10 +107,22 @@ Optional follow-on block when strategy depends on understanding gaps:
 
 - **User's current narrative**:
 - **Supported judgments**:
+  - `Claim`:
+  - `Status`:
+  - `Strength`:
+  - `Basis`:
 - **Judgments with weak evidence**:
+  - `Claim`:
+  - `Status`:
+  - `Strength`:
+  - `Basis`:
 - **Possible overestimates**:
 - **Possible underestimates**:
 - **Assumptions to keep explicit**:
+- **High-impact claims requiring validation**:
+  - `Claim`:
+  - `Why it matters`:
+  - `What would validate it`:
 ```
 
 ## 5. Current Actions
@@ -99,6 +134,10 @@ Optional follow-on block when strategy depends on understanding gaps:
 - **Do later**:
 - **Must validate before deeper commitment**:
 - **Next interview or evidence targets**:
+- **Action evidence notes**:
+  - `Action`:
+  - `Triggered by`:
+  - `Evidence strength`:
 ```
 
 ## 6. Method Notes

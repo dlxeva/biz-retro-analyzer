@@ -30,6 +30,7 @@ Evidence-first skill for turning meeting transcripts, notes, and follow-up reaso
 ## Pre-Publish Checklist
 
 - README and README.zh-CN are consistent
+- CHANGELOG reflects the current visible iteration
 - no real client or project names remain
 - examples are generic and sanitized
 - references do not rely on private shorthand
@@ -39,5 +40,5 @@ Evidence-first skill for turning meeting transcripts, notes, and follow-up reaso
 ## Optional Next Steps
 
 - add example input/output samples under `examples/`
-- add a minimal changelog policy if the repo becomes active
+- keep a visible changelog once the repo becomes active
 - add industry-specific extension packs in a later release
