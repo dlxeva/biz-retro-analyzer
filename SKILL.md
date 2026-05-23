@@ -1,13 +1,13 @@
 ---
 name: biz-retro-analyzer
-description: Turn post-meeting recordings, notes, field observations, and optional follow-up reasoning into evidence-backed retros, stakeholder motive analysis, decision traces, reversals, and next-step actions. Use when the user asks to 复盘会后对话, 分析录音, 拆会议纪要, 提炼项目脉络, 做关键判断纠偏, or turn messy conversations into structured facts, judgments, and follow-up actions.
+description: Turn conversations, field observations, and follow-up reasoning from complex collaborative projects into evidence-backed analysis of participant understanding, coordination structure, decision traces, reversals, and next-step actions. Use when the user asks to 复盘会后对话, 分析录音, 拆会议纪要, 提炼项目脉络, 做关键判断纠偏, or turn messy conversations into structured facts, judgments, and follow-up actions.
 ---
 
 # Biz Retro Analyzer
 
 ## Role
 
-Turn messy post-meeting materials into reusable analysis artifacts.
+Turn messy materials from complex collaborative projects into reusable analysis artifacts.
 
 This skill is for situations where the user has one or more of:
 
@@ -23,6 +23,7 @@ and wants to produce:
 - project progression summaries
 - stakeholder motive analysis
 - participant understanding analysis
+- coordination and advancement-structure analysis
 - judgment and reverse-audit notes
 - next-step action recommendations
 - reusable method notes
@@ -37,8 +38,8 @@ and wants to produce:
 6. If the user already has a strong narrative, run a reverse audit before finalizing conclusions.
 7. Treat follow-up AI conversations as optional judgment-layer input, never as source-of-truth replacements for original evidence.
 8. Keep the open-source version generic. Do not hardcode private organizations, sensitive projects, or personally identifying details into reusable guidance.
-9. Evaluate not only motive, but also issue understanding: who seems to deeply understand the domain, who understands process, who understands politics, and who is mostly talking in positioning language.
-10. Treat participant understanding as strategy-critical output. Knowing what each party knows, and does not know, is necessary for routing explanation depth, pricing conversations, implementation sequencing, and risk control.
+9. Evaluate not only motive, but also participant understanding: who understands the project problem itself, who understands how it actually advances, who understands execution constraints, and who understands decision or organizational mechanics.
+10. Treat participant understanding as strategy-critical output. Knowing what each party knows, and does not know, is necessary for routing explanation depth, pricing conversations, sequencing, coordination, and risk control.
 11. Tag important conclusions with evidence status. The reader should be able to tell what is directly supported, what is inferred, and what still needs validation.
 12. For high-risk business or stakeholder readings, prefer omission over overclaim. If support is thin, narrow the claim or leave it out.
 
@@ -167,12 +168,12 @@ Default rules:
    - Mark high-value factual statements as `Confirmed` unless the source itself is ambiguous.
 3. Build the project structure layer.
    - Merge materials by topic, not just chronology.
-   - Identify goal convergence, stakeholder motives, participant understanding levels, trial scenario choices, boundary shifts, and unresolved questions.
+   - Identify goal convergence, stakeholder motives, participant understanding levels, trial scenario choices, boundary shifts, coordination structure, and unresolved questions.
    - Explicitly assess who understands:
-     - the domain itself
-     - the operating workflow
-     - delivery and implementation reality
-     - organizational or political constraints
+     - the project problem itself
+     - the actual advancement path
+     - execution and delivery constraints
+     - decision and organizational mechanics
    - If speaker attribution is reliable and there are materially different participants or roles, produce a participant understanding assessment by default.
    - Mark where structure calls are `Inferred` versus `Needs validation`.
 4. Build the judgment layer.
@@ -245,7 +246,7 @@ Default rule:
 11. Do not hide thin evidence behind confident wording. If support is limited, tag it and keep the claim narrow.
 12. Do not present unanchored high-risk claims as reusable project intelligence.
 13. Do not turn one spicy line into a stable motive, pricing strategy, or political reading unless the source repeatedly supports it.
-14. Do not omit `Participant Understanding Map` in Mode B or Mode C when participant-level strategy depends on who actually understands the domain, workflow, delivery reality, or organizational constraints.
+14. Do not omit `Participant Understanding Map` in Mode B or Mode C when participant-level strategy depends on who actually understands the project problem, the advancement path, execution constraints, or decision and organizational mechanics.
 
 ## Output Format
 
@@ -285,7 +286,7 @@ Always produce one or more of the following, depending on the request:
 ```md
 ## Participant Understanding Map
 
-| Party / Voice | Understands domain facts | Understands workflow/process | Understands delivery reality | Understands political or organizational constraints | Main evidence |
+| Party / Voice | Understands the project problem itself | Understands the actual advancement path | Understands execution and delivery constraints | Understands decision and organizational mechanics | Main evidence |
 | --- | --- | --- | --- | --- | --- |
 ```
 
@@ -295,6 +296,13 @@ If the source supports it, add a short readout on:
 - where the participant is strongest
 - where they sound shallow or overconfident
 - how that should change explanation, expectation, or collaboration strategy
+
+Interpret the columns as:
+
+- `Understands the project problem itself`
+- `Understands the actual advancement path`
+- `Understands execution and delivery constraints`
+- `Understands decision and organizational mechanics`
 
 In Mode B and Mode C, treat this section as required by default when speaker attribution is reliable.
 If omitted, explicitly state one of:

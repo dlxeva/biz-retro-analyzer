@@ -12,6 +12,27 @@ The format is intentionally lightweight:
 
 ## 2026-05-24
 
+### Positioning and understanding-map reframing
+
+- Reframed the skill from a narrower post-meeting retro tool toward analysis for complex collaborative project advancement
+- Updated participant-understanding language to center:
+  - the project problem itself
+  - the actual advancement path
+  - execution and delivery constraints
+  - decision and organizational mechanics
+- Updated public READMEs to match the more general positioning
+
+Why:
+
+- The prior framing leaned too much toward product or delivery evaluation language
+- The real use case is broader: multi-party coordination, negotiation, project advancement, cross-functional alignment, and decision-path analysis
+
+Enables:
+
+- better fit for complex business and coordination work
+- less bias toward judging people as product or delivery actors only
+- more accurate participant-read outputs for multi-party advancement analysis
+
 ### Guardrail tightening for high-risk business readings
 
 - Added a `Source anchor` requirement for high-impact and high-risk claims

@@ -6,7 +6,7 @@
 
 # Biz Retro Analyzer
 
-Turn messy post-meeting materials into evidence-backed analysis artifacts.
+Turn messy materials from complex collaborative projects into evidence-backed analysis artifacts.
 
 `biz-retro-analyzer` is a reusable agent skill for analyzing:
 
@@ -22,15 +22,17 @@ and converting them into:
 - progression summaries
 - stakeholder motive analysis
 - participant understanding analysis
+- coordination and advancement-structure analysis
 - judgment and reverse-audit notes
 - next-step actions
 - reusable method notes
 
-It is designed for conversation-heavy work where the goal is not just to summarize what happened, but to understand:
+It is designed for conversation-heavy work in complex collaborative projects where the goal is not just to summarize what happened, but to understand:
 
 - how direction shifted
 - what each party actually wants
 - how well each party actually understands the issue
+- how the project is actually being advanced, blocked, or reframed across participants
 - which issues block progress now
 - which evidence gaps can wait but must be revisited later
 
@@ -40,7 +42,7 @@ It is designed for conversation-heavy work where the goal is not just to summari
 
 This is **not** a transcription tool and **not** a generic meeting-summary template.
 
-It is an **evidence-first debrief analysis skill** for turning raw conversation material into reusable analysis artifacts.
+It is an **evidence-first analysis skill** for turning raw conversation material into reusable analysis artifacts about participant understanding and project advancement structure.
 
 The skill is especially useful when you have:
 
@@ -49,6 +51,7 @@ The skill is especially useful when you have:
 - mixed fact and interpretation
 - layered stakeholder dynamics
 - evolving trial scenarios and direction
+- multi-party coordination, negotiation, or advancement friction
 
 ---
 
@@ -59,6 +62,7 @@ Use this skill for:
 - post-meeting debriefs
 - partnership or collaboration reviews
 - project progression analysis
+- complex project advancement analysis
 - complex multi-party retros
 - field observation plus meeting-note synthesis
 - "what actually happened, what changed, and what should we do next?" analysis
@@ -204,6 +208,13 @@ It may be omitted only when:
 - the source is too thin to support participant-level reads
 
 If omitted, the output should explicitly say why.
+
+The map should read participants across four dimensions:
+
+- understanding of the project problem itself
+- understanding of the actual advancement path
+- understanding of execution and delivery constraints
+- understanding of decision and organizational mechanics
 
 ---
 
