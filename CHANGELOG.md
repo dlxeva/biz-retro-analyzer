@@ -10,6 +10,32 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-05-24
+
+### Guardrail tightening for high-risk business readings
+
+- Added a `Source anchor` requirement for high-impact and high-risk claims
+- Added a `High-Risk Claim Gate` to `SKILL.md`
+- Defined five stricter claim types:
+  - participant motive
+  - customer true intent
+  - budget or pricing strategy judgment
+  - organizational or political positioning judgment
+  - who actually controls the deal, partnership, or next-step decision path
+- Added a required pre-output audit step before final action recommendations
+- Updated public READMEs to document the tighter protocol
+
+Why:
+
+- The skill was directionally strong, but medium-capability models could still overstate dramatic business interpretations
+- High-impact retros needed stronger default brakes around motive, intent, pricing, and power-structure claims
+
+Enables:
+
+- safer use on mixed-quality models
+- fewer unanchored stakeholder or pricing narratives
+- more stable evidence discipline before later evaluation cases are added
+
 ## 2026-05-22
 
 ### Evidence-tagging upgrade

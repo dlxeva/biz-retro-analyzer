@@ -165,6 +165,7 @@ The skill now supports a lightweight evidence-tagging convention for important c
 - `Status`: `Confirmed` / `Inferred` / `Assumption` / `Needs validation`
 - `Strength`: `High` / `Medium` / `Low`
 - `Basis`: `Source quote/paraphrase` / `Cross-source pattern` / `User context` / `Later reasoning only`
+- `Source anchor`: brief meeting, material, speaker, or segment reference for high-impact claims
 
 This is especially useful when the output includes:
 
@@ -172,6 +173,23 @@ This is especially useful when the output includes:
 - project-boundary calls
 - pricing or leverage judgments
 - commitment-shaping next actions
+
+### High-Risk Claim Gate
+
+The skill now applies stricter handling to these five claim types:
+
+- participant motive
+- customer true intent
+- budget or pricing strategy judgment
+- organizational or political positioning judgment
+- who actually controls the deal, partnership, or next-step decision path
+
+For these claim types, the default posture is:
+
+- do not mark them as `Confirmed` unless the source is explicit and narrow
+- if support comes from only one expression or one meeting, cap them at `Inferred` with `Low` or `Medium` strength
+- if they affect pricing, scope, sequencing, or commitment, include `Status`, `Strength`, `Basis`, `Source anchor`, and what still needs validation
+- if they cannot be anchored, downgrade or omit them
 
 ---
 

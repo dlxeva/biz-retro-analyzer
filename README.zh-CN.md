@@ -165,6 +165,7 @@
 - `Status`：`Confirmed` / `Inferred` / `Assumption` / `Needs validation`
 - `Strength`：`High` / `Medium` / `Low`
 - `Basis`：`Source quote/paraphrase` / `Cross-source pattern` / `User context` / `Later reasoning only`
+- `Source anchor`：对高影响判断补充简短来源锚点，如会议、材料、说话人或片段
 
 它尤其适合标注以下内容：
 
@@ -172,6 +173,23 @@
 - 项目边界判断
 - 定价或杠杆判断
 - 会影响承诺和推进方式的下一步动作
+
+### 高风险判断闸门
+
+当前技能对以下五类判断采用更严格的约束：
+
+- 人物动机
+- 客户真实意图
+- 预算与报价策略判断
+- 组织或政治站位判断
+- 合作操盘权与实际控制关系判断
+
+默认规则：
+
+- 除非原始材料表达非常直接且结论保持足够窄，否则不要标成 `Confirmed`
+- 如果只来自一次表达或一次会议，最高只写成 `Inferred`，强度为 `Low` 或 `Medium`
+- 如果会影响报价、范围、推进节奏或承诺动作，必须同时写出 `Status`、`Strength`、`Basis`、`Source anchor` 和仍待验证事项
+- 如果无法给出来源锚点，就降级或不输出
 
 ---
 

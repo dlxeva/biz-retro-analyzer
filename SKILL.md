@@ -40,6 +40,7 @@ and wants to produce:
 9. Evaluate not only motive, but also issue understanding: who seems to deeply understand the domain, who understands process, who understands politics, and who is mostly talking in positioning language.
 10. Treat participant understanding as strategy-critical output. Knowing what each party knows, and does not know, is necessary for routing explanation depth, pricing conversations, implementation sequencing, and risk control.
 11. Tag important conclusions with evidence status. The reader should be able to tell what is directly supported, what is inferred, and what still needs validation.
+12. For high-risk business or stakeholder readings, prefer omission over overclaim. If support is thin, narrow the claim or leave it out.
 
 ## Trigger Conditions
 
@@ -111,6 +112,48 @@ Hard rule:
 
 - Do not present an `Inferred` or `Assumption` claim in the same tone as a `Confirmed` fact.
 - If a judgment materially affects pricing, partner choice, next-step sequencing, or project scope, add both a claim-status tag and an evidence-strength tag.
+- Any claim about motive, intent, budget or pricing strategy, political positioning, or control of the deal should also include a brief source anchor.
+
+### Source anchor requirement
+
+For high-impact or high-risk claims, include a brief source anchor whenever the material allows it.
+
+Acceptable anchors include:
+
+- meeting or material name
+- speaker or role
+- approximate section, segment, or quote basis
+
+Examples:
+
+- `Source anchor: Meeting 2, Wang Bin paraphrase`
+- `Source anchor: Field note, afternoon walkthrough`
+- `Source anchor: Transcript section on pricing`
+
+If a claim cannot be anchored even loosely, downgrade it or omit it.
+
+## High-Risk Claim Gate
+
+The following claim types require stricter evidence discipline:
+
+1. participant motive
+2. customer true intent
+3. budget or pricing strategy judgment
+4. organizational or political positioning judgment
+5. who actually controls the deal, partnership, or next-step decision path
+
+Default rules:
+
+- Do not mark these claim types as `Confirmed` unless the source is explicit and the wording stays narrow.
+- If the claim is supported by only one expression or one meeting, cap it at `Inferred` with `Low` or `Medium` strength.
+- If the claim would materially affect pricing, sequencing, partner choice, or commitment level, include:
+  - claim status
+  - evidence strength
+  - basis
+  - source anchor
+  - what still needs validation
+- If support is weak or indirect, prefer `Assumption` or `Needs validation`.
+- If the source does not support a stable reading, omit the claim instead of writing a dramatic but weak interpretation.
 
 ## Workflow
 
@@ -137,7 +180,13 @@ Hard rule:
    - Label major judgments with claim status and evidence strength.
 5. Run reverse audit when needed.
    - If conclusions feel too neat, too fast, or too dependent on one narrator, read `${CLAUDE_SKILL_DIR}/references/reverse-audit.md`.
-6. Close with action output.
+6. Run pre-output audit.
+   - Check whether the fact layer contains motive or interpretation language.
+   - Check whether any single-meeting expression has been overstated into a stable long-term motive or strategy.
+   - Check whether high-risk claim types are tagged and anchored.
+   - Check whether later AI reasoning has been treated as source evidence.
+   - Check whether any commitment-shaping recommendation depends on an unvalidated premise.
+7. Close with action output.
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
    - If important evidence is still missing, use `${CLAUDE_SKILL_DIR}/references/interview-gap-prompts.md`.
    - For commitment-shaping actions, say what must be validated first.
@@ -185,6 +234,8 @@ Use when the user already has strong conclusions and wants a harder review.
 9. Do not confuse confidence, authority, or airtime with actual issue understanding.
 10. Do not stop at "what they want" if the source material also reveals "what they understand." Strategy often depends on both.
 11. Do not hide thin evidence behind confident wording. If support is limited, tag it and keep the claim narrow.
+12. Do not present unanchored high-risk claims as reusable project intelligence.
+13. Do not turn one spicy line into a stable motive, pricing strategy, or political reading unless the source repeatedly supports it.
 
 ## Output Format
 
@@ -246,6 +297,17 @@ If the source supports it, add a short readout on:
 - **Likely overestimates / underestimates**:
 - **What should be treated as assumption for now**:
 - **High-impact claims requiring validation**:
+```
+
+For important judgments, especially high-risk claim types, prefer entries in this shape:
+
+```md
+- **Claim**:
+- **Status**:
+- **Strength**:
+- **Basis**:
+- **Source anchor**:
+- **What still needs validation**:
 ```
 
 ### Structure D: Method Notes
