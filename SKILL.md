@@ -83,6 +83,19 @@ Do not force all three. Work with the highest-confidence layer available.
 
 If speaker attribution is missing or unreliable, downgrade into `speaker-unknown mode` and avoid high-confidence person-by-person motive claims.
 
+In addition to input layers, classify the interaction context of each important source when possible.
+
+Useful context labels include:
+
+- `formal_meeting`
+- `working_session`
+- `informal_debrief`
+- `private_side_conversation`
+- `asymmetric-awareness conversation`
+
+Use these labels to adjust interpretation strength.
+Informal or asymmetric-awareness materials may reveal real concerns or hidden constraints, but they should not be treated as stable policy, commitment, or intent without cross-source support.
+
 ## Evidence Tagging Protocol
 
 Use lightweight evidence tags whenever the output includes important judgments, stakeholder readings, project-boundary calls, or action recommendations.
@@ -162,10 +175,12 @@ Default rules:
    - Identify which materials are raw evidence, contextual supplements, and later reasoning.
    - If the user mixed them together, separate them first.
    - If speaker labels are missing, mark that explicitly before deeper analysis.
+   - If possible, classify each major source by interaction context: formal meeting, working session, informal debrief, private side conversation, or asymmetric-awareness conversation.
 2. Build the fact layer.
    - Follow `${CLAUDE_SKILL_DIR}/references/output-templates.md` for structured source-note output.
    - Keep original claims tied to specific meetings or materials.
    - Mark high-value factual statements as `Confirmed` unless the source itself is ambiguous.
+   - Preserve context differences. Do not silently flatten formal and informal materials into the same evidence type.
 3. Build the project structure layer.
    - Merge materials by topic, not just chronology.
    - Identify goal convergence, stakeholder motives, participant understanding levels, trial scenario choices, boundary shifts, coordination structure, and unresolved questions.
@@ -247,6 +262,10 @@ Default rule:
 12. Do not present unanchored high-risk claims as reusable project intelligence.
 13. Do not turn one spicy line into a stable motive, pricing strategy, or political reading unless the source repeatedly supports it.
 14. Do not omit `Participant Understanding Map` in Mode B or Mode C when participant-level strategy depends on who actually understands the project problem, the advancement path, execution constraints, or decision and organizational mechanics.
+15. Do not use asymmetric-awareness or informal materials to generate personality profiling, non-project personal exploitation strategies, or manipulative guidance.
+16. Use asymmetric-awareness materials only for project-relevant analysis of understanding, coordination, risk, incentives, constraints, and decision conditions.
+17. Do not treat statements from asymmetric-awareness conversations as stable intent, policy, or commitment without cross-source support.
+18. Do not present judgments derived mainly from asymmetric-awareness materials as external-facing or formal-record conclusions unless they are separately validated.
 
 ## Output Format
 

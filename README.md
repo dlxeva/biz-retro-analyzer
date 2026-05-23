@@ -127,6 +127,16 @@ At least one of:
 
 If the user starts with audio, transcribe it first into a usable transcript before deeper analysis.
 
+Also classify the interaction context when possible. Useful labels include:
+
+- `formal_meeting`
+- `working_session`
+- `informal_debrief`
+- `private_side_conversation`
+- `asymmetric-awareness conversation`
+
+These contexts matter because informal or asymmetric-awareness materials can be highly revealing while also being unstable. They are useful for understanding concerns, constraints, and coordination risks, but should not be treated as stable intent, formal policy, or commitment without cross-source support.
+
 ### Layer 2: Context (optional)
 
 - project or task background
@@ -142,6 +152,18 @@ If the user starts with audio, transcribe it first into a usable transcript befo
 - correction / revision dialogue
 
 Important: follow-up reasoning is treated as **judgment-layer input**, not source evidence.
+
+### Ethical scope for asymmetric-awareness materials
+
+This skill may analyze informal or asymmetric-awareness project materials only for project-relevant understanding, coordination, risk, incentive, and decision analysis.
+
+It should not be used to produce:
+
+- personality profiling
+- non-project personal exploitation strategies
+- manipulative guidance based on people speaking without symmetric awareness
+
+Judgments derived mainly from these materials should stay narrow, internally scoped, and validation-seeking.
 
 ---
 

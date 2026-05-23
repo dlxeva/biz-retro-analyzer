@@ -12,6 +12,30 @@ The format is intentionally lightweight:
 
 ## 2026-05-24
 
+### Interaction-context and ethics boundary upgrade
+
+- Added interaction-context classification guidance:
+  - `formal_meeting`
+  - `working_session`
+  - `informal_debrief`
+  - `private_side_conversation`
+  - `asymmetric-awareness conversation`
+- Updated workflow to preserve source-context differences instead of flattening all transcripts into one evidence type
+- Added hard rules limiting how asymmetric-awareness materials may be used
+- Added explicit ethical boundary language to the public READMEs
+
+Why:
+
+- Complex project materials often include both formal and informal conversations
+- Informal or asymmetric-awareness materials can reveal real concerns, but they also raise interpretation and ethics risks
+- The skill needed a clearer boundary between project-relevant analysis and manipulative or personality-level misuse
+
+Enables:
+
+- better source-context discipline
+- narrower and safer use of highly revealing informal materials
+- clearer internal-vs-formal use boundaries for sensitive judgments
+
 ### Positioning and understanding-map reframing
 
 - Reframed the skill from a narrower post-meeting retro tool toward analysis for complex collaborative project advancement
