@@ -191,6 +191,20 @@ For these claim types, the default posture is:
 - if they affect pricing, scope, sequencing, or commitment, include `Status`, `Strength`, `Basis`, `Source anchor`, and what still needs validation
 - if they cannot be anchored, downgrade or omit them
 
+### Participant Understanding Map default
+
+For Mode B and Mode C outputs, `Participant Understanding Map` is now required by default when:
+
+- speaker attribution is reliable
+- there are materially different participants or roles
+
+It may be omitted only when:
+
+- speaker attribution is unreliable
+- the source is too thin to support participant-level reads
+
+If omitted, the output should explicitly say why.
+
 ---
 
 ## Repository Structure

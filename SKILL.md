@@ -173,6 +173,7 @@ Default rules:
      - the operating workflow
      - delivery and implementation reality
      - organizational or political constraints
+   - If speaker attribution is reliable and there are materially different participants or roles, produce a participant understanding assessment by default.
    - Mark where structure calls are `Inferred` versus `Needs validation`.
 4. Build the judgment layer.
    - Summarize the user's current narrative.
@@ -211,6 +212,10 @@ Use when the user wants project progression plus interpretation.
 - participant understanding map
 - current boundaries and next actions
 
+Default rule:
+
+- Include `Participant Understanding Map` unless speaker attribution is unreliable or the source is too thin to support participant-level reads.
+
 ### Mode C: Audit Pack
 
 Use when the user already has strong conclusions and wants a harder review.
@@ -220,6 +225,10 @@ Use when the user already has strong conclusions and wants a harder review.
 - overreach / under-evidence flags
 - confidence notes
 - participant understanding map when the material supports it
+
+Default rule:
+
+- Include `Participant Understanding Map` unless speaker attribution is unreliable or the source is too thin to support participant-level reads.
 
 ## Hard Rules
 
@@ -236,6 +245,7 @@ Use when the user already has strong conclusions and wants a harder review.
 11. Do not hide thin evidence behind confident wording. If support is limited, tag it and keep the claim narrow.
 12. Do not present unanchored high-risk claims as reusable project intelligence.
 13. Do not turn one spicy line into a stable motive, pricing strategy, or political reading unless the source repeatedly supports it.
+14. Do not omit `Participant Understanding Map` in Mode B or Mode C when participant-level strategy depends on who actually understands the domain, workflow, delivery reality, or organizational constraints.
 
 ## Output Format
 
@@ -285,6 +295,12 @@ If the source supports it, add a short readout on:
 - where the participant is strongest
 - where they sound shallow or overconfident
 - how that should change explanation, expectation, or collaboration strategy
+
+In Mode B and Mode C, treat this section as required by default when speaker attribution is reliable.
+If omitted, explicitly state one of:
+
+- `Participant Understanding Map omitted due to unreliable speaker attribution.`
+- `Participant Understanding Map omitted due to insufficient participant-level evidence.`
 
 ### Structure C: Judgment and Reverse Audit
 

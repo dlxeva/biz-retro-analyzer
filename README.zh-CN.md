@@ -191,6 +191,20 @@
 - 如果会影响报价、范围、推进节奏或承诺动作，必须同时写出 `Status`、`Strength`、`Basis`、`Source anchor` 和仍待验证事项
 - 如果无法给出来源锚点，就降级或不输出
 
+### Participant Understanding Map 默认要求
+
+在 Mode B 和 Mode C 输出中，只要满足以下条件，就默认必须产出 `Participant Understanding Map`：
+
+- 说话人归属可靠
+- 参与者或角色之间存在实质差异
+
+只有以下情况可以省略：
+
+- 说话人归属不可靠
+- 原始材料过薄，无法支撑人物级理解判断
+
+如果省略，输出中必须显式说明原因。
+
 ---
 
 ## 仓库结构

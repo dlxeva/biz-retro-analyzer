@@ -36,6 +36,23 @@ Enables:
 - fewer unanchored stakeholder or pricing narratives
 - more stable evidence discipline before later evaluation cases are added
 
+### Participant understanding output requirement
+
+- Updated `SKILL.md` so Mode B and Mode C outputs must include `Participant Understanding Map` by default
+- Added explicit omission rules: only unreliable speaker attribution or insufficient participant-level evidence can justify omission
+- Updated public READMEs to reflect the stronger default
+
+Why:
+
+- The skill's strategy value depends not only on motive analysis, but also on identifying who actually understands the domain, workflow, delivery reality, and organizational constraints
+- Leaving this section optional made it too easy for models to drift into motive-heavy output and skip the understanding layer
+
+Enables:
+
+- more consistent participant-capability analysis
+- stronger separation between motive reads and understanding reads
+- better downstream strategy decisions about explanation depth, pricing, sequencing, and collaboration
+
 ## 2026-05-22
 
 ### Evidence-tagging upgrade
