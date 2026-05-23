@@ -333,6 +333,73 @@ If you add examples, sanitize them first. See `references/open-source-sanitizati
 
 ---
 
+## Limitations
+
+### Validation is still early
+
+The project has moved quickly on protocol design, guardrails, and output structure, but validation is still relatively early.
+The current test set focuses on contract compliance and failure containment, not yet on broad real-world regression coverage across many source stacks and models.
+
+This means the skill should currently be understood as:
+
+- a reasonably shaped analysis protocol
+- with validation still being expanded
+
+### Output quality depends on runtime execution fidelity
+
+This repository is not a standalone analysis program.
+It is a skill protocol plus reference guidance, so the actual result depends on:
+
+- the underlying model
+- the host agent runtime
+- how faithfully the runtime executes the skill structure
+
+The main compatibility risk is not only model quality, but also behavior drift across runtimes.
+
+### Current tests emphasize protocol checks over end-to-end realism
+
+The current test cases are intentionally lightweight and mostly verify:
+
+- fact vs judgment separation
+- high-risk claim containment
+- source vs reasoning separation
+- required `Participant Understanding Map` output
+- safer treatment of informal or asymmetric-awareness materials
+
+This is appropriate for the current stage, but full end-to-end evaluation still needs:
+
+- richer real-material regression cases
+- multi-model comparisons
+- stronger evidence about decision usefulness in live project work
+
+### High-risk claim gating is intentionally conservative
+
+The current gate around motive, true intent, pricing strategy, and organizational readings is intentionally conservative.
+That reduces overreach risk, but it can also make outputs feel less decisive in fast-moving business contexts.
+
+This tradeoff is intentional for now.
+Later versions may need scenario-specific tuning rather than one global threshold.
+
+### Reuse still favors experienced users
+
+Although the skill is written to be generic, good use still depends on strong analyst judgment.
+Users still need to know how to:
+
+- separate source evidence from later reasoning
+- distinguish trial language from stable intent
+- choose the right output mode
+- interpret `Participant Understanding Map` without overclaiming
+
+In its current form, the repository is closer to:
+
+- a protocol for experienced users
+
+than to:
+
+- a fully self-explanatory out-of-the-box product
+
+---
+
 ## Recommended Extensions
 
 This v0 is intentionally lightweight.
