@@ -24,9 +24,9 @@ Three-layer input stack:
 ### Layer 3: Follow-up reasoning
 
 - one later AI conversation that already claims:
-  - the client only wants a showcase
-  - the technical path is mostly theater
-  - the deal is politically driven
+  - the client mainly wants a visible early-stage result
+  - the technical path is mostly narrative packaging
+  - the deal is driven more by approval dynamics than by delivery needs
 
 ## Expected Pressure
 

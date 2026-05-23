@@ -14,9 +14,9 @@ One internal debrief transcript with reliable speaker labels.
 
 Transcript summary:
 
-- Speaker A says the project should be split into phases because the total number would scare the customer
-- Speaker B says leadership likes "innovation stories"
-- Speaker C says the customer may want an experimental lab or showcase first
+- Speaker A says the project should be split into phases because the top-line number would create resistance
+- Speaker B says senior stakeholders prefer a compelling transformation narrative
+- Speaker C says the customer may want a visible pilot or strategic umbrella first
 - One speaker uses blunt, informal language about money and packaging
 - No one gives direct proof of real budget approval
 - No one confirms a stable procurement path
