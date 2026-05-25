@@ -190,6 +190,24 @@
 - 哪些证据还缺
 - 下一步该做什么
 
+### HTML 输出模式
+
+这个 skill 现在也支持 `HTML` 报告输出模式，适合以下情况：
+
+- 需要生成可直接分享的单页报告
+- 需要比 Markdown 更强的视觉分层
+- 需要把证据层、项目脉络、反向审计和动作建议放进同一页面
+
+这套 HTML 输出模式由以下文件驱动：
+
+- `references/html-output-mode.md`
+- `references/output-schema.json`
+- `assets/html-report-template.html`
+- `assets/html-report.css`
+
+用户不需要一开始就知道这个模式存在。  
+当分析结果已经具备完整结构时，skill 可以在输出阶段主动提示：“这份内容已经适合升级为 HTML 报告页”。
+
 ### 证据标注
 
 这个 skill 现在支持一套轻量的证据标注约定，用来标识重要判断的证据状态：
@@ -254,13 +272,17 @@ biz-retro-analyzer/
 ├── README.md
 ├── README.zh-CN.md
 ├── assets/
-│   └── banner.svg
+│   ├── banner.svg
+│   ├── html-report-template.html
+│   └── html-report.css
 ├── EVALUATION.md
 ├── LICENSE
 ├── agents/
 │   └── openai.yaml
 └── references/
+    ├── html-output-mode.md
     ├── input-modes.md
+    ├── output-schema.json
     ├── output-templates.md
     ├── analysis-checks.md
     ├── reverse-audit.md
@@ -273,7 +295,11 @@ biz-retro-analyzer/
 
 - `SKILL.md`：触发条件、工作流、硬规则、输出模式导航
 - `assets/banner.svg`：仓库头图资产
+- `assets/html-report-template.html`：可复用 HTML 报告骨架
+- `assets/html-report.css`：可复用报告样式
+- `references/html-output-mode.md`：何时使用 HTML 输出，以及如何组织页面
 - `references/input-modes.md`：不同输入堆栈的处理方式
+- `references/output-schema.json`：报告渲染前的结构化数据形状
 - `references/output-templates.md`：可复用输出模板
 - `references/analysis-checks.md`：质量与分析检查清单
 - `references/reverse-audit.md`：反向审计流程

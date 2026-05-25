@@ -69,6 +69,7 @@ Typical trigger phrases:
 ## Input Modes
 
 Read `${CLAUDE_SKILL_DIR}/references/input-modes.md` before deciding output depth.
+If the user wants the deliverable as HTML, also read `${CLAUDE_SKILL_DIR}/references/html-output-mode.md`.
 
 If the user provides audio instead of text, first transcribe it into a usable transcript before running deeper analysis.  
 If the open-source artifact itself is being prepared for publication, read `${CLAUDE_SKILL_DIR}/references/open-source-sanitization.md`.
@@ -207,6 +208,16 @@ Default rules:
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
    - If important evidence is still missing, use `${CLAUDE_SKILL_DIR}/references/interview-gap-prompts.md`.
    - For commitment-shaping actions, say what must be validated first.
+8. Run output escalation after the analysis is stable.
+   - If the user explicitly asked for HTML, route to `Mode D: HTML Report`.
+   - If the user did not ask for HTML, check whether the result has enough structure to benefit from an HTML report.
+   - Recommend HTML only after the fact, thread, motive, understanding, audit, and action layers are materially present.
+   - Do not interrupt early analysis just to ask about HTML.
+   - Offer HTML as an upgrade near the end when the output is clearly shareable or presentation-shaped.
+9. Render to HTML only after the structure is stable.
+   - If the user wants HTML, map the analysis to `${CLAUDE_SKILL_DIR}/references/output-schema.json`.
+   - Then use `${CLAUDE_SKILL_DIR}/assets/html-report-template.html` and `${CLAUDE_SKILL_DIR}/assets/html-report.css`.
+   - Keep evidence tags visible in the rendered page.
 
 ## Output Modes
 
@@ -245,6 +256,16 @@ Use when the user already has strong conclusions and wants a harder review.
 Default rule:
 
 - Include `Participant Understanding Map` unless speaker attribution is unreliable or the source is too thin to support participant-level reads.
+
+### Mode D: HTML Report
+
+Use when the user wants the retro delivered as a report page instead of Markdown.
+
+- build the fact, thread, motive, understanding, audit, and action layers first
+- map the structured output into the report schema
+- render with visible evidence tags and source references
+- prefer report-style layout over generic BI dashboard visuals
+- when the user did not request HTML but the output is mature enough, recommend this mode as an upgrade rather than assuming it up front
 
 ## Hard Rules
 
@@ -367,6 +388,8 @@ For important judgments, especially high-risk claim types, prefer entries in thi
 ## References
 
 - Input modes: `${CLAUDE_SKILL_DIR}/references/input-modes.md`
+- HTML output mode: `${CLAUDE_SKILL_DIR}/references/html-output-mode.md`
+- Output schema: `${CLAUDE_SKILL_DIR}/references/output-schema.json`
 - Output templates: `${CLAUDE_SKILL_DIR}/references/output-templates.md`
 - Analysis checks: `${CLAUDE_SKILL_DIR}/references/analysis-checks.md`
 - Reverse audit: `${CLAUDE_SKILL_DIR}/references/reverse-audit.md`

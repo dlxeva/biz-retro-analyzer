@@ -184,6 +184,24 @@ The goal is to separate:
 - what is still missing
 - what should happen next
 
+### HTML Output Mode
+
+The skill now also supports an `HTML` report mode when the output needs to be:
+
+- shareable as a standalone page
+- easier to scan visually than Markdown
+- structured as evidence layer + thread + audit + actions
+
+The HTML mode is driven by:
+
+- `references/html-output-mode.md`
+- `references/output-schema.json`
+- `assets/html-report-template.html`
+- `assets/html-report.css`
+
+The user does not need to know this mode exists in advance.  
+The skill can recommend HTML near the end of the analysis when the output has enough structure to benefit from a shareable page.
+
 ### Evidence Tagging
 
 The skill now supports a lightweight evidence-tagging convention for important conclusions:
@@ -248,13 +266,17 @@ biz-retro-analyzer/
 ├── README.md
 ├── README.zh-CN.md
 ├── assets/
-│   └── banner.svg
+│   ├── banner.svg
+│   ├── html-report-template.html
+│   └── html-report.css
 ├── EVALUATION.md
 ├── LICENSE
 ├── agents/
 │   └── openai.yaml
 └── references/
+    ├── html-output-mode.md
     ├── input-modes.md
+    ├── output-schema.json
     ├── output-templates.md
     ├── analysis-checks.md
     ├── reverse-audit.md
@@ -267,7 +289,11 @@ biz-retro-analyzer/
 
 - `SKILL.md`: trigger rules, workflow, guardrails, output mode routing
 - `assets/banner.svg`: repository header artwork
+- `assets/html-report-template.html`: reusable HTML report skeleton
+- `assets/html-report.css`: reusable report styling
+- `references/html-output-mode.md`: when and how to render a retro as HTML
 - `references/input-modes.md`: how to reason about different input stacks
+- `references/output-schema.json`: structured data shape for report rendering
 - `references/output-templates.md`: reusable output structures
 - `references/analysis-checks.md`: quality and interpretation checks
 - `references/reverse-audit.md`: contrarian stress-test process

@@ -1,0 +1,66 @@
+:root {
+  --bg: #eef2f4;
+  --paper: #fbfaf7;
+  --ink: #10212b;
+  --muted: #52606d;
+  --navy: #18384f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #edf2f5 0%, #f6f7f8 100%);
+  color: var(--ink);
+}
+
+.page {
+  width: min(1200px, calc(100% - 32px));
+  margin: 24px auto 40px;
+}
+
+.hero {
+  padding: 28px 30px 24px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(24, 56, 79, 0.96), rgba(28, 82, 116, 0.88));
+  color: #f7fbff;
+}
+
+.hero .eyebrow {
+  color: #bad5e8;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.12;
+}
+
+.hero .lead {
+  margin: 0;
+  max-width: 880px;
+  color: #d9ebf7;
+  line-height: 1.7;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #f7fbff;
+}

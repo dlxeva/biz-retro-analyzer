@@ -10,6 +10,31 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-05-26
+
+### HTML output mode
+
+- Added `references/html-output-mode.md`
+- Added `references/output-schema.json`
+- Added `assets/html-report-template.html`
+- Added `assets/html-report.css`
+- Updated `SKILL.md` to route HTML requests through the new schema and assets
+- Added output-escalation guidance so the skill can recommend HTML even when the user did not ask for it upfront
+- Updated both READMEs to document the new output mode
+
+Why:
+
+- The skill needed a reusable way to deliver analysis as a shareable report page instead of only Markdown
+- The HTML output needed to preserve the evidence-first structure rather than collapsing into a generic dashboard
+- Users often do not know HTML mode exists, so the skill needed an internal decision point for suggesting it at the right time
+
+Enables:
+
+- reusable HTML report rendering across projects
+- cleaner packaging of report structure versus project-specific content
+- safer recommendation timing for HTML upgrades
+- easier downstream export to standalone pages or PDFs
+
 ## 2026-05-24
 
 ### Interaction-context and ethics boundary upgrade

@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/biz-retro-analyzer/output-schema.json",
+  "title": "Biz Retro Analyzer Report Data",
+  "type": "object",
+  "required": [
+    "meta",
+    "summary",
+    "evidenceLayer",
+    "projectThread",
+    "stakeholders",
+    "understandingMap",
+    "audit",
+    "actions",
+    "references"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "reportTitle",
+        "reportDate",
+        "outputMode",
+        "projectStage"
+      ],
+      "properties": {
+        "reportTitle": { "type": "string" },
+        "reportDate": { "type": "string" },
+        "outputMode": { "type": "string" },
+        "projectStage": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "lead": { "type": "string" },
+        "contextNote": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["label", "headline", "body", "status"],
+        "properties": {
+          "label": { "type": "string" },
+          "headline": { "type": "string" },
+          "body": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["Confirmed", "Inferred", "Assumption", "Needs validation"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidenceLayer": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "sourceType", "status", "points"],
+        "properties": {
+          "title": { "type": "string" },
+          "sourceType": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["Confirmed", "Inferred", "Assumption", "Needs validation"]
+          },
+          "sourceDate": { "type": "string" },
+          "notes": { "type": "string" },
+          "points": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "projectThread": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dateLabel", "title", "body"],
+        "properties": {
+          "dateLabel": { "type": "string" },
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "stakeholders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["party", "statedPosition", "apparentMotive", "confidence"],
+        "properties": {
+          "party": { "type": "string" },
+          "role": { "type": "string" },
+          "statedPosition": { "type": "string" },
+          "apparentMotive": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["High", "Medium", "Low"]
+          },
+          "evidenceBasis": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["Confirmed", "Inferred", "Assumption", "Needs validation"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "understandingMap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "party",
+          "domainUnderstanding",
+          "workflowUnderstanding",
+          "deliveryUnderstanding",
+          "organizationalUnderstanding"
+        ],
+        "properties": {
+          "party": { "type": "string" },
+          "domainUnderstanding": { "type": "string" },
+          "workflowUnderstanding": { "type": "string" },
+          "deliveryUnderstanding": { "type": "string" },
+          "organizationalUnderstanding": { "type": "string" },
+          "commentary": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": [
+        "supportedJudgments",
+        "weakJudgments",
+        "explicitAssumptions",
+        "validationTargets"
+      ],
+      "properties": {
+        "supportedJudgments": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "weakJudgments": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "explicitAssumptions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "validationTargets": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "actions": {
+      "type": "object",
+      "required": ["doNow", "doLater", "validateBeforeCommit"],
+      "properties": {
+        "doNow": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "doLater": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "validateBeforeCommit": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "oneLinePositioning": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "path", "reason"],
+        "properties": {
+          "label": { "type": "string" },
+          "path": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

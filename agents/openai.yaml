@@ -1,4 +1,4 @@
 interface:
   display_name: "Biz Retro Analyzer"
-  short_description: "Turn messy post-meeting materials into evidence-backed project retros"
-  default_prompt: "Use $biz-retro-analyzer to analyze meeting transcripts, notes, field observations, and follow-up reasoning into structured facts, project thread, stakeholder motives, reverse-audit notes, and next-step actions."
+  short_description: "Turn messy post-meeting materials into evidence-backed retros and HTML reports"
+  default_prompt: "Use $biz-retro-analyzer to analyze meeting transcripts, notes, field observations, and follow-up reasoning into structured facts, project thread, stakeholder motives, reverse-audit notes, next-step actions, or an HTML report."
