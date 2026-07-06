@@ -20,6 +20,7 @@ The format is intentionally lightweight:
 - Added a lightweight 100-point evaluation rubric
 - Added `Suspicious Action Over-Attribution` to `references/failure-modes.md`
 - Added `Advancement / Influence Chain` and suspicious-action audit slots to `references/output-templates.md`
+- Updated `SKILL.md` so advancement-chain and suspicious-action checks are routed through the main workflow, Mode B/C guidance, hard rules, and output formats
 
 Why:
 
@@ -33,6 +34,7 @@ Enables:
 - clearer review of public source facts vs. participant claims vs. hidden answer truth
 - safer handling of suspicious but potentially non-malicious actions
 - a reusable template for future adversarial evaluation cases
+- more consistent runtime use of advancement-chain and suspicious-action analysis
 
 ## 2026-05-26
 
