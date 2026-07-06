@@ -1,12 +1,14 @@
-# Adversarial Dialogue Case: Werewolf Hidden-Role Conversation
+# The Werewolf Test
 
-This is a synthetic evaluation case for `biz-retro-analyzer`.
+A hidden-role dialogue evaluation case for `biz-retro-analyzer`.
 
-It uses a hidden-role conversation game as a stress test for evidence discipline, not as a domain-specific werewolf solver benchmark.
+Werewolf is used here as a toy problem for complex dialogue analysis. It creates a compact version of the same risks that appear in messy project conversations: public claims are not facts, confident speakers can be wrong, weak speakers can be right, authority can be transferred, and suspicious actions may be mistakes rather than bad faith.
+
+The point is not to solve the game. The point is to test whether the skill can preserve evidence discipline under hidden incentives.
 
 ## Why this case exists
 
-The case is designed to pressure-test whether the skill can handle:
+This synthetic case pressure-tests whether the skill can handle:
 
 - hidden incentives
 - conflicting public claims
@@ -15,8 +17,20 @@ The case is designed to pressure-test whether the skill can handle:
 - public actions that can be interpreted in more than one way
 - role claims that are highly informative but not system-confirmed in the blind input
 - a later hidden answer key that must not leak into the blind run
+- a frame, badge, or authority chain that changes the outcome
 
 The intended lesson is not `the model guessed the wolves`. The intended lesson is whether the output keeps public evidence, participant claims, model inference, and answer-key truth separate.
+
+## Why this matters beyond the game
+
+In complex business conversations, the same structure appears in less theatrical form:
+
+- what someone says is not always what the project can rely on
+- who sounds most fluent is not always who understands the issue
+- a wrong action can be confusion, pressure, or bad faith
+- a decision often becomes real only after a frame is adopted and passed through the right people
+
+This case gives the skill a small, controlled arena to test those behaviors before using it on higher-stakes project materials.
 
 ## Files
 
