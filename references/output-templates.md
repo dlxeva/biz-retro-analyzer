@@ -54,6 +54,31 @@ Minimum rule:
   - `Basis`:
 ```
 
+## 2B. Advancement / Influence Chain
+
+Use this when the material shows that a project, decision, or shared narrative was advanced through role-to-role influence rather than through one explicit decision.
+
+```md
+## Advancement / Influence Chain
+
+| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Confidence | Risk if wrong |
+| --- | --- | --- | --- | --- | --- | --- |
+```
+
+Optional follow-on block:
+
+```md
+## Chain Readout
+
+- **Who defined the working frame**:
+- **Who inherited or legitimized that frame**:
+- **Who controlled the next-step path**:
+- **Who appeared influential but did not control the outcome**:
+- **Where the chain depends on weak or disputed evidence**:
+```
+
+This section is especially useful for multi-party sales, partner negotiations, public meetings, crisis retros, adversarial dialogues, and any case where the important question is not only `what happened`, but `who made this version of events actionable`.
+
 ## 3. Stakeholder Motive Readout
 
 ```md
@@ -118,6 +143,12 @@ Optional follow-on block when strategy depends on understanding gaps:
   - `Basis`:
 - **Possible overestimates**:
 - **Possible underestimates**:
+- **Suspicious actions that need non-bad-faith alternatives**:
+  - `Action or contradiction`:
+  - `Information-change explanation`:
+  - `Pressure or misjudgment explanation`:
+  - `Strategic-misdirection explanation`:
+  - `Current status`:
 - **Assumptions to keep explicit**:
 - **High-impact claims requiring validation**:
   - `Claim`:
