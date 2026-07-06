@@ -153,6 +153,31 @@ The analysis correctly notices who understands the issue and who does not, but f
 
 ---
 
+## 4.7. Suspicious Action Over-Attribution
+
+### What happens
+
+A participant's inconsistent, strategically costly, or suspicious action gets upgraded too quickly into bad-faith motive, hidden agenda, or confirmed control of the situation.
+
+### Typical symptoms
+
+- a mismatch between what someone says and what they later do is treated as proof of deception
+- a wrong vote, wrong recommendation, or wrong escalation is treated as motive evidence without checking pressure, confusion, or new information
+- the analysis correctly spots an anomaly but explains it with the most dramatic interpretation
+- one high-impact mistake makes earlier evidence disappear
+
+### Correction
+
+Before turning suspicious action into motive analysis, split the explanation space into at least three possibilities:
+
+1. **Information change** — the actor may have received, noticed, or weighted new information.
+2. **Pressure or misjudgment** — the actor may be confused, rushed, socially pressured, or persuaded by a stronger speaker.
+3. **Strategic misdirection** — the actor may be deliberately reframing, hiding intent, or controlling the outcome.
+
+Only upgrade to a strong motive claim when multiple source anchors support the strategic-misdirection explanation. Otherwise mark the claim as `Needs validation` and preserve the lower-intent explanations.
+
+---
+
 ## 5. Current Blocker / Later Gap Confusion
 
 ### What happens
@@ -243,4 +268,5 @@ Before publishing or sharing:
 - Did we separate trial scenario from product body?
 - Did we mistake momentum for proof?
 - Did we mark non-blocking gaps?
+- Did we avoid over-attributing suspicious action to bad faith?
 - Did we sanitize private references?
