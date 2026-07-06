@@ -10,6 +10,30 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-07-06
+
+### Adversarial dialogue evaluation case
+
+- Added `evaluations/adversarial-dialogue-werewolf/`
+- Added a blind input file, hidden answer key, and review notes for a synthetic hidden-role dialogue stress test
+- Updated `EVALUATION.md` with `Sample D: Adversarial Dialogue Stack`
+- Added a lightweight 100-point evaluation rubric
+- Added `Suspicious Action Over-Attribution` to `references/failure-modes.md`
+- Added `Advancement / Influence Chain` and suspicious-action audit slots to `references/output-templates.md`
+
+Why:
+
+- The skill needed a reusable adversarial case to test evidence discipline under hidden incentives, misleading public claims, public actions, and answer-key separation
+- The first exploratory run showed that the skill could identify the main influence chain, but could still over-weight a suspicious action as possible bad-faith evidence
+- Evaluation needed a way to score evidence discipline and influence-chain recognition without over-rewarding answer-key prediction
+
+Enables:
+
+- stress-testing on high-noise multi-party dialogue
+- clearer review of public source facts vs. participant claims vs. hidden answer truth
+- safer handling of suspicious but potentially non-malicious actions
+- a reusable template for future adversarial evaluation cases
+
 ## 2026-05-26
 
 ### HTML output mode
