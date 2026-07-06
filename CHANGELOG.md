@@ -12,7 +12,7 @@ The format is intentionally lightweight:
 
 ## 2026-07-06
 
-### Adversarial dialogue evaluation case
+### The Werewolf Test evaluation case
 
 - Added `evaluations/adversarial-dialogue-werewolf/`
 - Added a blind input file, hidden answer key, and review notes for a synthetic hidden-role dialogue stress test
@@ -21,12 +21,14 @@ The format is intentionally lightweight:
 - Added `Suspicious Action Over-Attribution` to `references/failure-modes.md`
 - Added `Advancement / Influence Chain` and suspicious-action audit slots to `references/output-templates.md`
 - Updated `SKILL.md` so advancement-chain and suspicious-action checks are routed through the main workflow, Mode B/C guidance, hard rules, and output formats
+- Reframed the public evaluation case as `The Werewolf Test` to make the toy-problem role clearer and more memorable
 
 Why:
 
 - The skill needed a reusable adversarial case to test evidence discipline under hidden incentives, misleading public claims, public actions, and answer-key separation
 - The first exploratory run showed that the skill could identify the main influence chain, but could still over-weight a suspicious action as possible bad-faith evidence
 - Evaluation needed a way to score evidence discipline and influence-chain recognition without over-rewarding answer-key prediction
+- The case needed clearer public packaging without implying that the project is a werewolf-game solver
 
 Enables:
 
@@ -35,6 +37,7 @@ Enables:
 - safer handling of suspicious but potentially non-malicious actions
 - a reusable template for future adversarial evaluation cases
 - more consistent runtime use of advancement-chain and suspicious-action analysis
+- a more legible example for explaining evidence-first dialogue intelligence
 
 ## 2026-05-26
 
