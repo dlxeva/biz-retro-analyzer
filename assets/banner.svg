@@ -1,77 +1,133 @@
 <svg width="1600" height="420" viewBox="0 0 1600 420" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="420" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0B1020"/>
-      <stop offset="0.5" stop-color="#111A33"/>
-      <stop offset="1" stop-color="#0B1429"/>
+      <stop stop-color="#050A18"/>
+      <stop offset="0.48" stop-color="#09162E"/>
+      <stop offset="1" stop-color="#08203D"/>
     </linearGradient>
-    <linearGradient id="accent" x1="240" y1="70" x2="1060" y2="310" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#57D3FF"/>
-      <stop offset="0.5" stop-color="#7C8CFF"/>
-      <stop offset="1" stop-color="#8B5CFF"/>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#3B82F6"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1280 68) rotate(130.416) scale(321.466 582.913)">
-      <stop stop-color="#38BDF8" stop-opacity="0.35"/>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#C084FC"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1260 82) rotate(128) scale(330 620)">
+      <stop stop-color="#38BDF8" stop-opacity="0.34"/>
       <stop offset="1" stop-color="#38BDF8" stop-opacity="0"/>
     </radialGradient>
     <filter id="soft" x="0" y="0" width="1600" height="420" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="40"/>
+      <feGaussianBlur stdDeviation="36"/>
+    </filter>
+    <filter id="smallGlow" x="-40" y="-40" width="120" height="120" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
   <rect width="1600" height="420" rx="24" fill="url(#bg)"/>
-  <ellipse cx="1280" cy="68" rx="320" ry="180" fill="url(#glow)" filter="url(#soft)"/>
+  <ellipse cx="1260" cy="82" rx="330" ry="170" fill="url(#glow)" filter="url(#soft)"/>
 
-  <g opacity="0.28" stroke="#6EE7FF" stroke-width="1.4">
-    <path d="M114 326H416"/>
-    <path d="M146 294H356"/>
-    <path d="M980 96H1456"/>
-    <path d="M1070 128H1498"/>
-    <path d="M1048 304H1478"/>
-  </g>
-
-  <g opacity="0.9">
-    <path d="M128 136C128 113.909 145.909 96 168 96H458C480.091 96 498 113.909 498 136V286C498 308.091 480.091 326 458 326H168C145.909 326 128 308.091 128 286V136Z" fill="#0E162C" stroke="#1E325D" stroke-width="2"/>
-    <path d="M168 150H458" stroke="#223A6A" stroke-width="2"/>
-    <circle cx="190" cy="124" r="6" fill="#57D3FF"/>
-    <circle cx="214" cy="124" r="6" fill="#7C8CFF"/>
-    <circle cx="238" cy="124" r="6" fill="#8B5CFF"/>
+  <g opacity="0.26" stroke="#38BDF8" stroke-width="1.2">
+    <path d="M1010 96H1468"/>
+    <path d="M1098 128H1498"/>
+    <path d="M1062 305H1490"/>
   </g>
 
   <g>
-    <path d="M205 223L258 170L317 206L378 154L427 191" stroke="url(#accent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="205" cy="223" r="10" fill="#57D3FF"/>
-    <circle cx="258" cy="170" r="10" fill="#62C4FF"/>
-    <circle cx="317" cy="206" r="10" fill="#7C8CFF"/>
-    <circle cx="378" cy="154" r="10" fill="#8B5CFF"/>
-    <circle cx="427" cy="191" r="10" fill="#57D3FF"/>
+    <rect x="72" y="88" width="552" height="244" rx="24" fill="#071229" stroke="#1E3A68" stroke-width="1.5"/>
+    <rect x="94" y="112" width="46" height="46" rx="12" fill="#0B1B38" stroke="#1E3A68"/>
+    <path d="M112 144L106 132L112 122L119 130L126 122L132 132L126 144L119 139L112 144Z" fill="url(#purple)" opacity="0.95"/>
+    <circle cx="122" cy="132" r="2.2" fill="#67E8F9"/>
+    <text x="158" y="143" fill="#BAE6FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="1.5">ANALYSIS MAP</text>
+    <circle cx="548" cy="132" r="5" fill="#22D3EE"/>
+    <circle cx="570" cy="132" r="5" fill="#8B5CF6"/>
+    <circle cx="592" cy="132" r="5" fill="#60A5FA"/>
+
+    <g stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="126" cy="222" r="34" fill="#071A33" stroke="#164D7A"/>
+      <path d="M116 207H132M116 214H137M116 221H136M116 228H132" stroke="#22D3EE"/>
+      <path d="M112 202H135V234H112V202Z" stroke="#22D3EE"/>
+      <text x="98" y="270" fill="#93C5FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13" font-weight="500">EVIDENCE</text>
+
+      <path d="M160 222H218" stroke="#1FB6E9"/>
+      <path d="M212 216L220 222L212 228" stroke="#1FB6E9"/>
+
+      <circle cx="250" cy="222" r="34" fill="#081833" stroke="#3B5BAA"/>
+      <path d="M235 211H265V229H247L239 236V229H235V211Z" stroke="#7C8CFF"/>
+      <path d="M243 220H245M250 220H252M257 220H259" stroke="#7C8CFF"/>
+      <text x="222" y="270" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13" font-weight="500">CLAIMS</text>
+
+      <path d="M284 222C335 222 338 150 404 150" stroke="#22D3EE" stroke-dasharray="3 7"/>
+      <path d="M284 222H380" stroke="#8B5CF6" stroke-dasharray="3 7" opacity="0.9"/>
+      <path d="M284 222C337 222 340 294 404 294" stroke="#22D3EE" stroke-dasharray="3 7"/>
+
+      <circle cx="410" cy="150" r="31" fill="#071A33" stroke="#1B5E89"/>
+      <path d="M400 151C400 145 404 141 410 141C416 141 420 145 420 151C420 157 416 161 410 161C404 161 400 157 400 151Z" fill="#38BDF8"/>
+      <path d="M395 170C399 163 421 163 425 170" stroke="#38BDF8"/>
+
+      <circle cx="410" cy="222" r="31" fill="#11173A" stroke="#5B3DB1"/>
+      <path d="M400 223C400 217 404 213 410 213C416 213 420 217 420 223C420 229 416 233 410 233C404 233 400 229 400 223Z" fill="#8B5CF6"/>
+      <path d="M395 242C399 235 421 235 425 242" stroke="#8B5CF6"/>
+
+      <circle cx="410" cy="294" r="31" fill="#062329" stroke="#0F766E"/>
+      <path d="M400 295C400 289 404 285 410 285C416 285 420 289 420 295C420 301 416 305 410 305C404 305 400 301 400 295Z" fill="#2DD4BF"/>
+      <path d="M395 314C399 307 421 307 425 314" stroke="#2DD4BF"/>
+
+      <path d="M442 222H516" stroke="#22D3EE"/>
+      <path d="M510 216L518 222L510 228" stroke="#22D3EE"/>
+      <text x="463" y="212" fill="#22D3EE" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="12" font-weight="600">INFERENCE</text>
+
+      <path d="M438 150C501 150 500 222 522 222" stroke="#22D3EE" stroke-dasharray="3 7"/>
+      <path d="M438 294C501 294 500 222 522 222" stroke="#22D3EE" stroke-dasharray="3 7"/>
+      <circle cx="544" cy="222" r="34" fill="#160F35" stroke="#5B21B6"/>
+      <path d="M531 234L524 218L532 205L544 213L556 205L564 218L557 234L544 228L531 234Z" fill="url(#purple)"/>
+      <circle cx="538" cy="219" r="2" fill="#C4B5FD"/>
+      <circle cx="550" cy="219" r="2" fill="#C4B5FD"/>
+      <text x="522" y="271" fill="#C4B5FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13" font-weight="600">HIDDEN</text>
+      <text x="530" y="287" fill="#C4B5FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="13" font-weight="600">ROLE</text>
+    </g>
+
+    <path d="M96 300H600" stroke="#163154" opacity="0.8"/>
+    <g font-family="Segoe UI, Inter, Arial, sans-serif" font-size="12" fill="#CBD5E1" opacity="0.9">
+      <path d="M124 320H154" stroke="#22D3EE" stroke-width="1.6"/>
+      <text x="168" y="324">PRIMARY FLOW</text>
+      <path d="M292 320H324" stroke="#8B5CF6" stroke-width="1.6" stroke-dasharray="3 6"/>
+      <text x="338" y="324">JOINTS</text>
+      <circle cx="456" cy="320" r="4" fill="#8B5CF6" filter="url(#smallGlow)"/>
+      <text x="474" y="324">HIDDEN SIGNAL</text>
+    </g>
   </g>
 
-  <g opacity="0.92">
-    <path d="M280 264H427" stroke="#2C4F8F" stroke-width="2"/>
-    <path d="M280 286H395" stroke="#2C4F8F" stroke-width="2"/>
-    <path d="M280 242H366" stroke="#2C4F8F" stroke-width="2"/>
+  <g transform="translate(690 136)">
+    <rect x="0" y="0" width="76" height="76" rx="18" fill="#081A35" stroke="#315A9C" stroke-width="1.5"/>
+    <path d="M22 50L34 38L45 44L58 26" stroke="url(#cyan)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="22" cy="50" r="4" fill="#22D3EE"/>
+    <circle cx="34" cy="38" r="4" fill="#38BDF8"/>
+    <circle cx="45" cy="44" r="4" fill="#60A5FA"/>
+    <circle cx="58" cy="26" r="4" fill="#8B5CF6"/>
   </g>
 
-  <g transform="translate(602 116)">
-    <rect x="0" y="0" width="92" height="92" rx="22" fill="#0F1B35" stroke="#294A8D" stroke-width="2"/>
-    <path d="M22 62L36 48L48 56L68 34" stroke="url(#accent)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="22" cy="62" r="5" fill="#57D3FF"/>
-    <circle cx="36" cy="48" r="5" fill="#62C4FF"/>
-    <circle cx="48" cy="56" r="5" fill="#7C8CFF"/>
-    <circle cx="68" cy="34" r="5" fill="#8B5CFF"/>
-  </g>
+  <text x="820" y="174" fill="#F8FAFC" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="48" font-weight="750">Biz Retro Analyzer</text>
+  <text x="820" y="224" fill="#7DD3FC" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="21" font-weight="600">Evidence-first dialogue intelligence for messy project conversations</text>
+  <text x="820" y="278" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" font-weight="400">Facts → Claims → Inference → Reverse Audit → Next Actions</text>
 
-  <text x="720" y="166" fill="#F8FAFC" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="46" font-weight="700" letter-spacing="0">Biz Retro Analyzer</text>
-  <text x="720" y="212" fill="#93C5FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" font-weight="500" letter-spacing="0.2">Evidence-first debrief analysis for transcripts, notes, and follow-up reasoning</text>
-  <text x="720" y="258" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18" font-weight="400">Facts → Structure → Judgments → Reverse Audit → Next Actions</text>
+  <g font-family="Segoe UI, Inter, Arial, sans-serif" font-size="17" font-weight="650">
+    <rect x="820" y="322" width="190" height="46" rx="23" fill="#081E36" stroke="#0891B2"/>
+    <path d="M852 336L866 342V354C866 360 858 364 852 366C846 364 838 360 838 354V342L852 336Z" stroke="#22D3EE" stroke-width="2"/>
+    <path d="M846 350L850 354L858 345" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="878" y="352" fill="#E0F2FE">Evidence First</text>
 
-  <g opacity="0.95">
-    <rect x="718" y="292" width="142" height="40" rx="20" fill="#102445" stroke="#294A8D"/>
-    <text x="746" y="318" fill="#E0F2FE" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="16" font-weight="600">Evidence First</text>
-    <rect x="874" y="292" width="152" height="40" rx="20" fill="#111E3B" stroke="#3E57A5"/>
-    <text x="906" y="318" fill="#E9D5FF" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="16" font-weight="600">Reverse Audit</text>
-    <rect x="1040" y="292" width="152" height="40" rx="20" fill="#0F233A" stroke="#2D72A8"/>
-    <text x="1076" y="318" fill="#CFFAFE" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="16" font-weight="600">Project Thread</text>
+    <rect x="1042" y="322" width="230" height="46" rx="23" fill="#101633" stroke="#6D3BC7"/>
+    <path d="M1073 356L1067 344L1074 335L1081 342L1088 335L1095 344L1089 356L1081 351L1073 356Z" fill="url(#purple)"/>
+    <text x="1110" y="352" fill="#E9D5FF">The Werewolf Test</text>
+
+    <rect x="1300" y="322" width="210" height="46" rx="23" fill="#06222C" stroke="#0D9488"/>
+    <circle cx="1334" cy="345" r="4" stroke="#2DD4BF" stroke-width="2"/>
+    <circle cx="1352" cy="335" r="4" stroke="#2DD4BF" stroke-width="2"/>
+    <circle cx="1352" cy="358" r="4" stroke="#2DD4BF" stroke-width="2"/>
+    <path d="M1338 343L1348 337M1338 347L1348 356" stroke="#2DD4BF" stroke-width="2"/>
+    <text x="1374" y="352" fill="#CCFBF1">Influence Chain</text>
   </g>
 </svg>
