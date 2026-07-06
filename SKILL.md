@@ -42,6 +42,8 @@ and wants to produce:
 10. Treat participant understanding as strategy-critical output. Knowing what each party knows, and does not know, is necessary for routing explanation depth, pricing conversations, sequencing, coordination, and risk control.
 11. Tag important conclusions with evidence status. The reader should be able to tell what is directly supported, what is inferred, and what still needs validation.
 12. For high-risk business or stakeholder readings, prefer omission over overclaim. If support is thin, narrow the claim or leave it out.
+13. When the material shows a decision, narrative, or next step being passed from one actor to another, identify the advancement or influence chain instead of only summarizing positions.
+14. Treat suspicious, inconsistent, or strategically costly actions as diagnostic signals before treating them as motive proof. Preserve non-bad-faith explanations unless the source strongly supports strategic misdirection.
 
 ## Trigger Conditions
 
@@ -156,6 +158,7 @@ The following claim types require stricter evidence discipline:
 3. budget or pricing strategy judgment
 4. organizational or political positioning judgment
 5. who actually controls the deal, partnership, or next-step decision path
+6. whether suspicious action proves bad faith, hidden agenda, or deliberate misdirection
 
 Default rules:
 
@@ -185,6 +188,7 @@ Default rules:
 3. Build the project structure layer.
    - Merge materials by topic, not just chronology.
    - Identify goal convergence, stakeholder motives, participant understanding levels, trial scenario choices, boundary shifts, coordination structure, and unresolved questions.
+   - Identify advancement or influence chains when the material shows a frame, claim, decision, or next-step path being introduced, adopted, amplified, or acted on by different participants.
    - Explicitly assess who understands:
      - the project problem itself
      - the actual advancement path
@@ -196,6 +200,7 @@ Default rules:
    - Summarize the user's current narrative.
    - Then run the checks in `${CLAUDE_SKILL_DIR}/references/analysis-checks.md`.
    - Label major judgments with claim status and evidence strength.
+   - For suspicious or contradictory actions, split plausible explanations into information change, pressure or misjudgment, and strategic misdirection before assigning motive.
 5. Run reverse audit when needed.
    - If conclusions feel too neat, too fast, or too dependent on one narrator, read `${CLAUDE_SKILL_DIR}/references/reverse-audit.md`.
 6. Run pre-output audit.
@@ -204,6 +209,7 @@ Default rules:
    - Check whether high-risk claim types are tagged and anchored.
    - Check whether later AI reasoning has been treated as source evidence.
    - Check whether any commitment-shaping recommendation depends on an unvalidated premise.
+   - Check whether suspicious action has been over-attributed to bad faith without considering non-bad-faith alternatives.
 7. Close with action output.
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
    - If important evidence is still missing, use `${CLAUDE_SKILL_DIR}/references/interview-gap-prompts.md`.
@@ -236,12 +242,14 @@ Use when the user wants project progression plus interpretation.
 - structured source notes
 - cross-material project thread
 - stakeholder motive analysis
+- advancement / influence chain when the material supports it
 - participant understanding map
 - current boundaries and next actions
 
 Default rule:
 
 - Include `Participant Understanding Map` unless speaker attribution is unreliable or the source is too thin to support participant-level reads.
+- Include `Advancement / Influence Chain` when the actual project movement depends on who introduced, adopted, amplified, or acted on a frame or decision path.
 
 ### Mode C: Audit Pack
 
@@ -251,11 +259,13 @@ Use when the user already has strong conclusions and wants a harder review.
 - reverse-audit section
 - overreach / under-evidence flags
 - confidence notes
+- suspicious-action alternatives when contradictory behavior materially affects the conclusion
 - participant understanding map when the material supports it
 
 Default rule:
 
 - Include `Participant Understanding Map` unless speaker attribution is unreliable or the source is too thin to support participant-level reads.
+- Include `Advancement / Influence Chain` when the run depends on explaining how a narrative, decision, or next-step path became actionable.
 
 ### Mode D: HTML Report
 
@@ -287,6 +297,8 @@ Use when the user wants the retro delivered as a report page instead of Markdown
 16. Use asymmetric-awareness materials only for project-relevant analysis of understanding, coordination, risk, incentives, constraints, and decision conditions.
 17. Do not treat statements from asymmetric-awareness conversations as stable intent, policy, or commitment without cross-source support.
 18. Do not present judgments derived mainly from asymmetric-awareness materials as external-facing or formal-record conclusions unless they are separately validated.
+19. Do not treat suspicious action, contradiction, or bad outcome as proof of bad faith without testing lower-intent explanations.
+20. Do not ignore the chain by which a frame, authority, or next-step path became actionable when that chain materially affected the outcome.
 
 ## Output Format
 
@@ -350,6 +362,24 @@ If omitted, explicitly state one of:
 - `Participant Understanding Map omitted due to unreliable speaker attribution.`
 - `Participant Understanding Map omitted due to insufficient participant-level evidence.`
 
+### Structure B3: Advancement / Influence Chain
+
+```md
+## Advancement / Influence Chain
+
+| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Confidence | Risk if wrong |
+| --- | --- | --- | --- | --- | --- | --- |
+```
+
+Use this section when the project or conversation moves because a frame, authority, or decision path is passed between actors.
+If the chain is material, add a short readout on:
+
+- who defined the working frame
+- who inherited or legitimized the frame
+- who controlled the next-step path
+- who appeared influential but did not control the outcome
+- where the chain depends on weak or disputed evidence
+
 ### Structure C: Judgment and Reverse Audit
 
 ```md
@@ -359,6 +389,7 @@ If omitted, explicitly state one of:
 - **Judgments that look supported**:
 - **Judgments that need stronger evidence**:
 - **Likely overestimates / underestimates**:
+- **Suspicious actions requiring lower-intent alternatives**:
 - **What should be treated as assumption for now**:
 - **High-impact claims requiring validation**:
 ```
@@ -372,6 +403,16 @@ For important judgments, especially high-risk claim types, prefer entries in thi
 - **Basis**:
 - **Source anchor**:
 - **What still needs validation**:
+```
+
+For suspicious or contradictory actions that materially affect the conclusion, prefer entries in this shape:
+
+```md
+- **Action or contradiction**:
+- **Information-change explanation**:
+- **Pressure or misjudgment explanation**:
+- **Strategic-misdirection explanation**:
+- **Current status**:
 ```
 
 ### Structure D: Method Notes
