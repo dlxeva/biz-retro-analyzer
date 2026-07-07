@@ -23,6 +23,48 @@ It is designed for conversation-heavy work in complex collaborative projects whe
 
 ---
 
+## Quick Start
+
+Use this skill when you have messy source material and want an evidence-aware retro instead of a generic summary.
+
+Copy this prompt into your agent or model run:
+
+```md
+Use biz-retro-analyzer / Mode C: Audit Pack.
+
+Input stack:
+- Source evidence: [paste transcripts, meeting notes, field notes, or observation notes]
+- Context: [briefly explain the project and current concern]
+- Later reasoning: [optional; paste follow-up analysis or hypotheses separately]
+
+Please produce:
+1. Structured Fact Record
+2. Project Thread
+3. Advancement / Influence Chain
+4. Participant Understanding Map
+5. Judgment and Reverse Audit
+6. Current Actions
+
+Rules:
+- Separate facts, participant claims, and model inferences.
+- Tag high-impact judgments with Status, Strength, Basis, and Source anchor.
+- Treat suspicious or contradictory actions as diagnostic signals, not automatic proof of bad faith.
+- Do not treat later reasoning as source evidence.
+```
+
+For a lighter run, use `Mode A: Fact Pack`.  
+For a full retro, use `Mode B: Retro Pack`.  
+For a harder review of an existing story, use `Mode C: Audit Pack`.
+
+Project status:
+
+- License: MIT, see `LICENSE`.
+- Roadmap: see `ROADMAP.md`.
+- Evaluation guide: see `EVALUATION.md`.
+- Synthetic adversarial case: see `evaluations/adversarial-dialogue-werewolf/`.
+
+---
+
 ## What This Is
 
 This is **not** a transcription tool and **not** a generic meeting-summary template.

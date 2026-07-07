@@ -23,6 +23,46 @@
 
 ---
 
+## 快速开始
+
+当你手里有混乱的原始材料，并且需要的不是通用摘要，而是带证据纪律的复盘时，可以直接使用下面这段提示词：
+
+```md
+Use biz-retro-analyzer / Mode C: Audit Pack.
+
+Input stack:
+- Source evidence: [粘贴逐字稿、会议纪要、现场观察或其他原始材料]
+- Context: [简要说明项目背景和当前疑问]
+- Later reasoning: [可选；把后续分析、假设或复盘对话单独粘贴]
+
+Please produce:
+1. Structured Fact Record
+2. Project Thread
+3. Advancement / Influence Chain
+4. Participant Understanding Map
+5. Judgment and Reverse Audit
+6. Current Actions
+
+Rules:
+- Separate facts, participant claims, and model inferences.
+- Tag high-impact judgments with Status, Strength, Basis, and Source anchor.
+- Treat suspicious or contradictory actions as diagnostic signals, not automatic proof of bad faith.
+- Do not treat later reasoning as source evidence.
+```
+
+更轻量的事实整理，用 `Mode A: Fact Pack`。  
+完整复盘，用 `Mode B: Retro Pack`。  
+对已有判断做强审计，用 `Mode C: Audit Pack`。
+
+项目状态：
+
+- 开源协议：MIT，见 `LICENSE`。
+- 后续计划：见 `ROADMAP.md`。
+- 评估方法：见 `EVALUATION.md`。
+- 合成对抗评估案例：见 `evaluations/adversarial-dialogue-werewolf/`。
+
+---
+
 ## 这是什么
 
 这**不是**转录工具，也**不是**通用会议纪要模板。
