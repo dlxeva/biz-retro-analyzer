@@ -10,6 +10,56 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-07-10
+
+### Business test cases, ablation study, and calibration research
+
+- Added `tests/cases/case-05-business-conflict` — synthetic vendor-selection meeting with a conflicted advisor and a false consensus; tests influence-chain recognition and High-Risk Claim Gate on a real motive proposition
+- Added `tests/cases/case-06-business-mixed` — false-positive control: an advisor whose behavior mimics case-05's conflicted advisor but has no conflict of interest; tests whether the skill avoids mechanical pattern-matching ("sees interruption = conflict")
+- Added `evaluations/adversarial-dialogue-hook-wolf` — a second adversarial hidden-role case, a deliberate inverse of the first (hook wolf, self-cut silver-water, good side wins); stress-tests hard-information-vs-soft-information conflict
+- Added `evaluations/ablation-2026-07/` — a four-condition ablation study (full / no-skill / no-reverse-audit / no-evidence-tags) across five synthetic cases, plus a calibration study with numeric confidence tables
+- Updated `tests/TESTING.md` to index case-05/06 and document the answer-key convention
+- Updated `ROADMAP.md` to mark items 2/3 as partially done and add candidate items from the ablation study
+
+Why:
+
+- The test set lacked business scenarios close to the intended use case; only adversarial hidden-role cases existed
+- There was no controlled way to attribute skill value to specific components (reverse audit, evidence tagging) — an ablation study was needed
+- The first adversarial case had become a training sample for the skill itself; a second, inverse case was needed to test generalization rather than memorized structure
+- Calibration of numeric confidence had never been attempted; without it, "the skill is well-calibrated" is an untestable claim
+
+Enables:
+
+- the skill can now be stress-tested on realistic business meetings, not only adversarial toy problems
+- component contribution is quantified (reverse audit ≈ −18 pts, evidence tagging ≈ −18 pts on the seven-dimension rubric)
+- false-positive control is available (case-06) to test whether the skill over-attributes suspicious behavior to bad faith
+
+Limitations (stated in `evaluations/ablation-2026-07/README.md`):
+
+- N=5 synthetic cases, single scorer, no statistical significance
+- LLM-generated cases may be more solvable than real-world material
+- calibration hit a methodological ceiling (zero errors across 67 data points); real-world cases are needed for meaningful ECE
+
+### Runtime reading budget and numeric confidence guidance
+
+- Added a `Runtime reading budget` section to `SKILL.md` clarifying which files are read at runtime (by mode) versus which are project/evaluation assets that should not enter the runtime context
+- Added an optional `Numeric confidence table` template to `references/output-templates.md` with five confidence bands (95–100 / 80–94 / 65–79 / 50–64 / <50) and per-band meaning
+- Added an optional `information sufficiency` self-rating field so outputs can distinguish "well-supported correct" from "lucky correct"
+
+Why:
+
+- The ablation study showed evidence tagging is a discipline mechanism that prevents overconfident flips at weak-evidence points, but the existing High/Medium/Low tags are too coarse to expose that discipline in numeric form
+- External review (GPT) flagged that a skill repo with heavy project documentation (evaluations, tests, ROADMAP) risks becoming a "token black hole" if an agent loads everything at runtime
+- The calibration study hit a ceiling partly because "lucky correct" and "well-supported correct" were indistinguishable in outputs
+
+Enables:
+
+- clearer runtime boundaries — agents know explicitly what not to read during normal analysis
+- optional numeric precision for confidence without forcing it on every run
+- a path toward meaningful calibration testing once real-world cases are available
+
+---
+
 ## 2026-07-09
 
 ### Documentation consolidation after field updates

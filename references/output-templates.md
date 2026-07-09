@@ -15,6 +15,27 @@ Minimum rule:
 - Facts can stay untagged if they are obviously direct and low-risk.
 - Any major judgment about motive, scope, leverage, pricing, readiness, or next action should include tags.
 
+## Optional: Numeric Confidence Table
+
+When the user needs calibration, comparison across runs, or a confidence audit, add a numeric confidence table instead of (or alongside) the High/Medium/Low tags. This is **optional** — ordinary runs do not need it.
+
+Five bands:
+
+| Band | Meaning | Typical use |
+| --- | --- | --- |
+| 95–100 | Almost certain | Skill evidence, hard closure (e.g. an action that only one role can perform) |
+| 80–94 | High confidence, not ironclad | Cross-source convergence but no direct witness to the underlying fact |
+| 65–79 | Leaning judgment | Evidence points one way but a reasonable alternative exists |
+| 50–64 | Barely leaning | Slightly above coin-flip; evidence is thin |
+| <50 | Inverse leaning | You judge the opposite is more likely |
+
+Rules:
+
+- Spread confidence across bands. Do not put every judgment at 90+. If evidence is thin, say so with a low number.
+- The band is a self-rating of *your actual confidence*, not a politeness scale. If you genuinely cannot tell, score below 65.
+- Pair each numeric score with a one-line basis, so a reviewer can check whether the number matches the evidence.
+- High-Risk Claim Gate still applies: a motive or conflict-of-interest claim must stay below `Confirmed` regardless of the numeric score unless the source is explicit and narrow.
+
 ## 1. Structured Meeting / Source Record
 
 ```md
@@ -181,3 +202,29 @@ Optional follow-on block when strategy depends on understanding gaps:
 - **What should be collected earlier next time**:
 - **Reusable questions or prompts**:
 ```
+
+## Optional: Information Sufficiency Self-Rating
+
+When the output includes a numeric confidence table, or when the user wants to know how trustworthy the conclusions are, add an information-sufficiency self-rating. This distinguishes **"correct and well-supported"** from **"correct but I got lucky"** — a difference that a confidence number alone cannot show.
+
+```md
+## Information Sufficiency
+
+| Key judgment | Confidence | Sufficiency | Note |
+| --- | --- | --- | --- |
+| (judgment) | (0–100) | Sufficient / Adequate / Thin | (why, or what is missing) |
+```
+
+Sufficiency labels:
+
+- `Sufficient` — the source directly supports this judgment; being right is expected, not lucky
+- `Adequate` — multiple indirect signals converge; being right is likely but not guaranteed
+- `Thin` — a single weak signal or pure elimination logic; being right could be coincidence
+
+Use this especially when:
+
+- a judgment is correct but the evidence is indirect (common in elimination-based reasoning)
+- the analysis hit a forced binary where two options looked similar and one was picked
+- the user may later rely on this judgment for pricing, partner choice, or commitment
+
+This field is **optional**. Use it when the gap between confidence and evidence quality matters.

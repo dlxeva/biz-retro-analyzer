@@ -84,12 +84,18 @@ Possible later work:
 
 ## Candidate items from the 2026-07 ablation study
 
-These are suggestions motivated by test findings, not yet committed:
+These are suggestions motivated by test findings.
 
-- optional numeric confidence table in `output-templates.md` (95–100 / 80–94 / 65–79 / 50–64 / <50 with meaning per band) — motivated by the no-evidence-tag flip in the hook-wolf case
+Done:
+
+- ~~optional numeric confidence table in `output-templates.md`~~ — done (2026-07-10), with five bands (95–100 / 80–94 / 65–79 / 50–64 / <50) and per-band meaning
+- ~~runtime reading budget in `SKILL.md`~~ — done (2026-07-10), clarifying which files are runtime protocol vs project assets
+- ~~"information sufficiency" self-rating field~~ — done (2026-07-10), added to `output-templates.md` as an optional field distinguishing "well-supported correct" from "lucky correct"
+
+Still candidates (not yet implemented):
+
 - cumulative-upgrade path for the High-Risk Claim Gate: when ≥3 independent behavioral signals point to the same strategic-misdirection explanation and none point elsewhere, allow lift from `Assumption/Low` to `Inferred/Medium` (still not `Confirmed`) — motivated by the systematic under-confidence on a real motive proposition in case-05
 - a "forced binary at low confidence" failure-mode entry, using the hook-wolf depth-wolf vs villager pair as teaching material
-- an "information sufficiency" self-rating field to surface "lucky-correct" vs "well-supported-correct" for future calibration work
 
 ## Non-Goals
 

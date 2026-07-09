@@ -17,8 +17,10 @@ This first test set focuses on:
 4. required `Participant Understanding Map` output
 5. safer handling of informal or asymmetric-awareness materials
 6. transcription noise isolation (case-04)
-7. false consensus detection (case-04)
+7. false consensus detection (case-04, case-05)
 8. team dynamics analysis within ethical bounds (case-04)
+9. conflicted-advisor influence chain and false-consensus pressure (case-05)
+10. false-positive control — behavior mimics a conflicted advisor but motive is clean (case-06)
 
 This set does **not** yet attempt to score:
 
@@ -46,10 +48,20 @@ tests/
     ├── case-03-source-vs-reasoning/
     │   ├── input.md
     │   └── expected-checks.md
-    └── case-04-real-transcript/
+    ├── case-04-real-transcript/
+    │   ├── input.md
+    │   └── expected-checks.md
+    ├── case-05-business-conflict/
+    │   ├── input.md
+    │   ├── expected-checks.md
+    │   └── full-material-with-answer.md
+    └── case-06-business-mixed/
         ├── input.md
-        └── expected-checks.md
+        ├── expected-checks.md
+        └── full-material-with-answer.md
 ```
+
+Note: case-05 and case-06 include `full-material-with-answer.md`, which contains the hidden answer key. Only `input.md` should be given to the analysis model during a blind run.
 
 ---
 
@@ -138,11 +150,18 @@ Use this directory for concrete pass/fail checks.
 
 After this first round, add:
 
-1. weak-attribution case
-2. mixed formal + asymmetric-awareness case
-3. multi-source audit-pack case
-4. more run records across models and prompts
-5. optional schema or lint helper
-6. more real-transcript cases with different noise patterns and conflict structures
+1. ~~synthetic business case with conflicted advisor + false consensus~~ — done as case-05
+2. ~~false-positive control (behavior mimics conflict but motive is clean)~~ — done as case-06
+3. weak-attribution case
+4. mixed formal + asymmetric-awareness case
+5. multi-source audit-pack case
+6. more run records across models and prompts
+7. optional schema or lint helper
+8. more real-transcript cases with different noise patterns and conflict structures
+9. real-world (non-synthetic) cases — the current synthetic set may be more solvable than real material
 
 Note: case-04 is the first case based on a real speech-to-text transcript. It exists specifically to test noise isolation, false consensus detection, and ethical team-dynamics analysis — capabilities that synthetic summaries cannot exercise.
+
+Note: case-05 (`business-conflict`) is a synthetic vendor-selection meeting with a conflicted external advisor and a false consensus. It tests influence-chain recognition, suspicious-action over-attribution control, and the High-Risk Claim Gate on a real motive proposition.
+
+Note: case-06 (`business-mixed`) is a deliberate false-positive control. Its advisor behaves like case-05's conflicted advisor (interrupts, advocates, guarantees) but has **no** conflict of interest. It tests whether the skill avoids mechanical pattern-matching — "seeing interruption = conflict" — and instead distinguishes by information verifiability and motive.

@@ -68,6 +68,33 @@ Typical trigger phrases:
 - "做 post-meeting analysis"
 - "analyze these transcripts and extract project decisions"
 
+## Runtime Reading Budget
+
+The repository contains two kinds of files: **runtime protocol** (read during analysis) and **project assets** (for maintainers and evaluation, never loaded at runtime). Loading project assets during a real analysis wastes tokens and risks style contamination — evaluation transcripts can pull output toward "research paper" instead of "meeting debrief".
+
+### Always read
+
+- this file (`SKILL.md`)
+
+### Read by mode (only when needed)
+
+- Mode A / light analysis: `SKILL.md` is usually enough
+- Mode B / standard retro: add `references/input-modes.md`, `references/output-templates.md`
+- Mode C / audit: add `references/analysis-checks.md`, `references/reverse-audit.md`, `references/failure-modes.md`
+- Mode D / HTML: add `references/html-output-mode.md`, `references/output-schema.json`, `assets/html-report-template.html`, `assets/html-report.css`
+
+### Never read during runtime analysis
+
+These are project and evaluation assets. They are for humans, maintainers, and test harnesses — not for the model's context during a real analysis:
+
+- `tests/` (test cases, expected checks, run records)
+- `evaluations/` (adversarial cases, ablation studies, calibration reports, answer keys)
+- `examples/` (worked walkthroughs — useful for humans learning the skill, not for runtime)
+- `ROADMAP.md`, `CHANGELOG.md`, `PUBLISHING.md`, `EVALUATION.md`
+- `README.md`, `README.zh-CN.md`
+
+If you are evaluating or stress-testing the skill itself, that is a research context and these files may be read. Normal analysis must not.
+
 ## Input Modes
 
 Read `references/input-modes.md` before deciding output depth.
