@@ -26,7 +26,7 @@ Already available:
 - ~~add a minimal business-meeting example~~ — done, clinical-IT pilot scenario
 - ~~add a short `How to use this skill` section for non-technical users~~ — done, "Start here" + "What the skill does with it" sections
 
-### 2. Add realistic synthetic business cases
+### 2. Add realistic synthetic business cases (partially done)
 
 Add one or more sanitized examples that are closer to the intended business use case:
 
@@ -42,7 +42,13 @@ Each case should include:
 - sample output
 - review notes
 
-### 3. Expand evaluation coverage
+Done so far (`tests/cases/`):
+- `case-05-business-conflict` — a vendor-selection meeting with a conflicted external advisor and a false consensus (synthetic, sanitized)
+- `case-06-business-mixed` — a vendor-selection meeting designed as a **false-positive control**: an advisor whose behavior mimics case-05's conflicted advisor but has no conflict of interest
+
+Still wanted: customer discovery, partner negotiation, and post-meeting debrief with follow-up reasoning.
+
+### 3. Expand evaluation coverage (partially done)
 
 Current evaluation includes one synthetic adversarial hidden-role case. Future evaluation should add:
 
@@ -52,6 +58,12 @@ Current evaluation includes one synthetic adversarial hidden-role case. Future e
 - additional adversarial dialogue samples
 - manually reviewed gold retros
 - multi-reviewer scoring against `EVALUATION.md`
+
+Done so far (`evaluations/`):
+- `adversarial-dialogue-hook-wolf` — a second adversarial hidden-role case, designed as a deliberate inverse of the first (hook wolf, self-cut silver-water, good side wins)
+- `ablation-2026-07/` — a four-condition ablation study and a calibration study across five synthetic cases; see its README for findings
+
+Still wanted: manually reviewed gold retros, multi-reviewer scoring, and real-world (non-synthetic) cases.
 
 ### 4. Tighten public packaging
 
@@ -69,6 +81,15 @@ Possible later work:
 - JSON export examples for downstream systems
 - model-comparison runs across different LLMs
 - benchmark-style evaluation pack once enough cases exist
+
+## Candidate items from the 2026-07 ablation study
+
+These are suggestions motivated by test findings, not yet committed:
+
+- optional numeric confidence table in `output-templates.md` (95–100 / 80–94 / 65–79 / 50–64 / <50 with meaning per band) — motivated by the no-evidence-tag flip in the hook-wolf case
+- cumulative-upgrade path for the High-Risk Claim Gate: when ≥3 independent behavioral signals point to the same strategic-misdirection explanation and none point elsewhere, allow lift from `Assumption/Low` to `Inferred/Medium` (still not `Confirmed`) — motivated by the systematic under-confidence on a real motive proposition in case-05
+- a "forced binary at low confidence" failure-mode entry, using the hook-wolf depth-wolf vs villager pair as teaching material
+- an "information sufficiency" self-rating field to surface "lucky-correct" vs "well-supported-correct" for future calibration work
 
 ## Non-Goals
 
