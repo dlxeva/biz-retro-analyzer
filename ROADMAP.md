@@ -20,11 +20,11 @@ Already available:
 
 ## Near Term
 
-### 1. Improve first-run usability
+### 1. Improve first-run usability (done)
 
-- add more copy-paste prompt examples
-- add a minimal business-meeting example
-- add a short `How to use this skill` section for non-technical users
+- ~~add more copy-paste prompt examples~~ — done in `examples/quickstart.md`
+- ~~add a minimal business-meeting example~~ — done, clinical-IT pilot scenario
+- ~~add a short `How to use this skill` section for non-technical users~~ — done, "Start here" + "What the skill does with it" sections
 
 ### 2. Add realistic synthetic business cases
 

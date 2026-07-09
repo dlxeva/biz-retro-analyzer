@@ -12,6 +12,27 @@ The format is intentionally lightweight:
 
 ## 2026-07-09
 
+### End-to-end worked example
+
+- Added `examples/quickstart.md` — the first complete walkthrough in the repository
+- Covers the full path: what to upload (raw speech-to-text transcript, ideally with speaker labels), how to trigger the skill, what the pipeline does, and a fully filled-in Mode B output
+- Includes a realistic transcript (clinical-IT pilot review, 4 speakers, ASR-style errors, oral phrasing) with every claim anchored back to a speaker and timestamp
+- Added "Start here" section explaining why raw transcripts beat summaries
+- Added "How to verify it ran correctly" self-check and a Quick FAQ (missing speaker labels, poor transcript quality, HTML output)
+- Updated both READMEs with a link to the example
+- Marked ROADMAP "Near Term #1: first-run usability" as done
+
+Why:
+
+- External evaluation flagged missing end-to-end examples as the main gap in documentation quality and out-of-box usability
+- The repository had output templates and test assertions, but no concrete "given this input, here is the output" sample
+- New users had no reference for what a finished retro actually looks like
+
+Enables:
+
+- first-time users can follow a complete worked path instead of assembling one from fragments
+- the example doubles as a implicit spec: if an output does not look like this, something is off
+
 ### Real-transcript stress test and protocol gaps found in the field
 
 Ran the skill end-to-end on a real 1-hour speech-to-text business transcript. The methodology core held up well (evidence layering, understanding map, suspicious-action guardrail all produced real insight), but three field-only gaps emerged and are now closed.

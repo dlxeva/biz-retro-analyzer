@@ -54,6 +54,8 @@ Rules:
 完整复盘，用 `Mode B: Retro Pack`。  
 对已有判断做强审计，用 `Mode C: Audit Pack`。
 
+完整的端到端示例——从一份原始逐字稿到完整复盘——见 [`examples/quickstart.md`](./examples/quickstart.md)。
+
 项目状态：
 
 - 开源协议：MIT，见 `LICENSE`。

@@ -56,6 +56,8 @@ For a lighter run, use `Mode A: Fact Pack`.
 For a full retro, use `Mode B: Retro Pack`.  
 For a harder review of an existing story, use `Mode C: Audit Pack`.
 
+For a complete worked example — from a raw transcript to a full retro — see [`examples/quickstart.md`](./examples/quickstart.md).
+
 Project status:
 
 - License: MIT, see `LICENSE`.
