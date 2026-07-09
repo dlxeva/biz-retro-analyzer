@@ -34,6 +34,8 @@ This set does **not** yet attempt to score:
 ```text
 tests/
 ├── TESTING.md
+├── runs/
+│   └── case-04-real-transcript-2026-07-09.md
 └── cases/
     ├── case-01-thin-evidence/
     │   ├── input.md
@@ -72,6 +74,10 @@ Recommended record format:
 - Failed checks:
 - Notes:
 ```
+
+Existing run records:
+
+- `runs/case-04-real-transcript-2026-07-09.md`
 
 ---
 
@@ -135,7 +141,7 @@ After this first round, add:
 1. weak-attribution case
 2. mixed formal + asymmetric-awareness case
 3. multi-source audit-pack case
-4. manual run results log (case-04 has been run once; record the result)
+4. more run records across models and prompts
 5. optional schema or lint helper
 6. more real-transcript cases with different noise patterns and conflict structures
 

@@ -12,6 +12,26 @@ The format is intentionally lightweight:
 
 ## 2026-07-09
 
+### Documentation consolidation after field updates
+
+- Shortened the performative-meeting boundary in both READMEs so the front page stays focused on use and positioning
+- Moved the full boundary note to `references/honest-limits.md`
+- Added `tests/runs/case-04-real-transcript-2026-07-09.md` to record the first real-transcript field run
+- Updated `tests/TESTING.md` to include the run-record directory and link to the case-04 run record
+
+Why:
+
+- The performative-meeting insight is useful, but the README version was too long for first-time readers
+- The real-transcript stress test had already influenced protocol changes, but its run interpretation needed a durable record
+- The repository should now privilege first-run usability, concrete examples, and auditable test history over adding more concepts
+
+Enables:
+
+- cleaner README scanning
+- clearer capability boundaries without burying them
+- better evaluation traceability for case-04
+- a reusable pattern for future run records
+
 ### The Honest Limit: performative meetings
 
 - Added a new section to both READMEs declaring an explicit capability boundary
@@ -24,8 +44,6 @@ Why:
 - The skill's methodology assumes that smoothness hides something worth finding. That assumption breaks for performative, ritual, or relationship-maintenance meetings where smoothness is functional and intentional
 - Declaring this boundary honestly in the README is more valuable than hiding it in failure-modes — it sets correct expectations and builds trust
 - The section reads as a candid admission, which is stronger than any capability claim
-
-## 2026-07-09
 
 ### End-to-end worked example
 
