@@ -140,6 +140,24 @@ If all you need is "summary + next steps", this skill is probably too heavy.
 
 ---
 
+## The Honest Limit: performative meetings
+
+There is one kind of meeting this skill cannot analyze, and probably never will.
+
+Some meetings are **performative**. Everyone speaks smoothly. Everyone agrees. The minutes are clean. And none of it is meant to be examined — because the real decision was made before the meeting, in a smaller room, by fewer people. The meeting exists so the decision can be seen being made.
+
+In these meetings, smoothness is not a signal to investigate. It is the product. The alignment is not fragile or false — it is *deliberately manufactured*, and it is working exactly as intended.
+
+This skill is built to do the opposite of that. Its entire toolkit — evidence layering, motive analysis, consensus reality checks, reverse audit — exists to resist smoothness, to find the crack under the surface. But when the surface *is* the point, there is no crack to find. The most sophisticated analysis will just produce sophisticated false positives: flagging "false consensus" where there was a correct performance, hunting for "hidden motives" where the motive was simply to let the meeting end.
+
+This is not a bug to fix. It is the shape of a real organizational pattern.
+
+The deeper irony: in a performative meeting, not everyone is performing. A few people wrote the script. Some are reading from it knowingly. And one or two may believe the meeting is real — their sincerity is genuine, and their genuine input may be the only honest signal in the room. A perfectly executed performance often contains exactly one person who does not know it is a performance. This skill cannot reliably tell you which one.
+
+So: if your meeting was smooth because the work was done, this skill can help you see what was left unsaid. But if your meeting was smooth because the smoothness was the work, there is nothing here for you — and that itself may be the most honest finding available.
+
+---
+
 ## Core Design
 
 This skill follows six principles:

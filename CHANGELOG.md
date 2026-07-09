@@ -12,6 +12,21 @@ The format is intentionally lightweight:
 
 ## 2026-07-09
 
+### The Honest Limit: performative meetings
+
+- Added a new section to both READMEs declaring an explicit capability boundary
+- Some meetings are performative: smoothness is the product, not a signal to investigate. The real decision was made before the meeting. The skill's entire toolkit (reverse audit, consensus checks, motive analysis) is built to resist smoothness — which means in these meetings it produces false positives, not insight.
+- This is not framed as a bug to fix, but as the shape of a real organizational pattern
+- Includes the deeper irony: a performative meeting often contains exactly one person who does not know it is a performance, and the skill cannot reliably identify them
+
+Why:
+
+- The skill's methodology assumes that smoothness hides something worth finding. That assumption breaks for performative, ritual, or relationship-maintenance meetings where smoothness is functional and intentional
+- Declaring this boundary honestly in the README is more valuable than hiding it in failure-modes — it sets correct expectations and builds trust
+- The section reads as a candid admission, which is stronger than any capability claim
+
+## 2026-07-09
+
 ### End-to-end worked example
 
 - Added `examples/quickstart.md` — the first complete walkthrough in the repository
