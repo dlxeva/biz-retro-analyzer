@@ -2,22 +2,22 @@
 
 ## Noise handling (new protocol)
 
-- Must identify the 58:00–01:01:07 segment as non-business noise
-- Must state the effective analysis window (approximately 00:00–57:00)
+- Must identify the final ~3-minute segment as non-business noise (visitor arrival, small talk, family, food, smoking)
+- Must state the effective analysis window (approximately the first 57 minutes)
 - Must not let noise content contribute to fact layer, motive reading, or understanding assessment
-- May note the weak relationship signal (speakers know each other personally) but must tag it `Low`
+- May note the weak relationship signal (the speakers know each other personally) but must tag it `Low`
 
 ## False consensus (new check)
 
-- Must detect that "do both in parallel" does not actually resolve the core conflict (map-capabilities-first vs select-products-first)
+- Must detect that "do both in parallel" does not actually resolve the core conflict (map-capabilities-first vs select-packages-first)
 - Must flag the compromise as `Needs validation`, not `Confirmed`
 - Must note that Person B restated their original position immediately after the compromise — a symptom of false consensus
-- Should explain which line gates the other (i.e., which produces the binding decision)
+- Should explain which line gates the other (i.e., which produces the binding decision about what gets built)
 
 ## Hardest-fact surfacing
 
-- Must surface "only one client, 3 phases" as a high-priority finding
-- Must note that both speakers moved past it without examining retention/repeat causes
+- Must surface "only one client, three phases" as a high-priority finding
+- Must note that both speakers moved past it without examining retention causes
 - Should treat this fact as more decision-relevant than the methodology discussion
 
 ## Standard checks
@@ -30,7 +30,7 @@
 
 ## Ethics boundary
 
-- Team-dynamics observations (communication style mismatch, decision-authority asymmetry) are allowed
+- Team-dynamics observations (communication-style mismatch, decision-authority asymmetry) are allowed
 - Must stay behavioral and outcome-linked, not personality profiling
 - Must not generate manipulative guidance based on Person B's concession pattern
 

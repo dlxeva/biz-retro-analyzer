@@ -2,14 +2,14 @@
 
 ## Purpose
 
-Test the skill on a **real-world** speech-to-text transcript, not a cleaned-up summary.
+Test the skill on a **realistic** speech-to-text transcript with the messiness that cleaned-up summaries cannot reproduce:
 
-This case pressure-tests capabilities that synthetic summaries cannot:
-
-- transcription noise isolation (visitors, family interruptions, off-topic chatter)
-- false consensus detection (surface agreement masking an unresolved logical conflict)
-- team dynamics analysis (communication style mismatch, decision-authority asymmetry) — done within ethical bounds
+- transcription noise (visitors, side conversations, interruptions)
+- false consensus (surface agreement masking an unresolved logical conflict)
+- team dynamics analysis (communication-style mismatch, decision-authority asymmetry) within ethical bounds
 - evidence-tagging under high ambiguity
+
+This case is **structurally derived from a real business recording**, but all identifying details have been replaced via scene substitution. The conflict shapes, noise patterns, and consensus failures are real; the industry, products, and figures are not.
 
 ## Recommended Mode
 
@@ -19,81 +19,75 @@ Mode B: Retro Pack + partial Mode C (audit)
 
 `working_session` + `informal_debrief`
 
-Three-person AI-services collaboration team. Two members present in this recording (Speaker 1 = "Person A", strategic / methodology view; Speaker 2 = "Person B", sales / business development). A third key member ("Person C", the technical lead) is repeatedly referenced but not present.
+A small content-and-operations studio doing branded content for e-commerce clients. Two of the three partners are present in this recording: Person A (strategy / methodology view, recently joined) and Person B (client-facing, handles sales and delivery). The third partner, Person C (the production lead), is referenced repeatedly but is not present.
 
-Speaker labels are reliable. This input is **sanitized** for open-source release: real names replaced with Person A / B / C, real client names replaced with generic labels, sensitive figures generalized.
+Speaker labels are reliable. The recording runs about one hour.
 
 ## Input
 
-### Basic setup
+### Excerpt 1 — the stuck client (opening)
 
-- A ~1 hour internal strategy debrief between two collaborators of a small AI-consulting team.
-- Source quality: speech-to-text transcript with hesitation, repetition, interruptions, and ASR artifacts.
-- The recording ends with ~3 minutes of non-business content (a visitor arrives at one speaker's home, family small talk, food ordering).
+Person B describes an in-progress client case:
 
-### Excerpt 1 — the stuck customer case (00:00–05:00)
+- Client came in via a middleman referral. The client is a mid-size outdoor-gear e-commerce brand that recently absorbed a smaller competitor's customer base and is now overwhelmed by post-sale questions and review management across marketplaces.
+- Three stated needs: (1) handle a surge of frustrated buyers; (2) keep normal product-launch notifications going; (3) turn inquiries into repeat purchases.
+- Client asked to see a working example. Person C's first attempt was a content template pulled from a completely unrelated vertical (a food-delivery brand) — it didn't fit outdoor gear at all. Person C then suggested "just point them at an off-the-shelf tool," which Person B rejected as not convincing.
+- The core blocker: a convincing showcase needs the client's own product catalog and past content baked in, which is heavy work. But the client won't commit resources before seeing results.
+- Person B later notes, from talking to peers, that high-volume complaint handling is "a hard case" — buyers figure out it's templated after a few interactions and trust drops further.
 
-Person B describes an in-progress customer case:
+Person A's diagnosis: "You didn't do market research. You don't know what content-automation vendors on the market look like, what a 90-point delivery looks like, or whether you can even hit 70."
 
-- Customer came via a middleman referral. Customer inherited tens of thousands of students from a collapsed adult-education institution.
-- Three stated needs: (1) soothe angry students, (2) send exam-reminder messages to normal students, (3) convert consulting inquiries into sales.
-- Customer asked for a demo. Person C's first demo attempt was a chat feature pulled from a game mini-program — unrelated to education. Person C then suggested just sending a prompt to a consumer AI model, which Person B rejected.
-- The core blocker: a convincing demo requires the customer's knowledge base + experience extraction, which is heavy development work. But the customer won't invest first without seeing the effect.
-- Person B later notes, from talking to other customer-service vendors, that angry-complaint scenarios are "a hard case" — users detect the AI after enough turns and get angrier.
+### Excerpt 2 — the platform decision
 
-Person A's diagnosis: "You didn't do market research. You don't know what customer-service products on the market look like, what 90-point delivery looks like, or whether you can even hit 70."
+Person A asks: "Should we build our own content platform / SaaS?"
 
-### Excerpt 2 — the SaaS decision (16:00–18:30)
+Person A's position: No. Reasons — building a platform is a heavy asset commitment, the cycle is long, ongoing maintenance is costly, and at their scale it doesn't pay back. The market window is too short to justify it now.
 
-Person A asks: "Should we do SaaS?"
+Person B agrees. Person B notes the stuck-client case specifically can't be a platform play anyway.
 
-Person A's position: No. Reasons — SaaS requires heavy asset investment, long cycles, ongoing maintenance, and doesn't make money at their scale. Development cycles are too short now to justify SaaS.
+Person A adds a nuance: for a deeply-trusted repeat client, a long-term partnership is fine, with a platform component embedded within it — but not as a standalone product business. Person B: "Got it, no issue with that."
 
-Person B agrees. Person B notes the customer-service case specifically can't be SaaS anyway.
-
-Person A adds a nuance: for a deeply-trusted repeat customer, a long-term solution partnership is fine, with SaaS as one component within it — not a standalone SaaS business. Person B: "I get that, no issue."
-
-### Excerpt 3 — THE CORE UNRESOLVED CONFLICT (40:00–44:00)
+### Excerpt 3 — THE CORE UNRESOLVED CONFLICT
 
 This is the key section for false-consensus testing.
 
-Person B argues: **"We need to map out Person C's capabilities first, then match the market to them."** (supply-side driven). Person B's analogy: "You can't play cards by dealing what others need; you have to play the hand you hold."
+Person B argues: **"We need to map out Person C's production capabilities first, then match the market to them."** Person B's analogy: "You can't play cards by dealing what others ask for; you have to play the hand you actually hold."
 
-Person A argues: **"No — we pick candidate products first, then take them to Person C to assess feasibility."** (demand-side driven). Person A's reasoning: "Person C doesn't know what the outside market looks like either. If you just ask him 'what can you do,' he can't tell you."
+Person A argues: **"No — we pick candidate service packages first, then take them to Person C to assess feasibility."** Person A's reasoning: "Person C doesn't know what the outside market looks like either. If you just ask him 'what can you produce,' he can't even tell you."
 
-Person B pushes back: "But we need to know his capabilities to pick products. If we pick things he can't do, we wasted the picking."
+Person B pushes back: "But we need to know his capabilities to pick packages. If we pick things he can't deliver, we wasted the picking."
 
-Person A: "But everything here is doable. The customer-service thing, he can definitely do it."
+Person A: "But all of this is doable. The content-automation thing, he can definitely produce it."
 
-Person B: "Then why does the complaint scenario fail?"
+Person B: "Then why does the high-volume complaint scenario fall apart?"
 
-Person A: "It's doable, you just didn't think of the approach. I know how to solve it right now."
+Person A: "It's doable, you just didn't think of the right approach. I can see how to solve it right now."
 
 **The compromise that is NOT a resolution:**
 
-Person B: "These two points aren't in conflict. We do both in parallel — market research on one line, capability mapping on the other."
+Person B: "These two points aren't actually in conflict. We run both in parallel — market research on one line, capability mapping on the other."
 
 Person A: "Right, both at once."
 
-**Why this is a false consensus:** The two approaches are logically incompatible as starting points. "Map capabilities first" means you cannot select products until capability is known. "Select products first" means you define the product space before capability is consulted. "Do both in parallel" sounds like agreement but does not resolve **which line gates the other** — i.e., which one produces the decision that actually drives what gets built. Person B restated their original position immediately after the compromise ("we still need to map his capabilities"), confirming the conflict was dissolved by vocabulary, not by logic.
+**Why this is a false consensus:** The two approaches are logically incompatible as starting points. "Map capabilities first" means you cannot select service packages until capability is known. "Select packages first" means you define the product space before capability is consulted. "Do both in parallel" sounds like agreement but does not resolve **which line gates the other** — i.e., which one produces the decision that actually drives what gets built. Person B restated their original position immediately after the compromise ("we still need to map his capabilities"), confirming the conflict was dissolved by vocabulary, not by logic.
 
-### Excerpt 4 — the hardest single fact (43:50–45:30)
+### Excerpt 4 — the hardest single fact
 
-Person A: "How many deals have you closed?"
+Person A: "How many clients have you actually retained?"
 
-Person B: "Right now... one client, did 3 phases."
+Person B: "Right now... one client, three phases in."
 
-Person A: "Only one client, 3 phases."
+Person A: "Only one client, three phases."
 
-Person B: "That client did 3 phases. Others — we delivered proposals, customer was happy with price, but they said 'no time right now.'"
+Person B: "That client did three phases. Others — we sent proposals, the client was happy with the price, but they said 'not the right time.'"
 
-**This is the most decision-relevant fact in the entire recording: a three-person team, operating for months, with exactly one deep client.** Both speakers move past it quickly without examining why retention/repeat is this low.
+**This is the most decision-relevant fact in the entire recording: a three-person studio, operating for months, with exactly one deep client.** Both speakers move past it quickly without examining why retention is this low.
 
-### Excerpt 5 — transcription noise (58:00–01:01:07)
+### Excerpt 5 — transcription noise
 
-After the business discussion, a visitor arrives at one speaker's home ("Gangben", "Old Fang"). Content includes: greeting the visitor, discussing who lives in which apartment unit, a child asking to play on an iPad, ordering food, smoking on the balcony, nicknames for neighbors.
+After the business discussion, the recording continues for about three minutes of non-business content: a visitor arrives at one speaker's home, there is greeting and small talk, a discussion about who lives in which apartment, a child asks to use a tablet, someone orders food, and two speakers step out to the balcony to smoke.
 
-None of this is business-relevant. It should be isolated, not deleted (it weakly confirms the speakers have a personal relationship), and the effective analysis window should be stated as roughly 00:00–57:00.
+None of this is business-relevant. It should be isolated, not deleted (it weakly confirms the speakers have a personal relationship), and the effective analysis window should be stated as roughly the first 57 minutes.
 
 ## Expected Pressure
 
@@ -102,8 +96,8 @@ The model may be tempted to:
 - mix the noise segment into relationship analysis or stakeholder mapping
 - treat the "do both in parallel" compromise as genuine consensus
 - skip over the "only one client" fact because both speakers moved on quickly
-- skip the understanding map because the conversation feels like "just two guys talking"
-- over-attribute Person B's frequent verbal concessions ("I get it", "no problem") to genuine alignment
+- skip the understanding map because the conversation feels like "just two colleagues talking"
+- over-attribute Person B's frequent verbal concessions ("got it", "no problem") to genuine alignment
 
 ## Run Goal
 
