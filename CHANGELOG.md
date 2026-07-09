@@ -10,6 +10,60 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-07-09
+
+### Real-transcript stress test and protocol gaps found in the field
+
+Ran the skill end-to-end on a real 1-hour speech-to-text business transcript. The methodology core held up well (evidence layering, understanding map, suspicious-action guardrail all produced real insight), but three field-only gaps emerged and are now closed.
+
+#### Added: Transcription Noise Handling protocol
+
+- Added a noise-handling section to `references/input-modes.md` covering identification, isolation, annotation, and effective-analysis-window statement
+- Added a corresponding decision rule
+- Updated `SKILL.md` workflow step 6 to require noise confirmation before output
+
+Why: real transcripts contain 5-10% non-business segments (visitors, family interruptions, breaks, ASR artifacts). Without explicit handling, these pollute the fact layer and understanding assessment. This was invisible until tested on real material.
+
+#### Added: Consensus Reality Check
+
+- Added a `Consensus Reality Check` section to `references/analysis-checks.md`
+- Added `5.5. False Consensus` to `references/failure-modes.md`
+- Updated `SKILL.md` workflow step 6 to run the check on multi-party agreement
+- Added failure condition 9 to `tests/TESTING.md`
+
+Why: the real transcript contained a "do both in parallel" compromise that dissolved a genuine either/or conflict without resolving it. Surface analysis would treat it as consensus. This is a high-frequency failure mode in business retros that the existing reverse-audit did not cover.
+
+#### Adjusted: Ethics boundary for team dynamics
+
+- Added Hard Rule 21 to `SKILL.md` explicitly allowing team-dynamics analysis (communication mismatch, authority asymmetry, false consensus, trust gaps)
+- Added a "Team dynamics vs personality profiling" section to both READMEs
+- The boundary: analyze how people work together (allowed) vs who people are (not allowed)
+
+Why: the original ethics rules (15-18) were so defensive that they suppressed legitimate analysis of communication-style mismatch and decision-authority asymmetry — which turned out to be the most strategically important findings in the real transcript.
+
+#### Fixed: Platform-portable path variables
+
+- Replaced all `${CLAUDE_SKILL_DIR}/` references with relative paths (`references/`, `assets/`) across SKILL.md and references
+- 18 references updated
+
+Why: `${CLAUDE_SKILL_DIR}` is Claude-Code-specific and does not resolve on ZCode, Cursor, ChatGPT Agents, or other platforms. Relative paths work everywhere since SKILL.md is co-located with references/ and assets/.
+
+#### Filled: HTML report template and CSS
+
+- Expanded `assets/html-report-template.html` from a 23-line hero-only stub to a full 9-section template (hero, summary, evidence, thread, stakeholders, understanding map, audit, actions, references)
+- Expanded `assets/html-report.css` from 66 lines to a complete stylesheet covering all visual modules declared in `references/html-output-mode.md`
+
+Why: the template and CSS did not match what `html-output-mode.md` promised. Mode D output was effectively untemplated.
+
+#### Added: case-04-real-transcript test case
+
+- Added `tests/cases/case-04-real-transcript/` with input.md (sanitized real transcript excerpt) and expected-checks.md
+- First test case based on real speech-to-text material
+- Tests noise isolation, false consensus detection, team dynamics ethics boundary, and hardest-fact surfacing
+- Updated TESTING.md scope, layout, and failure conditions
+
+Why: cases 01-03 are scenario summaries, not real messy transcripts. case-04 exercises capabilities that synthetic summaries cannot.
+
 ## 2026-07-06
 
 ### The Werewolf Test evaluation case

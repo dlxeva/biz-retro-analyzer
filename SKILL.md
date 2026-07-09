@@ -70,11 +70,11 @@ Typical trigger phrases:
 
 ## Input Modes
 
-Read `${CLAUDE_SKILL_DIR}/references/input-modes.md` before deciding output depth.
-If the user wants the deliverable as HTML, also read `${CLAUDE_SKILL_DIR}/references/html-output-mode.md`.
+Read `references/input-modes.md` before deciding output depth.
+If the user wants the deliverable as HTML, also read `references/html-output-mode.md`.
 
 If the user provides audio instead of text, first transcribe it into a usable transcript before running deeper analysis.  
-If the open-source artifact itself is being prepared for publication, read `${CLAUDE_SKILL_DIR}/references/open-source-sanitization.md`.
+If the open-source artifact itself is being prepared for publication, read `references/open-source-sanitization.md`.
 
 This skill supports three input layers:
 
@@ -181,7 +181,7 @@ Default rules:
    - If speaker labels are missing, mark that explicitly before deeper analysis.
    - If possible, classify each major source by interaction context: formal meeting, working session, informal debrief, private side conversation, or asymmetric-awareness conversation.
 2. Build the fact layer.
-   - Follow `${CLAUDE_SKILL_DIR}/references/output-templates.md` for structured source-note output.
+   - Follow `references/output-templates.md` for structured source-note output.
    - Keep original claims tied to specific meetings or materials.
    - Mark high-value factual statements as `Confirmed` unless the source itself is ambiguous.
    - Preserve context differences. Do not silently flatten formal and informal materials into the same evidence type.
@@ -198,11 +198,11 @@ Default rules:
    - Mark where structure calls are `Inferred` versus `Needs validation`.
 4. Build the judgment layer.
    - Summarize the user's current narrative.
-   - Then run the checks in `${CLAUDE_SKILL_DIR}/references/analysis-checks.md`.
+   - Then run the checks in `references/analysis-checks.md`.
    - Label major judgments with claim status and evidence strength.
    - For suspicious or contradictory actions, split plausible explanations into information change, pressure or misjudgment, and strategic misdirection before assigning motive.
 5. Run reverse audit when needed.
-   - If conclusions feel too neat, too fast, or too dependent on one narrator, read `${CLAUDE_SKILL_DIR}/references/reverse-audit.md`.
+   - If conclusions feel too neat, too fast, or too dependent on one narrator, read `references/reverse-audit.md`.
 6. Run pre-output audit.
    - Check whether the fact layer contains motive or interpretation language.
    - Check whether any single-meeting expression has been overstated into a stable long-term motive or strategy.
@@ -210,9 +210,11 @@ Default rules:
    - Check whether later AI reasoning has been treated as source evidence.
    - Check whether any commitment-shaping recommendation depends on an unvalidated premise.
    - Check whether suspicious action has been over-attributed to bad faith without considering non-bad-faith alternatives.
+   - If the material is a multi-party discussion that reached agreement, run the Consensus Reality Check in `references/analysis-checks.md`. Flag fast, "do both", or authority-driven agreement as `Needs validation` rather than settled.
+   - If the source is a raw transcript, confirm that non-business noise has been isolated and the effective analysis window is stated.
 7. Close with action output.
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
-   - If important evidence is still missing, use `${CLAUDE_SKILL_DIR}/references/interview-gap-prompts.md`.
+   - If important evidence is still missing, use `references/interview-gap-prompts.md`.
    - For commitment-shaping actions, say what must be validated first.
 8. Run output escalation after the analysis is stable.
    - If the user explicitly asked for HTML, route to `Mode D: HTML Report`.
@@ -221,8 +223,8 @@ Default rules:
    - Do not interrupt early analysis just to ask about HTML.
    - Offer HTML as an upgrade near the end when the output is clearly shareable or presentation-shaped.
 9. Render to HTML only after the structure is stable.
-   - If the user wants HTML, map the analysis to `${CLAUDE_SKILL_DIR}/references/output-schema.json`.
-   - Then use `${CLAUDE_SKILL_DIR}/assets/html-report-template.html` and `${CLAUDE_SKILL_DIR}/assets/html-report.css`.
+   - If the user wants HTML, map the analysis to `references/output-schema.json`.
+   - Then use `assets/html-report-template.html` and `assets/html-report.css`.
    - Keep evidence tags visible in the rendered page.
 
 ## Output Modes
@@ -299,6 +301,7 @@ Use when the user wants the retro delivered as a report page instead of Markdown
 18. Do not present judgments derived mainly from asymmetric-awareness materials as external-facing or formal-record conclusions unless they are separately validated.
 19. Do not treat suspicious action, contradiction, or bad outcome as proof of bad faith without testing lower-intent explanations.
 20. Do not ignore the chain by which a frame, authority, or next-step path became actionable when that chain materially affected the outcome.
+21. Team dynamics analysis is allowed and often necessary. Analyzing communication style mismatch, decision-authority asymmetry, false consensus, trust gaps, and collaboration friction between roles is legitimate project-relevant work — distinguish this clearly from personality profiling or manipulative guidance. The boundary is: analyze how people work together (allowed) versus analyzing who people are (not allowed). Keep team-dynamics observations tied to observable behavior and project outcomes, not to fixed character traits.
 
 ## Output Format
 
@@ -428,11 +431,11 @@ For suspicious or contradictory actions that materially affect the conclusion, p
 
 ## References
 
-- Input modes: `${CLAUDE_SKILL_DIR}/references/input-modes.md`
-- HTML output mode: `${CLAUDE_SKILL_DIR}/references/html-output-mode.md`
-- Output schema: `${CLAUDE_SKILL_DIR}/references/output-schema.json`
-- Output templates: `${CLAUDE_SKILL_DIR}/references/output-templates.md`
-- Analysis checks: `${CLAUDE_SKILL_DIR}/references/analysis-checks.md`
-- Reverse audit: `${CLAUDE_SKILL_DIR}/references/reverse-audit.md`
-- Interview gap prompts: `${CLAUDE_SKILL_DIR}/references/interview-gap-prompts.md`
-- Open-source sanitization: `${CLAUDE_SKILL_DIR}/references/open-source-sanitization.md`
+- Input modes: `references/input-modes.md`
+- HTML output mode: `references/html-output-mode.md`
+- Output schema: `references/output-schema.json`
+- Output templates: `references/output-templates.md`
+- Analysis checks: `references/analysis-checks.md`
+- Reverse audit: `references/reverse-audit.md`
+- Interview gap prompts: `references/interview-gap-prompts.md`
+- Open-source sanitization: `references/open-source-sanitization.md`

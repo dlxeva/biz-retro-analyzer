@@ -198,6 +198,30 @@ A missing detail gets treated as if it blocks current progress, or a future risk
 
 ---
 
+## 5.5. False Consensus
+
+### What happens
+
+A multi-party discussion appears to reach agreement, but the underlying logic of each party is not actually compatible. The "consensus" is real in tone but fake in substance, and surfaces later as execution conflict or silent drift.
+
+### Typical symptoms
+
+- someone agrees to a frame, then immediately restates their original position in different words
+- a genuine either/or disagreement is dissolved by saying "let's do both" or "two lines in parallel" without checking compatibility
+- agreement arrives suspiciously fast after a dominant participant introduces a frame
+- the parties who agreed do not actually own the execution of the decision
+- later statements or actions quietly contradict the earlier stated agreement
+- the "consensus" is mostly one narrator's framing that others stopped resisting
+
+### Correction
+
+- treat fast agreement after a strong frame as a signal to probe deeper, not as settled
+- check whether a "do both" compromise is logically compatible, or just a way to avoid the real choice
+- flag decisions resting on this pattern as `Needs validation`
+- see the Consensus Reality Check in `references/analysis-checks.md`
+
+---
+
 ## 6. Narrative Capture
 
 ### What happens

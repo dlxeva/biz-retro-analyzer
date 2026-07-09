@@ -76,7 +76,7 @@ Use short recommendation language such as:
 
 Before rendering, map the output into the JSON fields defined in:
 
-- `${CLAUDE_SKILL_DIR}/references/output-schema.json`
+- `references/output-schema.json`
 
 This skill does not require a rendering engine. The agent may:
 
@@ -168,8 +168,8 @@ Use these module types by default:
 
 Use these reusable assets:
 
-- `${CLAUDE_SKILL_DIR}/assets/html-report-template.html`
-- `${CLAUDE_SKILL_DIR}/assets/html-report.css`
+- `assets/html-report-template.html`
+- `assets/html-report.css`
 
 The template is intentionally generic. Replace placeholders and duplicate blocks as needed.
 
