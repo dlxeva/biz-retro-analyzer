@@ -1,23 +1,198 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{REPORT_TITLE}}</title>
-  <link rel="stylesheet" href="./html-report.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{REPORT_TITLE}}</title>
+<link rel="stylesheet" href="./html-report.css">
 </head>
 <body>
-  <main class="page">
-    <section class="hero">
-      <p class="eyebrow">{{OUTPUT_MODE}}</p>
-      <h1>{{REPORT_TITLE}}</h1>
-      <p class="lead">{{REPORT_LEAD}}</p>
-      <div class="hero-meta">
-        <span class="chip"><strong>Report date</strong> {{REPORT_DATE}}</span>
-        <span class="chip"><strong>Project stage</strong> {{PROJECT_STAGE}}</span>
-        <span class="chip"><strong>Context</strong> {{CONTEXT_NOTE}}</span>
-      </div>
-    </section>
-  </main>
+<main class="page">
+
+<!-- ===== 1. HERO / REPORT HEADER ===== -->
+<section class="hero">
+  <p class="eyebrow">{{OUTPUT_MODE}} · 证据优先</p>
+  <h1>{{REPORT_TITLE}}</h1>
+  <p class="lead">{{REPORT_LEAD}}</p>
+  <div class="hero-meta">
+    <span class="chip"><strong>日期</strong> {{REPORT_DATE}}</span>
+    <span class="chip"><strong>阶段</strong> {{PROJECT_STAGE}}</span>
+    <span class="chip"><strong>交互语境</strong> {{CONTEXT_NOTE}}</span>
+    <!-- duplicate chips as needed -->
+  </div>
+  <!-- optional: noise / analysis-window note -->
+  <div class="hero-note">{{NOISE_NOTE}}</div>
+</section>
+
+<!-- ===== 2. CURRENT SUMMARY ===== -->
+<section class="section">
+  <h2>当前总结</h2>
+  <p class="sub">最关键的结论。每条标注证据状态。</p>
+  <div class="card-grid">
+    <!-- duplicate this card per summary point -->
+    <div class="card sum-card">
+      <span class="tag t-confirmed">Confirmed</span>
+      <div class="headline">{{SUMMARY_HEADLINE}}</div>
+      <p style="margin:6px 0 0;font-size:13px;">{{SUMMARY_BODY}}</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. EVIDENCE LAYER ===== -->
+<section class="section">
+  <h2>证据层 · 已发生的事实</h2>
+  <p class="sub">原始材料按来源/案例拆分，只记录事实，不掺判断。</p>
+  <!-- duplicate per source/case -->
+  <div class="card">
+    <h3>{{EVIDENCE_TITLE}} <span class="tag t-confirmed">{{EVIDENCE_STATUS}}</span></h3>
+    <ul>
+      <li>{{EVIDENCE_POINT}}</li>
+      <!-- duplicate points -->
+      <li class="anchor">来源锚点：{{SOURCE_ANCHOR}}</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 4. PROJECT THREAD / DIRECTION SHIFTS ===== -->
+<section class="section">
+  <h2>项目脉络</h2>
+  <p class="sub">状态如何走到今天，核心张力是什么。</p>
+  <div class="timeline">
+    <!-- duplicate per milestone -->
+    <div class="tl-item">
+      <div class="tl-title">{{THREAD_TITLE}}</div>
+      <div class="tl-meta">{{THREAD_META}}</div>
+      <div>{{THREAD_BODY}}</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. STAKEHOLDER MOTIVE READOUT ===== -->
+<section class="section">
+  <h2>相关方动机</h2>
+  <p class="sub">各方说了什么 vs 各方实际想要什么。</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>相关方</th><th>说了什么</th><th>实际想要</th><th>置信</th><th>证据基础</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>{{PARTY}}</strong></td>
+        <td>{{STATED_POSITION}}</td>
+        <td>{{APPARENT_MOTIVE}}</td>
+        <td><span class="tag t-inferred">{{CONFIDENCE}}</span></td>
+        <td>{{EVIDENCE_BASIS}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ===== 6. PARTICIPANT UNDERSTANDING MAP ===== -->
+<section class="section">
+  <h2>参与者理解地图</h2>
+  <p class="sub">谁在哪一层真正理解了业务。</p>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>维度</th><th>{{PARTY_1}}</th><th>{{PARTY_2}}</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>业务问题本身</strong></td>
+        <td>{{DOMAIN_UNDERSTANDING_1}}</td>
+        <td>{{DOMAIN_UNDERSTANDING_2}}</td>
+      </tr>
+      <tr>
+        <td><strong>实际推进路径</strong></td>
+        <td>{{WORKFLOW_UNDERSTANDING_1}}</td>
+        <td>{{WORKFLOW_UNDERSTANDING_2}}</td>
+      </tr>
+      <tr>
+        <td><strong>执行交付约束</strong></td>
+        <td>{{DELIVERY_UNDERSTANDING_1}}</td>
+        <td>{{DELIVERY_UNDERSTANDING_2}}</td>
+      </tr>
+      <tr>
+        <td><strong>决策/组织机制</strong></td>
+        <td>{{ORGANIZATIONAL_UNDERSTANDING_1}}</td>
+        <td>{{ORGANIZATIONAL_UNDERSTANDING_2}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <strong>理解差异的战略含义：</strong>{{UNDERSTANDING_READOUT}}
+  </div>
+</section>
+
+<!-- ===== 7. JUDGMENT AND REVERSE AUDIT ===== -->
+<section class="section">
+  <h2>判断与反向审计</h2>
+  <p class="sub">挑战主导叙事。哪些判断站得住，哪些太乐观。</p>
+  <div class="audit-grid">
+    <div class="audit-box box-supported">
+      <h4>✓ 支持度强的判断</h4>
+      <ul><li>{{SUPPORTED_JUDGMENT}} <span class="tag t-confirmed">Confirmed</span></li></ul>
+    </div>
+    <div class="audit-box box-weak">
+      <h4>⚠ 需更强证据</h4>
+      <ul><li>{{WEAK_JUDGMENT}} <span class="tag t-assumption">Assumption</span></li></ul>
+    </div>
+    <div class="audit-box box-validate">
+      <h4>? 反向审计 · "太顺"的地方</h4>
+      <ul><li>{{REVERSE_AUDIT_POINT}}</li></ul>
+    </div>
+    <div class="audit-box box-assume">
+      <h4>! 假共识预警</h4>
+      <ul><li>{{FALSE_CONSENSUS_FLAG}}</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. CURRENT ACTIONS ===== -->
+<section class="section">
+  <h2>当前动作</h2>
+  <p class="sub">分"立即做 / 稍后做 / 承诺前必须验证"三档。</p>
+  <div class="act-grid">
+    <div class="act-box act-now">
+      <h4>⏱ 立即做（Do Now）</h4>
+      <ul><li>{{DO_NOW_ITEM}} <span class="owner">{{OWNER}}</span></li></ul>
+    </div>
+    <div class="act-box act-later">
+      <h4>📅 稍后做（Do Later）</h4>
+      <ul><li>{{DO_LATER_ITEM}} <span class="owner">{{OWNER}}</span></li></ul>
+    </div>
+    <div class="act-box act-validate">
+      <h4>🔒 承诺前必须验证</h4>
+      <ul><li>{{VALIDATE_ITEM}}</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 9. SOURCE REFERENCES ===== -->
+<section class="section">
+  <h2>来源参考</h2>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>来源</th><th>类型</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>{{REF_LABEL}}</td><td>{{REF_TYPE}}</td><td>{{REF_REASON}}</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<section class="footer">
+  <p>
+    <strong>报告说明：</strong>本报告由 biz-retro-analyzer 生成，遵循证据优先原则。
+    标签含义：
+    <span class="tag t-confirmed">已确认</span>
+    <span class="tag t-inferred">推断</span>
+    <span class="tag t-assumption">假设</span>
+    <span class="tag t-needs">待验证</span>
+  </p>
+  <p style="margin-top:8px;">{{FOOTER_NOTE}}</p>
+</section>
+
+</main>
 </body>
 </html>

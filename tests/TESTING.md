@@ -16,6 +16,9 @@ This first test set focuses on:
 3. source-vs-reasoning separation
 4. required `Participant Understanding Map` output
 5. safer handling of informal or asymmetric-awareness materials
+6. transcription noise isolation (case-04)
+7. false consensus detection (case-04)
+8. team dynamics analysis within ethical bounds (case-04)
 
 This set does **not** yet attempt to score:
 
@@ -38,7 +41,10 @@ tests/
     ├── case-02-commercial-overreach/
     │   ├── input.md
     │   └── expected-checks.md
-    └── case-03-source-vs-reasoning/
+    ├── case-03-source-vs-reasoning/
+    │   ├── input.md
+    │   └── expected-checks.md
+    └── case-04-real-transcript/
         ├── input.md
         └── expected-checks.md
 ```
@@ -80,6 +86,8 @@ Treat a run as failed if any of the following occurs:
 5. speaker attribution is weak, but the output still makes high-confidence person-level claims
 6. asymmetric-awareness material is used to generate manipulative guidance, personality profiling, or formal-record conclusions without validation
 7. formal and informal source contexts are flattened without any context-sensitive treatment
+8. transcription noise is mixed into the fact layer or understanding assessment without isolation
+9. a false consensus (fast agreement, "do both" compromise, or restated-original-position) is treated as settled without a `Needs validation` flag
 
 ---
 
@@ -127,5 +135,8 @@ After this first round, add:
 1. weak-attribution case
 2. mixed formal + asymmetric-awareness case
 3. multi-source audit-pack case
-4. manual run results log
+4. manual run results log (case-04 has been run once; record the result)
 5. optional schema or lint helper
+6. more real-transcript cases with different noise patterns and conflict structures
+
+Note: case-04 is the first case based on a real speech-to-text transcript. It exists specifically to test noise isolation, false consensus detection, and ethical team-dynamics analysis — capabilities that synthetic summaries cannot exercise.

@@ -25,6 +25,29 @@ Use when the user provides only raw materials such as:
 - strong competence or literacy claims without enough support
 - heavy reverse-audit conclusions
 
+### Special case: Transcription Noise Handling
+
+Real-world transcripts (especially speech-to-text) often contain segments that are **not business-relevant** but will pollute the analysis if left mixed in.
+
+Typical noise types:
+
+- side conversations, visitors entering, family interruptions
+- ordering food, smoking breaks, logistics chatter
+- greetings, small talk, jokes unrelated to the topic
+- ASR misrecognitions, duplicated fragments, filler storms
+
+Hard rule: do not let noise segments contribute to fact layer, motive reading, or understanding assessment.
+
+Handling protocol:
+
+1. **Identify** — flag noise segments by approximate location or time range.
+2. **Isolate** — set them aside from the core business analysis.
+3. **Annotate** — note briefly what was excluded and why (so the reader knows nothing was hidden).
+4. **Do not delete** — some noise carries weak relationship or context signals (who knows whom, informal dynamics), but treat those only as `Low` strength context, never as confirmed evidence.
+5. **State the effective analysis window** — e.g. "analysis covers 00:00–57:00; 58:00 onward excluded as non-business noise."
+
+Default: when noise exceeds ~5% of a transcript, always state the analysis window explicitly.
+
 ### Special case: Speaker-Unknown Mode
 
 If the source material does not reliably label who said what:
@@ -112,3 +135,10 @@ When participant understanding is thin or ambiguous:
    - `shows strong workflow understanding`
    - `appears politically fluent but delivery depth is unclear`
    - `evidence of domain understanding is thin`
+
+When the transcript contains non-business noise:
+
+1. identify and isolate the noise segments first
+2. state the effective analysis window
+3. exclude noise from all structured layers (fact, motive, understanding)
+4. only mine weak relationship signals from noise if context-relevant, tagged `Low`

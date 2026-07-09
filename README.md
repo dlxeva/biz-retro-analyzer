@@ -215,6 +215,14 @@ It should not be used to produce:
 
 Judgments derived mainly from these materials should stay narrow, internally scoped, and validation-seeking.
 
+### Team dynamics analysis vs personality profiling
+
+Analyzing how a team works together is **allowed and often essential** — this includes communication style mismatch, decision-authority asymmetry, trust gaps, false consensus, and collaboration friction.
+
+The boundary is: **analyze how people work together (allowed) vs analyze who people are (not allowed).**
+
+Keep team-dynamics observations tied to observable behavior and project outcomes, not to fixed character traits.
+
 ---
 
 ## Output Model

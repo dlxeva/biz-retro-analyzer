@@ -44,6 +44,22 @@ Run these checks before finalizing any serious retro.
 - Did we identify what is enough to move now vs. what must be validated later?
 - Did we show which next-step recommendations are evidence-backed versus provisional?
 
+## Consensus Reality Check
+
+Run these checks whenever the material is a multi-party discussion that appears to have reached agreement.
+
+The most dangerous failure mode here is the **false consensus**: everyone sounds aligned, but the underlying logic is not actually compatible. This usually surfaces later as execution conflict, silent drift, or re-litigating the same decision.
+
+- Did anyone agree to a frame and then immediately restate their original position in different words?
+- Did the group resolve a real disagreement by saying "let's do both" or "these two lines run in parallel" without checking whether the two are logically compatible?
+- Did agreement appear suspiciously fast — within one or two turns after a strong frame was introduced? Fast agreement after a dominant frame is not the same as considered alignment.
+- Did the parties who agreed actually own the execution of what they agreed to? Agreement without execution authority is not a real decision.
+- Did anyone's later actions or later statements quietly contradict an earlier stated agreement?
+- Is the "consensus" mostly one narrator's framing that others stopped resisting, rather than a shared conclusion?
+- Did we check whether each party's definition of key terms (scope, timeline, ownership, priority) is actually the same, or are they using the same words for different things?
+
+Hard rule: if a material decision rests on an agreement that was reached too fast, restated in divergent terms, or routed through a "do both" compromise, flag it as `Needs validation` rather than treating it as settled.
+
 ## Value / Boundary Reading
 
 - Did we identify what work the team is actually selling in this stage?
