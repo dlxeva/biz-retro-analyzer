@@ -76,7 +76,7 @@ Still wanted: manually reviewed gold retros, multi-reviewer scoring, and real-wo
 
 Possible later work:
 
-- CLI wrapper for local runs
+- ~~CLI wrapper for local runs~~ — done, `scripts/retro_tool.py` (preprocess / scaffold / validate)
 - richer HTML report examples
 - JSON export examples for downstream systems
 - model-comparison runs across different LLMs

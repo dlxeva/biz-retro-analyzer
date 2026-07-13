@@ -10,6 +10,33 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-07-14
+
+### CLI tool integration
+
+- Added `scripts/retro_tool.py` — a zero-dependency Python CLI (3.8+) with three subcommands:
+  - `preprocess`: detect speaker labels, flag noise lines, report speaker coverage
+  - `scaffold`: generate a structured output template (Mode A/B/C) with evidence-tag fields
+  - `validate`: check an analysis output against 6 protocol rules (evidence tags, high-risk anchors, fact/judgment separation, understanding map, no-Confirmed-motive, action evidence)
+- Updated `SKILL.md` Workflow steps 1, 4, and 6 with optional CLI integration points
+- Updated `SKILL.md` Runtime Reading Budget to classify `scripts/` as a project asset (never loaded at runtime)
+- Updated `SKILL.md` References to include `failure-modes.md`, `honest-limits.md`, and `scripts/retro_tool.py` (the first two existed on disk but were missing from the References list)
+- Updated `README.md` with a CLI Quick Start section alongside the existing prompt template
+- Updated `ROADMAP.md` to mark "CLI wrapper for local runs" as done
+
+Why:
+
+- External evaluation and field testing showed that pure-document skills create a usability gap: users cannot verify their output without reading the full protocol
+- Speaker detection and noise isolation are deterministic tasks that LLMs handle inconsistently; a CLI tool makes them reliable
+- The `validate` subcommand gives users an objective self-check before sharing or acting on an analysis
+- The ROADMAP already listed a CLI wrapper as planned work
+
+Enables:
+
+- users can preprocess transcripts, generate templates, and validate output without depending on LLM reliability for those steps
+- the skill now has a executable component alongside its methodology layer
+- easier onboarding for users who prefer CLI workflows over prompt engineering
+
 ## 2026-07-10
 
 ### Business test cases, ablation study, and calibration research
