@@ -56,6 +56,23 @@ For a lighter run, use `Mode A: Fact Pack`.
 For a full retro, use `Mode B: Retro Pack`.  
 For a harder review of an existing story, use `Mode C: Audit Pack`.
 
+### CLI tool (optional)
+
+A companion CLI tool (`scripts/retro_tool.py`, Python 3.8+, zero dependencies) provides deterministic preprocessing and validation outside the LLM:
+
+```bash
+# Preprocess a raw transcript: detect speakers, flag noise
+python3 scripts/retro_tool.py preprocess meeting.txt -o meeting_clean.txt
+
+# Generate a structured output template
+python3 scripts/retro_tool.py scaffold --mode B -o template.md
+
+# Validate an analysis output against protocol rules
+python3 scripts/retro_tool.py validate analysis.md
+```
+
+The CLI does not replace the LLM analysis. It handles the parts LLMs are unreliable at: speaker detection, noise isolation, and protocol self-checking.
+
 For a complete worked example — from a raw transcript to a full retro — see [`examples/quickstart.md`](./examples/quickstart.md).
 
 Project status:

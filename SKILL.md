@@ -90,6 +90,7 @@ These are project and evaluation assets. They are for humans, maintainers, and t
 - `tests/` (test cases, expected checks, run records)
 - `evaluations/` (adversarial cases, ablation studies, calibration reports, answer keys)
 - `examples/` (worked walkthroughs — useful for humans learning the skill, not for runtime)
+- `scripts/` (CLI tooling for preprocessing and validation — run by humans, not loaded as runtime context)
 - `ROADMAP.md`, `CHANGELOG.md`, `PUBLISHING.md`, `EVALUATION.md`
 - `README.md`, `README.zh-CN.md`
 
@@ -207,6 +208,7 @@ Default rules:
    - If the user mixed them together, separate them first.
    - If speaker labels are missing, mark that explicitly before deeper analysis.
    - If possible, classify each major source by interaction context: formal meeting, working session, informal debrief, private side conversation, or asymmetric-awareness conversation.
+   - Optional CLI: if the input is a raw speech-to-text transcript, run `python3 scripts/retro_tool.py preprocess <transcript.txt>` to detect speaker labels, flag noise lines, and get a coverage report before deeper analysis.
 2. Build the fact layer.
    - Follow `references/output-templates.md` for structured source-note output.
    - Keep original claims tied to specific meetings or materials.
@@ -228,6 +230,7 @@ Default rules:
    - Then run the checks in `references/analysis-checks.md`.
    - Label major judgments with claim status and evidence strength.
    - For suspicious or contradictory actions, split plausible explanations into information change, pressure or misjudgment, and strategic misdirection before assigning motive.
+   - Optional CLI: run `python3 scripts/retro_tool.py scaffold --mode B` to generate a structured output template with evidence-tag fields before filling in the analysis.
 5. Run reverse audit when needed.
    - If conclusions feel too neat, too fast, or too dependent on one narrator, read `references/reverse-audit.md`.
 6. Run pre-output audit.
@@ -239,6 +242,7 @@ Default rules:
    - Check whether suspicious action has been over-attributed to bad faith without considering non-bad-faith alternatives.
    - If the material is a multi-party discussion that reached agreement, run the Consensus Reality Check in `references/analysis-checks.md`. Flag fast, "do both", or authority-driven agreement as `Needs validation` rather than settled.
    - If the source is a raw transcript, confirm that non-business noise has been isolated and the effective analysis window is stated.
+   - Optional CLI: run `python3 scripts/retro_tool.py validate <analysis_output.md>` to automatically check for evidence tags, high-risk claim anchors, fact/judgment separation, understanding map presence, and unvalidated motive claims. Fix and re-run until PASS.
 7. Close with action output.
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
    - If important evidence is still missing, use `references/interview-gap-prompts.md`.
@@ -464,5 +468,8 @@ For suspicious or contradictory actions that materially affect the conclusion, p
 - Output templates: `references/output-templates.md`
 - Analysis checks: `references/analysis-checks.md`
 - Reverse audit: `references/reverse-audit.md`
+- Failure modes: `references/failure-modes.md`
+- Honest limits: `references/honest-limits.md`
 - Interview gap prompts: `references/interview-gap-prompts.md`
 - Open-source sanitization: `references/open-source-sanitization.md`
+- CLI tool: `scripts/retro_tool.py`
