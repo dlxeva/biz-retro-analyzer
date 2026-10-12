@@ -534,6 +534,9 @@ class NamingTest(unittest.TestCase):
             row = " | ".join(columns)
             for name, text in (("SKILL.md", skill), ("output-templates.md", templates), ("scaffold", scaffold)):
                 self.assertIn(row, text, name)
+        for columns in (retro_tool.DECISION_COLUMNS, retro_tool.MINUTES_COLUMNS, retro_tool.CLAIM_COLUMNS):
+            self.assertIn(" | ".join(columns), templates)
+            self.assertIn(" | ".join(columns), rendered)
         self.assertIn(" | ".join(["Party / Voice"] + [c for _, c, _ in retro_tool.MAP_DIMENSIONS]), rendered)
 
     def test_html_template_uses_canonical_map_columns(self):

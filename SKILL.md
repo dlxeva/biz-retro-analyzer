@@ -1,6 +1,6 @@
 ---
 name: biz-retro-analyzer
-description: Turn conversations, field observations, and follow-up reasoning from complex collaborative projects into evidence-backed analysis of participant understanding, coordination structure, decision traces, reversals, and next-step actions. Use when the user asks to 复盘会后对话, 分析录音, 拆会议纪要, 提炼项目脉络, 做关键判断纠偏, or turn messy conversations into structured facts, judgments, and follow-up actions.
+description: Evidence-disciplined analysis of meeting transcripts, notes, chat logs, field notes and follow-up conversations from multi-party projects. Separates what was said from what it means, tags every judgment with evidence status and source anchors, and produces a fact record, project thread, stakeholder motive and participant understanding readouts, a reverse audit of the user's own conclusions, and next actions, as Markdown or an HTML report. Use when the user wants to 复盘 / review a meeting or project, 分析录音 / 逐字稿 / 会议纪要, check whether minutes or a follow-up message match what was actually said, work out who decided what and who drove it, or 纠偏 / stress-test a conclusion they already hold. Do not use for a plain meeting summary or action-item list, transcription or translation only, personality profiling, or general writing.
 ---
 
 # Biz Retro Analyzer
@@ -58,15 +58,25 @@ Use this skill when the request is about:
 
 Typical trigger phrases:
 
-- "复盘这次商务面谈"
-- "分析会后录音"
-- "把会议纪要拆开"
-- "做项目脉络总结"
-- "帮我做关键判断和纠偏"
-- "把这些对话沉淀成过程文档"
-- "把这些材料整理成可复用方法"
-- "做 post-meeting analysis"
-- "analyze these transcripts and extract project decisions"
+| 中文 | English |
+| --- | --- |
+| 复盘这次商务面谈 | Debrief this client meeting |
+| 分析会后录音 / 这份逐字稿 | Analyze this recording / transcript |
+| 把会议纪要拆开，看看哪些是真定了 | Break down these minutes: what was actually decided? |
+| 会后群消息和会上说的一致吗 | Does the follow-up message match what was said? |
+| 做项目脉络总结 | Trace how this project got here |
+| 帮我做关键判断和纠偏 | Stress-test my read of this situation |
+| 谁在推动这件事，谁真正拍板 | Who is driving this, and who actually decides? |
+| 把这些对话沉淀成过程文档 / 可复用方法 | Turn these conversations into a reusable playbook |
+
+Do not use this skill when:
+
+- the user only wants a short summary, minutes, or an action-item list and has not asked for judgment (answer directly)
+- the task is transcription, translation, or reformatting only
+- the request is to profile someone's personality or to plan manipulation of a person
+- the material is a single document with no conversation or multi-party context (a contract, a spec)
+
+If unsure, do the light version (Mode A) and offer the deeper modes.
 
 ## Runtime Reading Budget
 
@@ -78,9 +88,10 @@ The repository contains two kinds of files: **runtime protocol** (read during an
 
 ### Read by mode (only when needed)
 
-- Mode A / light analysis: `SKILL.md` is usually enough
-- Mode B / standard retro: add `references/input-modes.md`, `references/output-templates.md`
-- Mode C / audit: add `references/analysis-checks.md`, `references/reverse-audit.md`, `references/failure-modes.md`
+- Mode A / light analysis: `SKILL.md` only. Use Structure A below; skip the reference files the workflow mentions.
+- Mode B / standard retro: add `references/input-modes.md`, `references/output-templates.md`, `references/analysis-checks.md`
+- Mode C / audit: Mode B files plus `references/reverse-audit.md`, `references/failure-modes.md`
+- Very smooth or ratification-style meeting (see Workflow step 0): add `references/honest-limits.md`
 - Mode D / HTML: add `references/html-output-mode.md`, `references/output-schema.json`; read `assets/html-report-template.html` and `assets/html-report.css` only when hand-filling without Python
 
 ### Never read during runtime analysis
@@ -98,7 +109,7 @@ If you are evaluating or stress-testing the skill itself, that is a research con
 
 ## Input Modes
 
-Read `references/input-modes.md` before deciding output depth.
+For Mode B and Mode C, read `references/input-modes.md` before deciding output depth. For Mode A, this section is enough.
 If the user wants the deliverable as HTML, also read `references/html-output-mode.md`.
 
 If the user provides audio instead of text, first transcribe it into a usable transcript before running deeper analysis.  
@@ -206,6 +217,10 @@ Default rules:
 
 ## Workflow
 
+0. Check that the material can answer the question.
+   - Was the meeting meant to decide something, or to display a decision made elsewhere? Did participants have room to change the outcome?
+   - If it looks like ratification or performance (smooth, no disagreement, no new information), read `references/honest-limits.md`, say so up front, and keep motive and false-consensus readings at `Needs validation`.
+   - If the material is too thin for the requested mode, say what is missing and drop to Mode A instead of padding the output.
 1. Classify the input stack.
    - Identify which materials are raw evidence, contextual supplements, and later reasoning.
    - If the user mixed them together, separate them first.
@@ -213,7 +228,8 @@ Default rules:
    - If possible, classify each major source by interaction context: formal meeting, working session, informal debrief, private side conversation, or asymmetric-awareness conversation.
    - Optional CLI (paths are relative to this file's directory): if the input is a raw speech-to-text transcript and you can run commands, run `python3 scripts/retro_tool.py preprocess <transcript.txt>` to split speaker turns and get a speaker-coverage report. Possible-noise lines are only hints: read each one before excluding it, because a side remark can carry key evidence.
 2. Build the fact layer.
-   - Follow `references/output-templates.md` for structured source-note output.
+   - Use Structure A below (Mode A) or `references/output-templates.md` (Mode B and C) for structured source notes.
+   - When written minutes or a follow-up message restate the outcome, compare them with what was said (Minutes vs Recording), and note who was present when each decision was made.
    - Keep original claims tied to specific meetings or materials.
    - Mark high-value factual statements as `Confirmed` unless the source itself is ambiguous.
    - Preserve context differences. Do not silently flatten formal and informal materials into the same evidence type.
@@ -230,7 +246,7 @@ Default rules:
    - Mark where structure calls are `Inferred` versus `Needs validation`.
 4. Build the judgment layer.
    - Summarize the user's current narrative.
-   - Then run the checks in `references/analysis-checks.md`.
+   - Then run the checks in `references/analysis-checks.md` (Mode B and C).
    - Label major judgments with claim status and evidence strength.
    - For suspicious or contradictory actions, split plausible explanations into information change, pressure or misjudgment, and strategic misdirection before assigning motive.
    - Optional CLI: `python3 scripts/retro_tool.py scaffold --mode B` prints the canonical section skeleton with `<fill>` placeholders.
@@ -263,6 +279,15 @@ Default rules:
    - Keep evidence tags visible in the rendered page.
 
 ## Output Modes
+
+Choose the mode before writing:
+
+- **Mode A** when the user wants to know what was said or decided, when the material is thin, or when speaker attribution is unreliable.
+- **Mode B** when the user wants to understand how the project is moving, who wants what, or what to do next. This is the default when the request is open-ended and the material is rich.
+- **Mode C** when the user already holds a strong conclusion, asks whether they are right (纠偏), or will use the result for a commitment, pricing, or a decision about people.
+- **Mode D** is a rendering, not a depth: any of A, B, or C can be delivered as HTML.
+
+When two modes fit, pick the lighter one and offer the heavier one at the end.
 
 ### Mode A: Fact Pack
 

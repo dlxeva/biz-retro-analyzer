@@ -222,6 +222,66 @@ A multi-party discussion appears to reach agreement, but the underlying logic of
 
 ---
 
+## 5.6. Post-Meeting Rewrite Accepted as Record
+
+### What happens
+
+The minutes, a follow-up email, or a group-chat summary restates what was decided, and the analysis takes that restatement as the decision. The person who wrote it may have narrowed, widened, or reordered what was said.
+
+### Typical symptoms
+
+- the fact layer quotes the minutes but not the transcript for a decision
+- "decided" or "confirmed" appears where the recording only shows a trial, a condition, or a request
+- priorities in the summary differ from the order the decision-maker gave
+
+### Correction
+
+- treat a written summary as evidence that its author framed the outcome that way, not as evidence of the outcome
+- compare written conclusions with the transcript line by line (Minutes vs Recording table in `output-templates.md`)
+- mark each item `consistent`, `partial`, or `inconsistent`, and anchor both sides
+
+---
+
+## 5.7. Authority Vacuum
+
+### What happens
+
+Nobody with authority actually decides, but the meeting ends as if something was decided. The analysis fills the gap by naming whoever spoke last or loudest as the decision-maker.
+
+### Typical symptoms
+
+- the decision ledger has a decision with no `Decided by`, or the decider was not in the room
+- "we agreed" with no explicit yes from the person who owns budget or headcount
+- next steps that depend on resources no one committed
+
+### Correction
+
+- record `Decided by` only when the source shows someone with authority saying yes
+- otherwise record the item as proposed (status `Needs validation`), and name who still has to decide
+- list the missing decision under `Must validate before deeper commitment`
+
+---
+
+## 5.8. Partial Attendance
+
+### What happens
+
+A key person joins late, leaves early, or misses part of the discussion. The analysis treats everyone as having heard everything, so it reads silence as agreement or blames someone for ignoring a point made while they were out.
+
+### Typical symptoms
+
+- a participant is said to have "accepted" something raised after they left
+- a decision is attributed to the whole room when the decider heard only part of the argument
+- changes made after a decision-maker left are reported as that person's decision
+
+### Correction
+
+- note join and leave times in the analysis window when the source shows them
+- check each decision and agreement against who was present at that timestamp
+- flag changes made after the decision-maker left as unratified
+
+---
+
 ## 6. Narrative Capture
 
 ### What happens
@@ -293,4 +353,5 @@ Before publishing or sharing:
 - Did we mistake momentum for proof?
 - Did we mark non-blocking gaps?
 - Did we avoid over-attributing suspicious action to bad faith?
+- Did we check written summaries against what was actually said, and who was present?
 - Did we sanitize private references?

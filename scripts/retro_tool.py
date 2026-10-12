@@ -309,6 +309,9 @@ SECTIONS = [
 SECTION_TITLES = {k: t for k, t, _ in SECTIONS}
 CHAIN_COLUMNS = ["Actor / Voice", "Claim, frame, or action introduced", "Who adopted or amplified it",
                  "What decision or next step it affected", "Evidence anchor", "Status", "Strength", "Risk if wrong"]
+DECISION_COLUMNS = ["#", "Decision", "Decided by", "Owner", "Due", "Status", "Follow-up", "Evidence anchor"]
+MINUTES_COLUMNS = ["Written", "Spoken", "Verdict", "Evidence anchor"]
+CLAIM_COLUMNS = ["Claim", "Claimant", "Support", "Counter-evidence / correction", "Status", "Evidence anchor"]
 MOTIVE_COLUMNS = ["Party", "What they say", "What they appear to want", "Status", "Strength", "Evidence anchor"]
 # (schema key, Markdown column, Chinese label)
 MAP_DIMENSIONS = [
@@ -1667,20 +1670,20 @@ def render_markdown(data):
     out.append("")
     if data.get("decisions"):
         out += ["### Decision Ledger", ""]
-        out += md_table(["#", "Decision", "Decided by", "Owner", "Due", "Status", "Follow-up", "Evidence anchor"],
+        out += md_table(DECISION_COLUMNS,
                         [[d.get("id") or "D%d" % (i + 1), d["decision"], d.get("decidedBy"), d.get("owner"),
                           d.get("due"), d["status"], d.get("followUp"), md_anchors(d.get("anchors"))]
                          for i, d in enumerate(data["decisions"])])
         out.append("")
     if data.get("minutesCheck"):
         out += ["### Minutes vs Recording", ""]
-        out += md_table(["Written", "Spoken", "Verdict", "Evidence anchor"],
+        out += md_table(MINUTES_COLUMNS,
                         [[r["written"], r["spoken"], r["verdict"], md_anchors(r.get("anchors"))]
                          for r in data["minutesCheck"]])
         out.append("")
     if data.get("claimLedger"):
         out += ["### Claim Ledger", ""]
-        out += md_table(["Claim", "Claimant", "Support", "Counter-evidence / correction", "Status", "Evidence anchor"],
+        out += md_table(CLAIM_COLUMNS,
                         [[c["claim"], c.get("claimant"), c.get("support"), c.get("counter"), c["status"],
                           md_anchors(c.get("anchors"))] for c in data["claimLedger"]])
         out.append("")

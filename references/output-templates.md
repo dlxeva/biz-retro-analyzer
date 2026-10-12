@@ -60,6 +60,37 @@ One block per source under a single `## Structured Fact Record` heading.
   - `Basis`:
 ```
 
+## 1B. Optional Ledgers (inside the Structured Fact Record)
+
+Use these when the material has explicit decisions, confident claims, or written minutes to check. Each row needs an evidence anchor. They render as tables in the HTML report and can be exported from it.
+
+Decision ledger: what was actually decided, by whom, and whether it was later rewritten. `Status` is the evidence status of "this was decided" (`Confirmed` / `Inferred` / `Assumption` / `Needs validation`); use `Follow-up` for drift, deferral, or a later rewrite. Record `Decided by` only when the source shows someone with authority saying yes; otherwise write the item as proposed and say who still has to decide.
+
+```md
+### Decision Ledger
+
+| # | Decision | Decided by | Owner | Due | Status | Follow-up | Evidence anchor |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+```
+
+Claim ledger: each factual claim made in the room, what supported it, and what contradicted it. It rates claims, not people.
+
+```md
+### Claim Ledger
+
+| Claim | Claimant | Support | Counter-evidence / correction | Status | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
+```
+
+Minutes vs recording: written conclusions (minutes, follow-up email, group message) compared with what was said. `Verdict` is `consistent` / `partial` / `inconsistent`; anchor both sides.
+
+```md
+### Minutes vs Recording
+
+| Written | Spoken | Verdict | Evidence anchor |
+| --- | --- | --- | --- |
+```
+
 ## 2. Cross-Material Project Thread
 
 ```md
