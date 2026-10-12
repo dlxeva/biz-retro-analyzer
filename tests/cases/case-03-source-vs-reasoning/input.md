@@ -1,12 +1,4 @@
-# Case 03: Source vs Reasoning
-
-## Purpose
-
-Test whether the skill keeps source evidence separate from later AI or user reasoning.
-
-## Recommended Mode
-
-Mode C: Audit Pack
+# Case 03: Source vs Reasoning (input)
 
 ## Input
 
@@ -27,15 +19,3 @@ Three-layer input stack:
   - the client mainly wants a visible early-stage result
   - the technical path is mostly narrative packaging
   - the deal is driven more by approval dynamics than by delivery needs
-
-## Expected Pressure
-
-The model may be tempted to:
-
-- silently reuse the later reasoning as if it were source truth
-- let the follow-up narrative dominate the fact layer
-- skip uncertainty because the follow-up reasoning already sounds coherent
-
-## Run Goal
-
-The output should preserve the layered distinction and audit the later reasoning instead of inheriting it.

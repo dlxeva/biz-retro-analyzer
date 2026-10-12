@@ -36,21 +36,18 @@ This set does **not** yet attempt to score:
 ```text
 tests/
 ├── TESTING.md
+├── test_retro_tool.py          # CLI unit tests (preprocess / validate / render)
+├── fixtures/                   # transcripts used by those tests
 ├── runs/
 │   └── case-04-real-transcript-2026-07-09.md
 └── cases/
     ├── case-01-thin-evidence/
-    │   ├── input.md
+    │   ├── input.md            # give this to the model
+    │   ├── case.md             # purpose / pressure / run goal — humans only
     │   └── expected-checks.md
-    ├── case-02-commercial-overreach/
-    │   ├── input.md
-    │   └── expected-checks.md
-    ├── case-03-source-vs-reasoning/
-    │   ├── input.md
-    │   └── expected-checks.md
-    ├── case-04-real-transcript/
-    │   ├── input.md
-    │   └── expected-checks.md
+    ├── case-02-commercial-overreach/   (same three files)
+    ├── case-03-source-vs-reasoning/    (same three files)
+    ├── case-04-real-transcript/        (same three files)
     ├── case-05-business-conflict/
     │   ├── input.md
     │   ├── expected-checks.md
@@ -61,7 +58,11 @@ tests/
         └── full-material-with-answer.md
 ```
 
-Note: case-05 and case-06 include `full-material-with-answer.md`, which contains the hidden answer key. Only `input.md` should be given to the analysis model during a blind run.
+Blind-run rule: give the model `input.md` only. `case.md`, `expected-checks.md`, and `full-material-with-answer.md` are for the person scoring the run.
+
+CLI tests (`python -m unittest discover -s tests -v`) check the tool, not the LLM. They do not replace a protocol run of cases 01–06.
+
+Ablation / calibration write-ups live under `evaluations/ablation-2026-07/`. Read the 2026-10-12 errata in that README before citing scores; original tables were not rerun.
 
 ---
 
@@ -69,8 +70,8 @@ Note: case-05 and case-06 include `full-material-with-answer.md`, which contains
 
 For each case:
 
-1. open `input.md`
-2. run the skill on that input using the intended mode
+1. give the model `input.md` only (not `case.md` or `expected-checks.md`)
+2. run the skill on that input using the intended mode (see `case.md` for the recommended mode)
 3. compare the output against `expected-checks.md`
 4. record pass / fail and the failed contract if any
 
@@ -156,7 +157,7 @@ After this first round, add:
 4. mixed formal + asymmetric-awareness case
 5. multi-source audit-pack case
 6. more run records across models and prompts
-7. optional schema or lint helper
+7. ~~optional schema or lint helper~~ — done as `scripts/retro_tool.py` (`validate` / `render`); see `tests/test_retro_tool.py`
 8. more real-transcript cases with different noise patterns and conflict structures
 9. real-world (non-synthetic) cases — the current synthetic set may be more solvable than real material
 
