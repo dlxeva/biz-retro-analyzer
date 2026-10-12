@@ -3,7 +3,6 @@
 import contextlib
 import io
 import json
-import os
 import sys
 import tempfile
 import unittest
@@ -305,6 +304,243 @@ class ExampleSyncTest(unittest.TestCase):
         start = md.index("### Structured Fact Record")
         end = md.index("---\n\n## How to verify")
         self.assertEqual(md[start:end].strip(), GOLD.read_text(encoding="utf-8").strip())
+
+
+QUICK_REPORT = ROOT / "examples" / "quickstart.report.json"
+FICTIONAL = ROOT / "examples" / "product-review-fictional"
+REPORTS = [QUICK_REPORT, FICTIONAL / "report.json"]
+
+
+def load_json(path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def lint_json(data, base_dir=None, mode=None):
+    _, checks = retro_tool.lint_report(data, mode, base_dir)
+    return {c["id"]: c for c in checks}
+
+
+def schema_keywords(node):
+    if isinstance(node, dict):
+        props = node.get("properties", {})
+        defs = node.get("$defs", {})
+        for key, value in node.items():
+            if value is props or value is defs:
+                for sub in value.values():
+                    for k in schema_keywords(sub):
+                        yield k
+                yield key
+                continue
+            yield key
+            for k in schema_keywords(value):
+                yield k
+    elif isinstance(node, list):
+        for item in node:
+            for k in schema_keywords(item):
+                yield k
+
+
+class SchemaTest(unittest.TestCase):
+    def test_validator_supports_every_keyword_the_schema_uses(self):
+        used = set(schema_keywords(retro_tool.load_schema()))
+        self.assertEqual(used - retro_tool.SCHEMA_KEYWORDS, set())
+
+    def test_schema_matches_tool_vocabulary(self):
+        defs = retro_tool.load_schema()["$defs"]
+        self.assertEqual(defs["status"]["enum"], retro_tool.STATUS_VALUES)
+        self.assertEqual(defs["strength"]["enum"], retro_tool.STRENGTH_VALUES)
+        self.assertEqual(defs["basis"]["enum"], retro_tool.BASIS_VALUES)
+        self.assertEqual(defs["understanding"]["properties"]["level"]["enum"], retro_tool.UNDERSTANDING_LEVELS)
+        self.assertEqual(retro_tool.load_schema()["properties"]["schemaVersion"]["const"], retro_tool.SCHEMA_VERSION)
+
+    def test_schema_errors_report_paths(self):
+        errors = retro_tool.schema_errors({"schemaVersion": "2.0", "meta": {}}, retro_tool.load_schema())
+        self.assertIn(("$", "missing required field 'sources'"), errors)
+        self.assertTrue(any(p == "$.meta" for p, _ in errors))
+
+    def test_v1_report_is_upgraded_schema_clean(self):
+        v1 = {"meta": {"reportTitle": "T", "reportDate": "2026-01-01", "outputMode": "Mode B: Retro Pack",
+                       "projectStage": "pilot", "contextNote": "formal meeting"},
+              "summary": [{"label": "1", "headline": "h", "body": "b", "status": "Inferred"}],
+              "evidenceLayer": [{"title": "Meeting", "status": "Confirmed", "points": ["p1"]}],
+              "stakeholders": [{"party": "A", "statedPosition": "s", "apparentMotive": "m", "confidence": "Low"}],
+              "understandingMap": [{"party": "A", "domainUnderstanding": "strong: knows it",
+                                    "workflowUnderstanding": "mixed", "deliveryUnderstanding": "thin",
+                                    "organizationalUnderstanding": "unclear from material"}],
+              "audit": {"weakJudgments": ["x is Assumption"]},
+              "actions": {"doNow": ["call A"]}}
+        data = retro_tool.upgrade_v1(v1)
+        self.assertEqual(retro_tool.schema_errors(data, retro_tool.load_schema()), [])
+        self.assertEqual(data["meta"]["outputMode"], "B")
+        self.assertEqual(data["understandingMap"]["rows"][0]["problem"]["level"], "strong")
+        self.assertEqual(data["understandingMap"]["rows"][0]["decisionMechanics"]["level"], "unclear")
+        self.assertEqual(data["audit"]["weakJudgments"][0]["status"], "Assumption")
+
+
+class ValidateReportJsonTest(TempDirMixin, unittest.TestCase):
+    def test_examples_pass(self):
+        for path in REPORTS:
+            code, out, _ = run_cli("validate", path)
+            self.assertEqual(code, 0, out)
+            self.assertIn("Result: PASS", out)
+            self.assertIn("anchor(s) checked against", run_cli("validate", path, "-v")[1])
+
+    def test_json_scaffolds_fail(self):
+        for mode in ("A", "B", "C"):
+            code, text, _ = run_cli("scaffold", "--mode", mode, "--format", "json")
+            self.assertEqual(code, 0)
+            checks = lint_json(json.loads(text))
+            self.assertIn("placeholders", failing(checks), mode)
+            self.assertIn("schema", failing(checks), mode)
+
+    def test_wrong_speaker_and_fabricated_quote_fail(self):
+        data = load_json(QUICK_REPORT)
+        data["stakeholders"][0]["anchors"] = [{"speaker": "B 陈昊", "ts": "02:10"}]
+        data["evidenceLayer"][0]["points"][0]["anchors"] = [{"speaker": "A 林伟", "ts": "02:10",
+                                                             "quote": "我们下个月就签合同"}]
+        msgs = messages(lint_json(data, QUICK_REPORT.parent)["anchors"])
+        self.assertTrue(any("02:10 is A 林伟 speaking, not B 陈昊" in m for m in msgs), msgs)
+        self.assertTrue(any("quote not found" in m for m in msgs), msgs)
+
+    def test_unknown_source_and_missing_anchor(self):
+        data = load_json(QUICK_REPORT)
+        data["actions"]["doNow"][0]["anchors"] = [{"source": "S9", "ts": "02:10"}]
+        data["stakeholders"][1]["anchors"] = []
+        checks = lint_json(data, QUICK_REPORT.parent)
+        self.assertIn("unknown source id 'S9'", messages(checks["anchors"])[0])
+        self.assertTrue(any("motive readout" in m for m in messages(checks["gate-anchors"])))
+
+    def test_confirmed_claim_needs_source_layer_and_quote(self):
+        data = load_json(FICTIONAL / "report.json")
+        u = data["audit"]["weakJudgments"][0]
+        u.update(status="Confirmed", highRiskType="motive", basis="Later reasoning only",
+                 anchors=[{"source": "C1", "note": "user says so"}])
+        checks = lint_json(data, FICTIONAL)
+        self.assertIn("later-reasoning", failing(checks))
+        self.assertIn("gate-confirmed", failing(checks))
+        self.assertIn("gate-anchors", failing(checks))
+
+    def test_source_override_and_missing_path(self):
+        data = load_json(QUICK_REPORT)
+        target = self.write("report.json", json.dumps(data, ensure_ascii=False))
+        code, out, _ = run_cli("validate", target)
+        self.assertIn("transcript not found", out, "the transcript path is relative to the JSON file")
+        self.assertIn("Result: PASS (0 failing, 1 with warnings", out)
+        code, out, _ = run_cli("validate", target, "-s", "S1=%s" % QUICK_TRANSCRIPT)
+        self.assertEqual(code, 0, out)
+
+
+class RenderTest(TempDirMixin, unittest.TestCase):
+    @staticmethod
+    def html(path, audience=None):
+        data = load_json(path)
+        indexes, _ = retro_tool.load_source_indexes(data, path.parent)
+        return retro_tool.render_html(data, indexes, audience)
+
+    def test_html_has_sections_and_linked_anchors(self):
+        page = self.html(FICTIONAL / "report.json")
+        for title in ("结构化事实记录", "决策台账", "主张台账", "项目脉络", "推进 / 影响链", "相关方动机解读",
+                      "参与者理解地图", "判断与反向审计", "当前行动", "附录"):
+            self.assertIn(title, page)
+        self.assertIn('href="#t-S1-', page)
+        self.assertNotIn("anc bad", page, "every anchor in the example resolves")
+        self.assertIn('id="report-data"', page)
+        self.assertNotIn("<link", page, "CSS is inlined")
+
+    def test_unresolved_anchor_is_marked(self):
+        data = load_json(QUICK_REPORT)
+        data["evidenceLayer"][0]["points"][0]["anchors"] = [{"speaker": "A 林伟", "ts": "09:59"}]
+        indexes, _ = retro_tool.load_source_indexes(data, QUICK_REPORT.parent)
+        self.assertIn("anc bad", retro_tool.render_html(data, indexes))
+
+    def test_markdown_render_passes_markdown_validate(self):
+        cases = [(QUICK_REPORT, [QUICK_TRANSCRIPT]),
+                 (FICTIONAL / "report.json", [FICTIONAL / "transcript.txt", FICTIONAL / "group-message.txt"])]
+        for path, sources in cases:
+            data = load_json(path)
+            md = retro_tool.render_markdown(data)
+            _, checks = retro_tool.lint_markdown(md, data["meta"]["outputMode"], sources)
+            self.assertEqual([c["id"] for c in checks if c["status"] == "FAIL"], [], path.name)
+
+    def test_checked_in_renders_are_current(self):
+        for path, html in ((QUICK_REPORT, ROOT / "examples" / "quickstart.report.html"),
+                           (FICTIONAL / "report.json", FICTIONAL / "report.html")):
+            self.assertEqual(html.read_text(encoding="utf-8"), self.html(path),
+                             "re-run: python3 scripts/retro_tool.py render %s -o %s" % (path, html))
+        self.assertEqual((FICTIONAL / "report.md").read_text(encoding="utf-8"),
+                         retro_tool.render_markdown(load_json(FICTIONAL / "report.json")))
+
+    def test_leadership_redaction(self):
+        data = load_json(FICTIONAL / "report.json")
+        shown, removed = retro_tool.redact(data, "leadership")
+        self.assertNotIn("suspiciousActions", shown["audit"])
+        self.assertFalse(any(u.get("highRiskType") == "bad_faith"
+                             for k in ("supportedJudgments", "weakJudgments", "explicitAssumptions")
+                             for u in shown["audit"].get(k, [])))
+        self.assertTrue(all(s["apparentMotive"] == "" for s in shown["stakeholders"] if s["status"] != "Confirmed"))
+        self.assertIn("suspiciousActions", dict(removed))
+        self.assertIn("suspiciousActions", data["audit"], "redaction works on a copy")
+        page = self.html(FICTIONAL / "report.json", "leadership")
+        self.assertIn("可疑行为分析", page)
+        self.assertNotIn("策略性误导", page)
+
+    def test_external_redaction(self):
+        shown, removed = retro_tool.redact(load_json(FICTIONAL / "report.json"), "external")
+        for key in ("stakeholders", "understandingMap", "influenceChain", "claimLedger", "minutesCheck",
+                    "methodNotes"):
+            self.assertNotIn(key, shown)
+        self.assertTrue(all("path" not in s for s in shown["sources"]))
+        for key in ("supportedJudgments", "weakJudgments", "explicitAssumptions"):
+            self.assertTrue(all(u["status"] == "Confirmed" for u in shown["audit"].get(key, [])))
+        page = self.html(FICTIONAL / "report.json", "external")
+        self.assertNotIn('id="appendix"', page)
+
+    def test_cli_render(self):
+        target = self.tmp / "out.html"
+        code, _, err = run_cli("render", QUICK_REPORT, "-o", target)
+        self.assertEqual(code, 0, err)
+        self.assertIn("Lin Wei", target.read_text(encoding="utf-8"))
+        code, out, _ = run_cli("render", QUICK_REPORT, "--format", "md")
+        self.assertEqual(code, 0)
+        self.assertIn("## Participant Understanding Map", out)
+        broken = self.write("broken.json", json.dumps({"schemaVersion": "2.0", "meta": {}}))
+        code, _, err = run_cli("render", broken)
+        self.assertEqual(code, 1)
+        self.assertIn("does not match the schema", err)
+
+
+class NamingTest(unittest.TestCase):
+    """Section names and table columns are the same in SKILL.md, templates, scaffold and render."""
+
+    def test_section_titles_everywhere(self):
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        templates = (ROOT / "references" / "output-templates.md").read_text(encoding="utf-8")
+        scaffold = run_cli("scaffold", "--mode", "C")[1]
+        rendered = retro_tool.render_markdown(load_json(FICTIONAL / "report.json"))
+        for key, title in retro_tool.SECTION_TITLES.items():
+            for name, text in (("SKILL.md", skill), ("output-templates.md", templates)):
+                self.assertIn("## " + title, text, "%s missing in %s" % (title, name))
+            if key != "method":
+                self.assertIn("## " + title, scaffold, title)
+            self.assertIn("## " + title, rendered, title)
+        self.assertNotIn("## Project Retro", skill)
+
+    def test_table_columns_everywhere(self):
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        templates = (ROOT / "references" / "output-templates.md").read_text(encoding="utf-8")
+        scaffold = run_cli("scaffold", "--mode", "C")[1]
+        rendered = retro_tool.render_markdown(load_json(FICTIONAL / "report.json"))
+        for columns in (retro_tool.CHAIN_COLUMNS, retro_tool.MOTIVE_COLUMNS, retro_tool.MAP_COLUMNS):
+            row = " | ".join(columns)
+            for name, text in (("SKILL.md", skill), ("output-templates.md", templates), ("scaffold", scaffold)):
+                self.assertIn(row, text, name)
+        self.assertIn(" | ".join(["Party / Voice"] + [c for _, c, _ in retro_tool.MAP_DIMENSIONS]), rendered)
+
+    def test_html_template_uses_canonical_map_columns(self):
+        template = (ROOT / "assets" / "html-report-template.html").read_text(encoding="utf-8")
+        for _, _, label in retro_tool.MAP_DIMENSIONS:
+            self.assertIn("<th>%s</th>" % label, template)
+        self.assertIn("scripts/retro_tool.py render", template)
 
 
 if __name__ == "__main__":

@@ -81,7 +81,7 @@ The repository contains two kinds of files: **runtime protocol** (read during an
 - Mode A / light analysis: `SKILL.md` is usually enough
 - Mode B / standard retro: add `references/input-modes.md`, `references/output-templates.md`
 - Mode C / audit: add `references/analysis-checks.md`, `references/reverse-audit.md`, `references/failure-modes.md`
-- Mode D / HTML: add `references/html-output-mode.md`, `references/output-schema.json`, `assets/html-report-template.html`, `assets/html-report.css`
+- Mode D / HTML: add `references/html-output-mode.md`, `references/output-schema.json`; read `assets/html-report-template.html` and `assets/html-report.css` only when hand-filling without Python
 
 ### Never read during runtime analysis
 
@@ -90,7 +90,7 @@ These are project and evaluation assets. They are for humans, maintainers, and t
 - `tests/` (test cases, expected checks, run records)
 - `evaluations/` (adversarial cases, ablation studies, calibration reports, answer keys)
 - `examples/` (worked walkthroughs — useful for humans learning the skill, not for runtime)
-- `scripts/` (CLI tooling for preprocessing and validation — run by humans, not loaded as runtime context)
+- `scripts/` (CLI for preprocess, scaffold, validate and render — run it, but do not load its source as runtime context)
 - `ROADMAP.md`, `CHANGELOG.md`, `PUBLISHING.md`, `EVALUATION.md`
 - `README.md`, `README.zh-CN.md`
 
@@ -171,9 +171,12 @@ Acceptable anchors include:
 
 Examples:
 
+- `Source anchor: Director Zhou 04:15 “那就按两步走”` (preferred for timestamped transcripts: speaker, time, verbatim quote)
 - `Source anchor: Meeting 2, Wang Bin paraphrase`
 - `Source anchor: Field note, afternoon walkthrough`
 - `Source anchor: Transcript section on pricing`
+
+When the source has timestamps, prefer `<speaker> <MM:SS> “<verbatim quote>”`. Quote marks mean verbatim; put paraphrases outside them. This is the form `scripts/retro_tool.py validate` can check against the transcript.
 
 If a claim cannot be anchored even loosely, downgrade it or omit it.
 
@@ -254,8 +257,9 @@ Default rules:
    - Do not interrupt early analysis just to ask about HTML.
    - Offer HTML as an upgrade near the end when the output is clearly shareable or presentation-shaped.
 9. Render to HTML only after the structure is stable.
-   - If the user wants HTML, map the analysis to `references/output-schema.json`.
-   - Then use `assets/html-report-template.html` and `assets/html-report.css`.
+   - Write the analysis as report JSON following `references/output-schema.json` (`python3 scripts/retro_tool.py scaffold --mode B --format json` gives a skeleton). The JSON is the single source of truth; HTML and Markdown are renderings of it.
+   - Run `python3 scripts/retro_tool.py validate report.json`, then `python3 scripts/retro_tool.py render report.json -o report.html`. Before the page leaves the room, render with `--audience leadership` or `--audience external`.
+   - If Python is not available, fill `assets/html-report-template.html` by hand and inline `assets/html-report.css`.
    - Keep evidence tags visible in the rendered page.
 
 ## Output Modes
@@ -305,8 +309,8 @@ Default rule:
 Use when the user wants the retro delivered as a report page instead of Markdown.
 
 - build the fact, thread, motive, understanding, audit, and action layers first
-- map the structured output into the report schema
-- render with visible evidence tags and source references
+- write them as report JSON (`references/output-schema.json`), then render with `scripts/retro_tool.py render`
+- render with visible evidence tags and source references; anchors link to the transcript appendix
 - prefer report-style layout over generic BI dashboard visuals
 - when the user did not request HTML but the output is mature enough, recommend this mode as an upgrade rather than assuming it up front
 
@@ -353,10 +357,10 @@ Always produce one or more of the following, depending on the request:
 - **Evidence notes**:
 ```
 
-### Structure B: Project Retro
+### Structure B: Project Thread
 
 ```md
-## Project Retro
+## Project Thread
 
 - **Current stage**:
 - **How the goal narrowed or shifted**:
@@ -367,14 +371,27 @@ Always produce one or more of the following, depending on the request:
 - **Evidence-risk notes**:
 ```
 
+### Structure B1: Stakeholder Motive Readout
+
+```md
+## Stakeholder Motive Readout
+
+| Party | What they say | What they appear to want | Status | Strength | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
+```
+
+Every row needs an evidence anchor. A motive stays below `Confirmed` unless the party said it outright.
+
 ### Structure B2: Participant Understanding Map
 
 ```md
 ## Participant Understanding Map
 
-| Party / Voice | Understands the project problem itself | Understands the actual advancement path | Understands execution and delivery constraints | Understands decision and organizational mechanics | Main evidence |
+| Party / Voice | Problem itself | Advancement path | Execution / delivery constraints | Decision / organizational mechanics | Evidence anchor |
 | --- | --- | --- | --- | --- | --- |
 ```
+
+Fill each cell with a level (`strong` / `mixed` / `thin` / `unclear`) and a short reason.
 
 Use this section when later project strategy depends on who really understands the issue.
 If the source supports it, add a short readout on:
@@ -385,10 +402,10 @@ If the source supports it, add a short readout on:
 
 Interpret the columns as:
 
-- `Understands the project problem itself`
-- `Understands the actual advancement path`
-- `Understands execution and delivery constraints`
-- `Understands decision and organizational mechanics`
+- `Problem itself`: understands the project problem itself
+- `Advancement path`: understands the actual advancement path
+- `Execution / delivery constraints`: understands execution and delivery constraints
+- `Decision / organizational mechanics`: understands decision and organizational mechanics
 
 In Mode B and Mode C, treat this section as required by default when speaker attribution is reliable.
 If omitted, explicitly state one of:
@@ -401,8 +418,8 @@ If omitted, explicitly state one of:
 ```md
 ## Advancement / Influence Chain
 
-| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Confidence | Risk if wrong |
-| --- | --- | --- | --- | --- | --- | --- |
+| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Status | Strength | Risk if wrong |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
 Use this section when the project or conversation moves because a frame, authority, or decision path is passed between actors.
@@ -447,6 +464,16 @@ For suspicious or contradictory actions that materially affect the conclusion, p
 - **Pressure or misjudgment explanation**:
 - **Strategic-misdirection explanation**:
 - **Current status**:
+```
+
+### Structure C2: Current Actions
+
+```md
+## Current Actions
+
+- **Do now**: (each item cites the evidence that triggers it, e.g. `Evidence: Lin Wei 03:58`)
+- **Do later**:
+- **Must validate before deeper commitment**:
 ```
 
 ### Structure D: Method Notes

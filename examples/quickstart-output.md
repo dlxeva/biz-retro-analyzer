@@ -47,7 +47,7 @@
 
 ### Participant Understanding Map
 
-| Party | Domain understanding | Workflow understanding | Delivery understanding | Organizational understanding | Main evidence |
+| Party / Voice | Problem itself | Advancement path | Execution / delivery constraints | Decision / organizational mechanics | Evidence anchor |
 | --- | --- | --- | --- | --- | --- |
 | **Lin Wei (A)** | Medium — knows the product pitch, less visible on clinical reality | Strong — drives sequencing, keeps actions moving | Medium — defers technical depth to Chen Hao | Strong — reads the room, manages Zhou and Li separately | Routes each complaint to an owner and an action |
 | **Chen Hao (B)** | Medium-Strong — correctly diagnosed the HIS backup root cause | Strong — maps problems to causes and to concrete fixes | Strong — proposes local cache, identifies the permission dependency | Medium — understands the interface issue but under-weights the approval friction | 01:10, 01:38 |

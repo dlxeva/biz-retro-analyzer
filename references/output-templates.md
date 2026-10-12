@@ -36,10 +36,14 @@ Rules:
 - Pair each numeric score with a one-line basis, so a reviewer can check whether the number matches the evidence.
 - High-Risk Claim Gate still applies: a motive or conflict-of-interest claim must stay below `Confirmed` regardless of the numeric score unless the source is explicit and narrow.
 
-## 1. Structured Meeting / Source Record
+## 1. Structured Fact Record
+
+One block per source under a single `## Structured Fact Record` heading.
 
 ```md
-## [Source Name]
+## Structured Fact Record
+
+### [Source Name]
 
 - **Type**: transcript / notes / observation / video analysis / other
 - **Context**:
@@ -82,8 +86,8 @@ Use this when the material shows that a project, decision, or shared narrative w
 ```md
 ## Advancement / Influence Chain
 
-| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Confidence | Risk if wrong |
-| --- | --- | --- | --- | --- | --- | --- |
+| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Status | Strength | Risk if wrong |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
 Optional follow-on block:
@@ -105,8 +109,8 @@ This section is especially useful for multi-party sales, partner negotiations, p
 ```md
 ## Stakeholder Motive Readout
 
-| Party | What they say | What they appear to want | Confidence | Evidence basis |
-| --- | --- | --- | --- | --- |
+| Party | What they say | What they appear to want | Status | Strength | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
 ```
 
 If speaker labels are unreliable, replace this with:
@@ -114,8 +118,8 @@ If speaker labels are unreliable, replace this with:
 ```md
 ## Position Readout (Speaker-Unknown Mode)
 
-| Position / Voice | What appears in the material | What this position seems to want | Confidence | Evidence basis |
-| --- | --- | --- | --- | --- |
+| Position / Voice | What appears in the material | What this position seems to want | Status | Strength | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
 ```
 
 ## 3B. Participant Understanding Map
@@ -123,24 +127,26 @@ If speaker labels are unreliable, replace this with:
 ```md
 ## Participant Understanding Map
 
-| Party / Voice | Domain understanding | Workflow understanding | Delivery understanding | Organizational understanding | Confidence | Evidence basis |
-| --- | --- | --- | --- | --- | --- | --- |
+| Party / Voice | Problem itself | Advancement path | Execution / delivery constraints | Decision / organizational mechanics | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
 ```
 
-Suggested labels:
+Levels, one per cell followed by a short reason:
 
 - `strong`
 - `mixed`
 - `thin`
-- `unclear from material`
+- `unclear` (unclear from the material)
+
+The four columns are the same in `SKILL.md`, the report JSON (`understandingMap.rows[].problem / advancementPath / deliveryConstraints / decisionMechanics`) and the rendered HTML.
 
 Optional follow-on block when strategy depends on understanding gaps:
 
 ```md
 ## Strategy Implications from Participant Understanding
 
-- **Who can validate domain truth**:
-- **Who can validate workflow reality**:
+- **Who can validate the problem itself**:
+- **Who can validate the advancement path**:
 - **Who can support or distort delivery planning**:
 - **Who may sound confident but needs translation or narrowing**:
 - **How this should change the next meeting / proposal / demo strategy**:

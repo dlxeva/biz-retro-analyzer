@@ -4,7 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{REPORT_TITLE}}</title>
-<link rel="stylesheet" href="./html-report.css">
+<!--
+  Hand-fill reference for environments without Python.
+  Preferred path: write report JSON (references/output-schema.json) and run
+    python3 scripts/retro_tool.py render report.json -o report.html
+  which inlines the CSS, links anchors to the transcript and checks them.
+  When hand-filling, paste assets/html-report.css into the <style> block below
+  so the page is a single file.
+-->
+<style>
+/* paste assets/html-report.css here */
+</style>
 </head>
 <body>
 <main class="page">
@@ -17,7 +27,7 @@
   <div class="hero-meta">
     <span class="chip"><strong>日期</strong> {{REPORT_DATE}}</span>
     <span class="chip"><strong>阶段</strong> {{PROJECT_STAGE}}</span>
-    <span class="chip"><strong>交互语境</strong> {{CONTEXT_NOTE}}</span>
+    <span class="chip"><strong>交互语境</strong> {{INTERACTION_CONTEXT}}</span>
     <!-- duplicate chips as needed -->
   </div>
   <!-- optional: noise / analysis-window note -->
@@ -31,7 +41,7 @@
   <div class="card-grid">
     <!-- duplicate this card per summary point -->
     <div class="card sum-card">
-      <span class="tag t-confirmed">Confirmed</span>
+      <span class="tag t-confirmed">{{SUMMARY_STATUS}}</span>
       <div class="headline">{{SUMMARY_HEADLINE}}</div>
       <p style="margin:6px 0 0;font-size:13px;">{{SUMMARY_BODY}}</p>
     </div>
@@ -40,15 +50,15 @@
 
 <!-- ===== 3. EVIDENCE LAYER ===== -->
 <section class="section">
-  <h2>证据层 · 已发生的事实</h2>
-  <p class="sub">原始材料按来源/案例拆分，只记录事实，不掺判断。</p>
+  <h2>结构化事实记录</h2>
+  <p class="sub">按来源记录“谁说了什么”，不掺判断。说过不等于为真。</p>
   <!-- duplicate per source/case -->
   <div class="card">
     <h3>{{EVIDENCE_TITLE}} <span class="tag t-confirmed">{{EVIDENCE_STATUS}}</span></h3>
     <ul>
       <li>{{EVIDENCE_POINT}}</li>
       <!-- duplicate points -->
-      <li class="anchor">来源锚点：{{SOURCE_ANCHOR}}</li>
+      <li class="anchor">来源锚点：{{SOURCE_ANCHOR}}  <!-- 说话人 MM:SS “原话” --></li>
     </ul>
   </div>
 </section>
@@ -69,18 +79,20 @@
 
 <!-- ===== 5. STAKEHOLDER MOTIVE READOUT ===== -->
 <section class="section">
-  <h2>相关方动机</h2>
-  <p class="sub">各方说了什么 vs 各方实际想要什么。</p>
+  <h2>相关方动机解读</h2>
+  <p class="sub">各方说了什么，与看起来想要什么。动机属于高风险判断，必须有锚点。</p>
   <div class="tbl-wrap">
   <table>
-    <thead><tr><th>相关方</th><th>说了什么</th><th>实际想要</th><th>置信</th><th>证据基础</th></tr></thead>
+    <thead><tr><th>相关方</th><th>说了什么</th><th>看起来想要</th><th>状态</th><th>强度</th><th>锚点</th></tr></thead>
     <tbody>
+      <!-- duplicate per party -->
       <tr>
         <td><strong>{{PARTY}}</strong></td>
         <td>{{STATED_POSITION}}</td>
         <td>{{APPARENT_MOTIVE}}</td>
-        <td><span class="tag t-inferred">{{CONFIDENCE}}</span></td>
-        <td>{{EVIDENCE_BASIS}}</td>
+        <td><span class="tag t-inferred">{{STATUS}}</span></td>
+        <td><span class="tag s-medium">{{STRENGTH}}</span></td>
+        <td class="anchor">{{SOURCE_ANCHOR}}</td>
       </tr>
     </tbody>
   </table>
@@ -90,30 +102,19 @@
 <!-- ===== 6. PARTICIPANT UNDERSTANDING MAP ===== -->
 <section class="section">
   <h2>参与者理解地图</h2>
-  <p class="sub">谁在哪一层真正理解了业务。</p>
+  <p class="sub">谁在哪一层真正理解了问题。</p>
   <div class="tbl-wrap">
   <table>
-    <thead><tr><th>维度</th><th>{{PARTY_1}}</th><th>{{PARTY_2}}</th></tr></thead>
+    <thead><tr><th>相关方</th><th>业务问题本身</th><th>实际推进路径</th><th>执行与交付约束</th><th>决策与组织机制</th><th>锚点</th></tr></thead>
     <tbody>
+      <!-- duplicate per party; level: strong / mixed / thin / unclear, then a short reason -->
       <tr>
-        <td><strong>业务问题本身</strong></td>
-        <td>{{DOMAIN_UNDERSTANDING_1}}</td>
-        <td>{{DOMAIN_UNDERSTANDING_2}}</td>
-      </tr>
-      <tr>
-        <td><strong>实际推进路径</strong></td>
-        <td>{{WORKFLOW_UNDERSTANDING_1}}</td>
-        <td>{{WORKFLOW_UNDERSTANDING_2}}</td>
-      </tr>
-      <tr>
-        <td><strong>执行交付约束</strong></td>
-        <td>{{DELIVERY_UNDERSTANDING_1}}</td>
-        <td>{{DELIVERY_UNDERSTANDING_2}}</td>
-      </tr>
-      <tr>
-        <td><strong>决策/组织机制</strong></td>
-        <td>{{ORGANIZATIONAL_UNDERSTANDING_1}}</td>
-        <td>{{ORGANIZATIONAL_UNDERSTANDING_2}}</td>
+        <td><strong>{{PARTY}}</strong></td>
+        <td><span class="lv lv-strong">{{PROBLEM_LEVEL}}</span> {{PROBLEM_NOTE}}</td>
+        <td><span class="lv lv-mixed">{{ADVANCEMENT_PATH_LEVEL}}</span> {{ADVANCEMENT_PATH_NOTE}}</td>
+        <td><span class="lv lv-thin">{{DELIVERY_CONSTRAINTS_LEVEL}}</span> {{DELIVERY_CONSTRAINTS_NOTE}}</td>
+        <td><span class="lv lv-unclear">{{DECISION_MECHANICS_LEVEL}}</span> {{DECISION_MECHANICS_NOTE}}</td>
+        <td class="anchor">{{SOURCE_ANCHOR}}</td>
       </tr>
     </tbody>
   </table>
@@ -129,32 +130,32 @@
   <p class="sub">挑战主导叙事。哪些判断站得住，哪些太乐观。</p>
   <div class="audit-grid">
     <div class="audit-box box-supported">
-      <h4>✓ 支持度强的判断</h4>
+      <h4>✓ 支持度较强的判断</h4>
       <ul><li>{{SUPPORTED_JUDGMENT}} <span class="tag t-confirmed">Confirmed</span></li></ul>
     </div>
     <div class="audit-box box-weak">
-      <h4>⚠ 需更强证据</h4>
+      <h4>⚠ 需要更强证据</h4>
       <ul><li>{{WEAK_JUDGMENT}} <span class="tag t-assumption">Assumption</span></li></ul>
     </div>
     <div class="audit-box box-validate">
-      <h4>? 反向审计 · "太顺"的地方</h4>
-      <ul><li>{{REVERSE_AUDIT_POINT}}</li></ul>
+      <h4>? 承诺前要验证的高影响判断</h4>
+      <ul><li>{{VALIDATION_TARGET}}</li></ul>
     </div>
     <div class="audit-box box-assume">
-      <h4>! 假共识预警</h4>
-      <ul><li>{{FALSE_CONSENSUS_FLAG}}</li></ul>
+      <h4>! 必须保持显式的假设</h4>
+      <ul><li>{{EXPLICIT_ASSUMPTION}} <span class="tag t-assumption">Assumption</span></li></ul>
     </div>
   </div>
 </section>
 
 <!-- ===== 8. CURRENT ACTIONS ===== -->
 <section class="section">
-  <h2>当前动作</h2>
+  <h2>当前行动</h2>
   <p class="sub">分"立即做 / 稍后做 / 承诺前必须验证"三档。</p>
   <div class="act-grid">
     <div class="act-box act-now">
       <h4>⏱ 立即做（Do Now）</h4>
-      <ul><li>{{DO_NOW_ITEM}} <span class="owner">{{OWNER}}</span></li></ul>
+      <ul><li>{{DO_NOW_ITEM}} <span class="owner">{{OWNER}}</span> <span class="anchor">{{SOURCE_ANCHOR}}</span></li></ul>
     </div>
     <div class="act-box act-later">
       <h4>📅 稍后做（Do Later）</h4>

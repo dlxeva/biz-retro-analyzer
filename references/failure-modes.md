@@ -120,11 +120,11 @@ A speaker sounds decisive, senior, or fluent, and the analysis quietly upgrades 
 ### Correction
 
 - add a participant understanding map
-- separate:
-  - domain understanding
-  - workflow understanding
-  - delivery understanding
-  - organizational/political understanding
+- separate the four map columns:
+  - problem itself (domain understanding)
+  - advancement path (workflow understanding)
+  - execution / delivery constraints
+  - decision / organizational mechanics (organizational/political understanding)
 - preserve mixed or partial understanding when the material supports only that
 
 ---
