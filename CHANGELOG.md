@@ -19,7 +19,7 @@ The format is intentionally lightweight:
 - Report JSON (`references/output-schema.json` v2) is the single source of truth. `render` writes single-file HTML (inline CSS, transcript appendix, audience redaction) or Markdown. `scaffold --format json` emits a `<fill>` skeleton
 - Section names and understanding-map columns are the same in SKILL.md, templates, scaffold, and render. Mode D is a rendering of A/B/C
 - Examples: `examples/quickstart.report.json` and a fictional Mode C meeting in `examples/product-review-fictional/`
-- Tests: `tests/test_retro_tool.py` (Python 3.8 and 3.12)
+- Tests: `tests/test_retro_tool.py` (Ubuntu 3.8 / 3.12, Windows 3.12). Render output is LF on every platform (`read_text` folds CRLF; files are written as UTF-8 bytes).
 
 Why: the previous validate could fail a correct gold sample and pass an empty template; HTML was hand-copied from Markdown.
 

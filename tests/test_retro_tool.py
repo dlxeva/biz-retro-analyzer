@@ -128,9 +128,14 @@ class PreprocessCliTest(TempDirMixin, unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(out, "")
         self.assertTrue(target.read_text(encoding="utf-8").startswith("[T001"))
+        self.assertNotIn(b"\r\n", target.read_bytes())
         code, _, err = run_cli("preprocess", self.tmp / "missing.txt")
         self.assertEqual(code, 2)
         self.assertIn("file not found", err)
+
+    def test_read_text_normalizes_crlf(self):
+        path = self.write("crlf.txt", "A 高远 00:00\r\n你好\r\n")
+        self.assertEqual(retro_tool.read_text(path), "A 高远 00:00\n你好\n")
 
 
 GOLD = ROOT / "examples" / "quickstart-output.md"
@@ -461,6 +466,23 @@ class RenderTest(TempDirMixin, unittest.TestCase):
             md = retro_tool.render_markdown(data)
             _, checks = retro_tool.lint_markdown(md, data["meta"]["outputMode"], sources)
             self.assertEqual([c["id"] for c in checks if c["status"] == "FAIL"], [], path.name)
+
+    def test_crlf_sources_render_like_lf(self):
+        """A Windows checkout of the sources must not change the HTML."""
+        data = load_json(FICTIONAL / "report.json")
+        lf = self.html(FICTIONAL / "report.json")
+        overrides = {}
+        for src in data["sources"]:
+            if not src.get("path"):
+                continue
+            raw = (FICTIONAL / src["path"]).read_bytes().replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
+            dest = self.tmp / src["path"]
+            dest.write_bytes(raw)
+            overrides[src["id"]] = dest
+        indexes, _ = retro_tool.load_source_indexes(data, FICTIONAL, overrides)
+        crlf = retro_tool.render_html(data, indexes)
+        self.assertEqual(crlf, lf)
+        self.assertNotIn("\r\n", crlf)
 
     def test_checked_in_renders_are_current(self):
         for path, html in ((QUICK_REPORT, ROOT / "examples" / "quickstart.report.html"),

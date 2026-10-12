@@ -19,16 +19,25 @@ VERSION = "1.1.0"
 # ---------------------------------------------------------------------------
 
 def read_text(path):
-    """Read a text file as UTF-8 (with or without BOM), UTF-16 (BOM) or GB18030."""
+    """Read a text file as UTF-8 (with or without BOM), UTF-16 (BOM) or GB18030.
+
+    Newlines become ``\\n`` so a Windows checkout (CRLF) and a Unix checkout
+    produce the same transcript, the same anchors, and the same render.
+    """
     data = Path(path).read_bytes()
     if data.startswith((b"\xff\xfe", b"\xfe\xff")):
-        return data.decode("utf-16")
-    for encoding in ("utf-8-sig", "gb18030"):
-        try:
-            return data.decode(encoding)
-        except UnicodeDecodeError:
-            continue
-    raise SystemExit(f"error: cannot decode {path} as UTF-8, UTF-16 or GB18030")
+        text = data.decode("utf-16")
+    else:
+        text = None
+        for encoding in ("utf-8-sig", "gb18030"):
+            try:
+                text = data.decode(encoding)
+                break
+            except UnicodeDecodeError:
+                continue
+        if text is None:
+            raise SystemExit(f"error: cannot decode {path} as UTF-8, UTF-16 or GB18030")
+    return text.replace("\r\n", "\n").replace("\r", "\n")
 
 
 def _setup_console():
@@ -42,7 +51,7 @@ def _setup_console():
 
 def _write_output(text, output):
     if output:
-        Path(output).write_text(text, encoding="utf-8")
+        Path(output).write_bytes(text.encode("utf-8"))
     else:
         sys.stdout.write(text)
 
@@ -2257,7 +2266,7 @@ class HtmlRenderer:
 def render_html(data, indexes=None, audience=None, css=None):
     audience = audience or data.get("meta", {}).get("audience") or "internal"
     shown, removed = redact(data, audience)
-    css = css if css is not None else CSS_PATH.read_text(encoding="utf-8")
+    css = css if css is not None else read_text(CSS_PATH)
     lang = data.get("meta", {}).get("language") or ("zh-CN" if has_cjk(data["meta"].get("reportTitle", "")) else "en")
     return HtmlRenderer(shown, indexes or {}, lang, removed, audience).render(css)
 
