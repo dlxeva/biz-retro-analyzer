@@ -54,13 +54,29 @@ Rules:
 完整复盘，用 `Mode B: Retro Pack`。  
 对已有判断做强审计，用 `Mode C: Audit Pack`。
 
-完整的端到端示例——从一份原始逐字稿到完整复盘——见 [`examples/quickstart.md`](./examples/quickstart.md)。
+### CLI（可选）
+
+`scripts/retro_tool.py`（Python 3.8+，无第三方依赖）是检查器和渲染器，不能代替分析，也不能做说话人分离。
+
+```bash
+python3 scripts/retro_tool.py preprocess meeting.txt -o meeting_annotated.txt
+python3 scripts/retro_tool.py scaffold --mode B --format json -o report.json
+python3 scripts/retro_tool.py validate report.json
+python3 scripts/retro_tool.py validate analysis.md -t meeting.txt
+python3 scripts/retro_tool.py render report.json -o report.html
+```
+
+- `preprocess` 按发言人切轮次，并**提示**可能的噪声行，不会删行。
+- `validate` 检查协议形式，以及引用的时间戳、发言人、原话是否出现在逐字稿里。PASS 不表示判断正确。
+- `render` 把报告 JSON（`references/output-schema.json`）渲染成单文件 HTML 或 Markdown。
+
+安装见 [`INSTALL.md`](./INSTALL.md)。示例：[`examples/quickstart.md`](./examples/quickstart.md)、[`examples/quickstart.report.json`](./examples/quickstart.report.json)，以及虚构 Mode C 演示 [`examples/product-review-fictional/`](./examples/product-review-fictional/)。
 
 项目状态：
 
 - 开源协议：MIT，见 `LICENSE`。
 - 后续计划：见 `ROADMAP.md`。
-- 评估方法：见 `EVALUATION.md`。
+- 评估：[`EVALUATION.md`](./EVALUATION.md)。协议用例在 `tests/cases/`（只把 `input.md` 交给模型）。消融报告见 [`evaluations/ablation-2026-07/`](./evaluations/ablation-2026-07/)。引用分数前请先读该目录 2026-10-12 勘误——原表没有重跑；按协议「&lt;50 = 反向倾向」，校准集是 66/67，不是 67/67。
 - 合成对抗评估案例：见 `evaluations/adversarial-dialogue-werewolf/`。
 
 ---
@@ -271,12 +287,13 @@ Rules:
 - 需要比 Markdown 更强的视觉分层
 - 需要把证据层、项目脉络、反向审计和动作建议放进同一页面
 
-这套 HTML 输出模式由以下文件驱动：
+先把分析写成报告 JSON（`references/output-schema.json`），再渲染：
 
-- `references/html-output-mode.md`
-- `references/output-schema.json`
-- `assets/html-report-template.html`
-- `assets/html-report.css`
+```bash
+python3 scripts/retro_tool.py render report.json -o report.html
+```
+
+HTML 是 Mode A / B / C 的呈现方式，不是第四种深度。没有 Python 时，可以手填 `assets/html-report-template.html`。详见 `references/html-output-mode.md`。
 
 用户不需要一开始就知道这个模式存在。  
 当分析结果已经具备完整结构时，skill 可以在输出阶段主动提示：“这份内容已经适合升级为 HTML 报告页”。

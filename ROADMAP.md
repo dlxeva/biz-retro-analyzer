@@ -15,7 +15,7 @@ Already available:
 - advancement / influence-chain analysis
 - suspicious-action over-attribution guardrail
 - reverse-audit guidance
-- HTML report mode
+- HTML report mode (JSON-first: `scripts/retro_tool.py render`)
 - The Werewolf Test as a synthetic adversarial evaluation case
 
 ## Near Term
@@ -61,7 +61,7 @@ Current evaluation includes one synthetic adversarial hidden-role case. Future e
 
 Done so far (`evaluations/`):
 - `adversarial-dialogue-hook-wolf` — a second adversarial hidden-role case, designed as a deliberate inverse of the first (hook wolf, self-cut silver-water, good side wins)
-- `ablation-2026-07/` — a four-condition ablation study and a calibration study across five synthetic cases; see its README for findings
+- `ablation-2026-07/` — a four-condition ablation study and a calibration study across five synthetic cases; see its README (including the 2026-10-12 errata) before citing scores
 
 Still wanted: manually reviewed gold retros, multi-reviewer scoring, and real-world (non-synthetic) cases.
 
@@ -76,9 +76,9 @@ Still wanted: manually reviewed gold retros, multi-reviewer scoring, and real-wo
 
 Possible later work:
 
-- ~~CLI wrapper for local runs~~ — done, `scripts/retro_tool.py` (preprocess / scaffold / validate)
-- richer HTML report examples
-- JSON export examples for downstream systems
+- ~~CLI wrapper for local runs~~ — done, `scripts/retro_tool.py` (preprocess / scaffold / validate / render)
+- ~~JSON export examples for downstream systems~~ — done as report JSON plus HTML export of decisions / claims / actions
+- richer HTML report examples — started (`examples/quickstart.report.html`, `examples/product-review-fictional/`)
 - model-comparison runs across different LLMs
 - benchmark-style evaluation pack once enough cases exist
 

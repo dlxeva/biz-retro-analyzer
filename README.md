@@ -58,28 +58,27 @@ For a harder review of an existing story, use `Mode C: Audit Pack`.
 
 ### CLI tool (optional)
 
-A companion CLI tool (`scripts/retro_tool.py`, Python 3.8+, zero dependencies) provides deterministic preprocessing and validation outside the LLM:
+`scripts/retro_tool.py` (Python 3.8+, zero dependencies) is a lint and a renderer. It does not replace the analysis, and it does not diarize audio.
 
 ```bash
-# Preprocess a raw transcript: detect speakers, flag noise
-python3 scripts/retro_tool.py preprocess meeting.txt -o meeting_clean.txt
-
-# Generate a structured output template
-python3 scripts/retro_tool.py scaffold --mode B -o template.md
-
-# Validate an analysis output against protocol rules
-python3 scripts/retro_tool.py validate analysis.md
+python3 scripts/retro_tool.py preprocess meeting.txt -o meeting_annotated.txt
+python3 scripts/retro_tool.py scaffold --mode B --format json -o report.json
+python3 scripts/retro_tool.py validate report.json
+python3 scripts/retro_tool.py validate analysis.md -t meeting.txt
+python3 scripts/retro_tool.py render report.json -o report.html
 ```
 
-The CLI does not replace the LLM analysis. It handles the parts LLMs are unreliable at: speaker detection, noise isolation, and protocol self-checking.
+- `preprocess` splits speaker turns and *hints* possible noise. It never deletes a line.
+- `validate` checks protocol form and whether cited timestamps, speakers, and quotes exist in the transcript. PASS does not mean the judgments are right.
+- `render` turns report JSON (`references/output-schema.json`) into a single-file HTML page or Markdown.
 
-For a complete worked example — from a raw transcript to a full retro — see [`examples/quickstart.md`](./examples/quickstart.md).
+Install notes: [`INSTALL.md`](./INSTALL.md). Worked examples: [`examples/quickstart.md`](./examples/quickstart.md), [`examples/quickstart.report.json`](./examples/quickstart.report.json), and a fictional Mode C demo in [`examples/product-review-fictional/`](./examples/product-review-fictional/).
 
 Project status:
 
 - License: MIT, see `LICENSE`.
 - Roadmap: see `ROADMAP.md`.
-- Evaluation guide: see `EVALUATION.md`.
+- Evaluation: [`EVALUATION.md`](./EVALUATION.md). Protocol cases: `tests/cases/` (give the model `input.md` only). Ablation write-ups: [`evaluations/ablation-2026-07/`](./evaluations/ablation-2026-07/). Read that folder's 2026-10-12 errata before citing scores — original tables were not rerun; under the skill's own `<50` = inverse-leaning rule the calibration set is 66/67, not 67/67.
 - Synthetic adversarial case: see `evaluations/adversarial-dialogue-werewolf/`.
 
 ---
@@ -284,12 +283,13 @@ The skill now also supports an `HTML` report mode when the output needs to be:
 - easier to scan visually than Markdown
 - structured as evidence layer + thread + audit + actions
 
-The HTML mode is driven by:
+Write the analysis as report JSON (`references/output-schema.json`), then:
 
-- `references/html-output-mode.md`
-- `references/output-schema.json`
-- `assets/html-report-template.html`
-- `assets/html-report.css`
+```bash
+python3 scripts/retro_tool.py render report.json -o report.html
+```
+
+HTML is a rendering of Mode A, B, or C, not a fourth depth. `assets/html-report-template.html` is a hand-fill fallback when Python is not available. See `references/html-output-mode.md`.
 
 The user does not need to know this mode exists in advance.  
 The skill can recommend HTML near the end of the analysis when the output has enough structure to benefit from a shareable page.
