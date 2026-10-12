@@ -208,7 +208,7 @@ Default rules:
    - If the user mixed them together, separate them first.
    - If speaker labels are missing, mark that explicitly before deeper analysis.
    - If possible, classify each major source by interaction context: formal meeting, working session, informal debrief, private side conversation, or asymmetric-awareness conversation.
-   - Optional CLI: if the input is a raw speech-to-text transcript, run `python3 scripts/retro_tool.py preprocess <transcript.txt>` to detect speaker labels, flag noise lines, and get a coverage report before deeper analysis.
+   - Optional CLI (paths are relative to this file's directory): if the input is a raw speech-to-text transcript and you can run commands, run `python3 scripts/retro_tool.py preprocess <transcript.txt>` to split speaker turns and get a speaker-coverage report. Possible-noise lines are only hints: read each one before excluding it, because a side remark can carry key evidence.
 2. Build the fact layer.
    - Follow `references/output-templates.md` for structured source-note output.
    - Keep original claims tied to specific meetings or materials.
@@ -230,7 +230,7 @@ Default rules:
    - Then run the checks in `references/analysis-checks.md`.
    - Label major judgments with claim status and evidence strength.
    - For suspicious or contradictory actions, split plausible explanations into information change, pressure or misjudgment, and strategic misdirection before assigning motive.
-   - Optional CLI: run `python3 scripts/retro_tool.py scaffold --mode B` to generate a structured output template with evidence-tag fields before filling in the analysis.
+   - Optional CLI: `python3 scripts/retro_tool.py scaffold --mode B` prints the canonical section skeleton with `<fill>` placeholders.
 5. Run reverse audit when needed.
    - If conclusions feel too neat, too fast, or too dependent on one narrator, read `references/reverse-audit.md`.
 6. Run pre-output audit.
@@ -242,7 +242,7 @@ Default rules:
    - Check whether suspicious action has been over-attributed to bad faith without considering non-bad-faith alternatives.
    - If the material is a multi-party discussion that reached agreement, run the Consensus Reality Check in `references/analysis-checks.md`. Flag fast, "do both", or authority-driven agreement as `Needs validation` rather than settled.
    - If the source is a raw transcript, confirm that non-business noise has been isolated and the effective analysis window is stated.
-   - Optional CLI: run `python3 scripts/retro_tool.py validate <analysis_output.md>` to automatically check for evidence tags, high-risk claim anchors, fact/judgment separation, understanding map presence, and unvalidated motive claims. Fix and re-run until PASS.
+   - Optional CLI: `python3 scripts/retro_tool.py validate <analysis.md> --transcript <transcript.txt>` is a lint. It checks protocol form (sections, tags, the High-Risk Claim Gate) and whether the timestamps, speakers and quotes cited as anchors exist in the transcript. When a check fails, fix the claim itself: cite a real anchor, narrow the wording, lower the status, or drop the claim. Never add tags, anchor labels or keywords only to satisfy the check. A PASS says the form is sound and the anchors resolve; it does not say the judgments are right.
 7. Close with action output.
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
    - If important evidence is still missing, use `references/interview-gap-prompts.md`.

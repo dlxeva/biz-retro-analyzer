@@ -134,12 +134,177 @@ class PreprocessCliTest(TempDirMixin, unittest.TestCase):
         self.assertIn("file not found", err)
 
 
+GOLD = ROOT / "examples" / "quickstart-output.md"
+QUICK_TRANSCRIPT = ROOT / "examples" / "quickstart-transcript.txt"
+
+
+def lint(text, mode=None, transcript=QUICK_TRANSCRIPT):
+    sources = [transcript] if transcript else []
+    _, checks = retro_tool.lint_markdown(text, mode, sources)
+    return {c["id"]: c for c in checks}
+
+
+def failing(checks):
+    return sorted(cid for cid, c in checks.items() if c["status"] == "FAIL")
+
+
+def messages(check, severity="FAIL"):
+    return [m for s, _, m in check["items"] if s == severity]
+
+
+class ValidateGoldSampleTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.gold = GOLD.read_text(encoding="utf-8")
+
+    def test_gold_sample_passes_against_its_transcript(self):
+        code, out, _ = run_cli("validate", GOLD, "--transcript", QUICK_TRANSCRIPT)
+        self.assertEqual(code, 0, out)
+        self.assertIn("Result: PASS", out)
+        self.assertIn("does not mean the judgments are correct", out)
+
+    def test_gold_sample_json(self):
+        code, out, _ = run_cli("validate", GOLD, "-t", QUICK_TRANSCRIPT, "--json")
+        data = json.loads(out)
+        self.assertEqual((code, data["result"], data["mode"]), (0, "PASS", "B"))
+        anchors = next(c for c in data["checks"] if c["id"] == "anchors")
+        self.assertIn("timestamp", anchors["info"])
+
+    def test_without_transcript_anchors_are_unverified(self):
+        checks = lint(self.gold, transcript=None)
+        self.assertEqual(failing(checks), [])
+        self.assertEqual(checks["anchors"]["status"], "WARN")
+
+    def test_original_gold_anchor_errors_are_caught(self):
+        before = self.gold.replace("Lin Wei, 03:58 (proposal); Director Zhou, 04:15 (agreement)", "Lin Wei, 04:15")
+        before = before.replace("Lin Wei 03:58, Director Zhou 04:15", "Lin Wei 04:15")
+        before = "\n".join(l for l in before.splitlines() if "interface permission must go through" not in l)
+        checks = lint(before)
+        self.assertEqual(failing(checks), ["anchors", "gate-anchors"])
+        self.assertEqual(len(messages(checks["anchors"])), 2)
+        self.assertIn("04:15 is C 周主任 speaking, not A 林伟", messages(checks["anchors"])[0])
+        self.assertIn("gatekeeper", messages(checks["gate-anchors"])[0])
+
+    def test_unknown_timestamp_fails(self):
+        checks = lint(self.gold.replace("Dr. Li, 00:35", "Dr. Li, 00:36"))
+        self.assertIn("timestamp 00:36 does not appear", messages(checks["anchors"])[0])
+
+    def test_wrong_speaker_fails(self):
+        checks = lint(self.gold.replace("Dr. Li, 00:35", "Chen Hao, 00:35"))
+        self.assertEqual(messages(checks["anchors"]), ["00:35 is D 李医生 speaking, not B 陈昊"])
+
+    def test_fabricated_quote_in_anchor_fails(self):
+        text = self.gold.replace("`Source anchor: Director Zhou, 01:28`",
+                                 "`Source anchor: Director Zhou 01:28 \u201c备份窗口下个月就取消\u201d`")
+        self.assertIn("quote not found", messages(lint(text)["anchors"])[0])
+
+    def test_quote_with_dropped_fillers_resolves(self):
+        text = self.gold.replace("`Source anchor: Director Zhou, 01:28`",
+                                 "`Source anchor: Director Zhou 01:28 \u201c备份窗口这个事情，信息科是有规定的\u201d`")
+        self.assertEqual(lint(text)["anchors"]["status"], "PASS")
+
+    def test_confirmed_motive_without_quote_fails(self):
+        text = self.gold.replace(
+            "  - `Claim`: Director Zhou is building an exit rationale\n  - `Status`: Assumption",
+            "  - `Claim`: Director Zhou's real motive is to exit the pilot\n  - `Status`: Confirmed")
+        checks = lint(text)
+        self.assertIn("gate-confirmed", failing(checks))
+        self.assertIn("gate-anchors", failing(checks))
+
+    def test_later_reasoning_cannot_be_confirmed(self):
+        text = self.gold.replace(
+            "  - `Status`: Inferred\n  - `Strength`: Medium\n  - `Basis`: Director Zhou's repeated reframing",
+            "  - `Status`: Confirmed\n  - `Strength`: Medium\n  - `Basis`: Later reasoning only; Zhou's reframing")
+        self.assertEqual(failing(lint(text)), ["later-reasoning"])
+
+    def test_motive_row_without_evidence_fails(self):
+        text = self.gold.replace(
+            "| Medium | Interrupted twice to refocus on the latency; explicit about colleague pressure |",
+            "| Medium |  |")
+        self.assertIn("motive readout row has no evidence", messages(lint(text)["gate-anchors"])[0])
+
+    def test_do_now_without_evidence_fails(self):
+        text = self.gold.replace(" `Evidence: Lin Wei 03:58, Chen Hao 03:45`", "")
+        self.assertEqual(failing(lint(text)), ["actions"])
+
+    def test_missing_map_fails(self):
+        start = self.gold.index("### Participant Understanding Map")
+        end = self.gold.index("### Judgment and Reverse Audit")
+        self.assertIn("sections", failing(lint(self.gold[:start] + self.gold[end:])))
+        omitted = self.gold[:start] + "### Participant Understanding Map\n\nParticipant Understanding Map " \
+            "omitted due to insufficient participant-level evidence.\n\n" + self.gold[end:]
+        self.assertEqual(failing(lint(omitted)), [])
+
+
+class ValidateTemplatesTest(TempDirMixin, unittest.TestCase):
+    def test_empty_scaffolds_fail(self):
+        for mode in ("A", "B", "C"):
+            code, text, _ = run_cli("scaffold", "--mode", mode)
+            self.assertEqual(code, 0)
+            checks = lint(text, transcript=None)
+            self.assertIn("placeholders", failing(checks), mode)
+            self.assertIn("tagged", failing(checks), mode)
+            self.assertNotIn("sections", failing(checks), mode)
+
+    def test_keyword_stuffing_does_not_pass(self):
+        stuffed = ("# Mode B Output\n\n## Structured Fact Record\n- anchor anchor 来源 锚点 evidence\n"
+                   "- `Status`: Confirmed\n\n## Project Thread\n- motive budget anchor\n\n"
+                   "## Stakeholder Motive Readout\n\n## Participant Understanding Map\n\n## Current Actions\n"
+                   "- **Do now**: evidence 证据\n")
+        self.assertGreaterEqual(len(failing(lint(stuffed))), 3)
+
+    def test_cli_writes_scaffold_and_exits_nonzero_on_fail(self):
+        target = self.tmp / "template.md"
+        run_cli("scaffold", "--mode", "C", "-o", target)
+        self.assertIn("## Judgment and Reverse Audit", target.read_text(encoding="utf-8"))
+        code, out, _ = run_cli("validate", target)
+        self.assertEqual(code, 1)
+        self.assertIn("Result: FAIL", out)
+
+
+class ValidateChineseTest(unittest.TestCase):
+    TRANSCRIPT = FIXTURES / "noise-hints.txt"
+    DOC = """# Mode A 输出
+
+## 结构化事实记录
+
+- **已确认**：
+  - 高远收回了客户数量的说法：“二十几个可能说多了，七八个是肯定有的”。`来源锚点：A 高远 10:05`
+  - 苏晴指出 B 端客户周末活跃度下降。`来源锚点：苏晴 10:20`
+- **证据备注**：
+  - `判断`：高远会前引用的“二十多个客户”缺少记录支撑
+  - `状态`：Inferred
+  - `强度`：Medium
+  - `依据`：Source quote/paraphrase
+  - `锚点`：高远 10:05“没有正式记录”
+"""
+
+    def test_chinese_fields_and_anchors_pass(self):
+        checks = lint(self.DOC, transcript=self.TRANSCRIPT)
+        self.assertEqual(failing(checks), [])
+        self.assertEqual(checks["tagged"]["status"], "PASS")
+        self.assertEqual(checks["anchors"]["status"], "PASS")
+
+    def test_chinese_speaker_mismatch_fails(self):
+        checks = lint(self.DOC.replace("苏晴 10:20", "马骏 10:20"), transcript=self.TRANSCRIPT)
+        self.assertEqual(messages(checks["anchors"]), ["10:20 is B 苏晴 speaking, not C 马骏"])
+
+    def test_full_width_colon_after_time_is_not_a_timestamp(self):
+        doc = self.DOC.replace("`来源锚点：苏晴 10:20`", "`来源锚点：苏晴 10:20：41 家里只有 3 家`")
+        self.assertEqual(lint(doc, transcript=self.TRANSCRIPT)["anchors"]["status"], "PASS")
+
+
 class ExampleSyncTest(unittest.TestCase):
     def test_quickstart_transcript_matches_markdown(self):
         md = (ROOT / "examples" / "quickstart.md").read_text(encoding="utf-8")
         block = md.split("```text\n", 1)[1].split("\n```", 1)[0]
-        transcript = (ROOT / "examples" / "quickstart-transcript.txt").read_text(encoding="utf-8")
-        self.assertEqual(block.strip(), transcript.strip())
+        self.assertEqual(block.strip(), QUICK_TRANSCRIPT.read_text(encoding="utf-8").strip())
+
+    def test_gold_output_matches_markdown(self):
+        md = (ROOT / "examples" / "quickstart.md").read_text(encoding="utf-8")
+        start = md.index("### Structured Fact Record")
+        end = md.index("---\n\n## How to verify")
+        self.assertEqual(md[start:end].strip(), GOLD.read_text(encoding="utf-8").strip())
 
 
 if __name__ == "__main__":

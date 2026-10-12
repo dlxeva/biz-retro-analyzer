@@ -173,7 +173,7 @@ Below is what a complete Mode B output looks like for this input. Every claim is
   - The vendor's efficiency metric is disputed: IT's informal polling of doctors does not match the vendor's numbers. `Source anchor: Director Zhou, 02:50`
 - **Explicit follow-up actions**:
   - Chen Hao to shadow 1-2 night shifts next week. `Source anchor: Lin Wei, 03:58`
-  - Interface-permission application to start in parallel. `Source anchor: Lin Wei, 04:15`
+  - Interface-permission application to start in parallel. `Source anchor: Lin Wei, 03:58 (proposal); Director Zhou, 04:15 (agreement)`
 - **Open factual gaps**:
   - Whether the local-cache fix actually resolves night-shift latency under real load is untested.
   - The real magnitude of the efficiency gap between vendor metrics and doctor experience is unknown.
@@ -195,6 +195,7 @@ Below is what a complete Mode B output looks like for this input. Every claim is
   - `Status`: Inferred
   - `Strength`: Medium
   - `Basis`: Zhou controls the approval flow and introduced the renegotiation condition; Dr. Li's complaints were routed through technical fixes, not decision authority
+  - `Source anchor`: Director Zhou 01:55 (interface permission must go through process), 04:15 ("丑话说前面", renegotiation condition)
 
 ### Stakeholder Motive Readout
 
@@ -234,7 +235,7 @@ Below is what a complete Mode B output looks like for this input. Every claim is
 - **Likely overestimates**:
   - The vendor (Lin Wei) may be overestimating how much the technical fixes will satisfy Zhou. Zhou's core concern shifted to value, not latency.
 - **Suspicious action requiring lower-intent alternatives**:
-  - `Action`: Director Zhou disputed the efficiency metric that was previously agreed (`统计口径是之前确认过的`).
+  - `Action`: Director Zhou disputed the efficiency metric that Lin Wei says was previously agreed (Lin Wei 03:15 `统计口径是之前确认过的`; Zhou 03:25 `统计口径确认过，但是医生的实际感受是另一回事`).
   - `Information-change explanation`: Zhou may have heard new feedback from doctors between meetings.
   - `Pressure explanation`: Zhou may be under internal pressure to justify the pilot.
   - `Strategic-misdirection explanation`: Zhou may be manufacturing leverage for renegotiation.
@@ -246,7 +247,7 @@ Below is what a complete Mode B output looks like for this input. Every claim is
 
 - **Do now**:
   - Chen Hao shadows 1-2 night shifts to observe real conditions and validate the latency fix. `Evidence: Lin Wei 03:58, Chen Hao 03:45`
-  - Start the interface-permission application in parallel. `Evidence: Lin Wei 04:15`
+  - Start the interface-permission application in parallel. `Evidence: Lin Wei 03:58, Director Zhou 04:15`
 - **Do later**:
   - After the on-site, reassess whether the efficiency-metric dispute needs a new measurement approach, not just new data.
 - **Must validate before deeper commitment**:
@@ -266,6 +267,14 @@ Check the output against these five points:
 3. **No single spicy line became a stable conclusion.** Zhou's renegotiation remark did not become "Zhou wants to cancel the pilot" without a `Needs validation` flag.
 4. **The context did not overwrite the transcript.** Your Layer 2 input ("vendor wants conversion") informed the thread but did not become a confirmed fact.
 5. **The Participant Understanding Map distinguishes dimensions.** Zhou is not uniformly "high" — he is high on organizational, medium on delivery.
+
+The sample output above is also saved as `examples/quickstart-output.md`. To check that its anchors resolve to the transcript (every cited timestamp exists, belongs to the named speaker, and every quoted phrase appears in the source):
+
+```bash
+python3 scripts/retro_tool.py validate examples/quickstart-output.md --transcript examples/quickstart-transcript.txt
+```
+
+This lint caught two mis-attributed anchors and one unanchored high-risk claim in an earlier version of this sample; they were corrected on 2026-10-12 (see `CHANGELOG.md`). The remaining warning (`Low-Medium` is not a single strength level) is left in deliberately as a judgment call for the reader.
 
 ---
 
