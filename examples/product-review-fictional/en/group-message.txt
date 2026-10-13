@@ -1,0 +1,5 @@
+[Meeting recap] Q3 review — aligned with Zhou:
+1. AI Smart Replenishment Suggestions confirmed as a Q3 priority; demo in two weeks (Product leads, Eng supports)
+2. Inventory alerts scheduled as a prerequisite module, priority after the demo
+3. Customer demand is validated (multiple owners asked for this); competitor already shipped; window is tight
+Please proceed on this. Ping me privately if you have questions.

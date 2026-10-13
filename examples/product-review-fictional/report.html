@@ -26,21 +26,44 @@
 
 body {
   margin: 0;
-  font-family: "PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
   background: linear-gradient(180deg, #edf2f5 0%, #f6f7f8 100%);
   color: var(--ink);
   line-height: 1.65;
+}
+
+html[lang^="zh"] body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
 }
 
 .page { width: min(1100px, calc(100% - 32px)); margin: 24px auto 48px; }
 
 /* ---------- Hero ---------- */
 .hero {
+  position: relative;
   padding: 30px 34px 26px;
   border-radius: 22px;
   background: linear-gradient(135deg, rgba(24,56,79,.97), rgba(28,82,116,.90));
   color: #f7fbff;
 }
+
+.lang-switch {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.lang-switch a {
+  color: #e8f3fa;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 8px;
+  padding: 4px 10px;
+}
+
+.lang-switch a:hover { background: rgba(255,255,255,.12); }
 .hero .eyebrow { color:#bad5e8; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
 .hero h1 { margin:10px 0 8px; font-size:clamp(26px,3.4vw,38px); line-height:1.15; }
 .hero .lead { margin:0; max-width:880px; color:#d9ebf7; font-size:15px; }
@@ -212,7 +235,8 @@ details.tx-wrap summary { cursor:pointer; color:var(--navy2); }
   a.anc { color:inherit; }
 }
 </style></head><body><main class="page">
-<header class="hero"><p class="eyebrow">Mode C · Audit Pack · 证据优先</p><h1>Q3 评审 ·「AI 智能补货建议」会议审计</h1>
+<header class="hero">
+<p class="eyebrow">Mode C · Audit Pack · 证据优先</p><h1>Q3 评审 ·「AI 智能补货建议」会议审计</h1>
 <p class="lead">CEO 在会上做的是“限时评估”：预警先做，补货只做轻量 demo，两周后再看。会后群消息把它改写成“补货确定为 Q3 重点，预警排在 demo 之后”。补货的两个前提（数据覆盖、需求定义）在会上都出现了反证。</p>
 <div class="hero-meta"><span class="chip"><strong>日期</strong> 2026-10-12</span><span class="chip"><strong>阶段</strong> 立项评审 · 两周后复盘</span><span class="chip"><strong>交互语境</strong> formal_meeting</span><span class="chip"><strong>分析窗口</strong> 00:00-05:05、06:40-14:00（周总 08:30-12:15 在场）</span><span class="chip"><strong>受众</strong> internal</span></div>
 <div class="hero-note">虚构材料，用于演示 biz-retro-analyzer。公司、人物和数据均为编造。</div>

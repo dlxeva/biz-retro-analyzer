@@ -7,7 +7,7 @@
 
 > **纪要告诉你大家说了什么，它告诉你哪句话其实没人证明过。**
 
-**[Live demo report](https://dlxeva.github.io/biz-retro-analyzer/demo/)**
+**[Live demo report](https://dlxeva.github.io/biz-retro-analyzer/demo/zh/)**
 
 > 「拿评审会去跑，会后的 HTML 直接把我吓着。」
 > —— dlxeva，作者
@@ -34,7 +34,7 @@
 
 普通纪要读起来是一场顺利对齐的会；它看到的是，会后那条群消息悄悄改写了老板的决定。
 
-*人物、公司、数据全部虚构。[完整逐字稿](./examples/product-review-fictional/transcript.txt) · [完整 HTML 报告](https://dlxeva.github.io/biz-retro-analyzer/demo/)*
+*人物、公司、数据全部虚构。[完整逐字稿](./examples/product-review-fictional/transcript.txt) · [完整 HTML 报告](https://dlxeva.github.io/biz-retro-analyzer/demo/zh/)*
 
 ## 它做三件事
 - **给每条主张记账。** 每个结论标上证据状态（已确认 / 待验证 / 假设 / 与源材料冲突）和时间戳锚点，对不上的标红。
