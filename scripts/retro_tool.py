@@ -1988,12 +1988,13 @@ def _esc(text):
 
 
 class HtmlRenderer:
-    def __init__(self, data, indexes, lang, removed, audience):
+    def __init__(self, data, indexes, lang, removed, audience, language_switch=None):
         self.d = data
         self.idx = indexes
         self.L = LABELS["zh" if lang.lower().startswith("zh") else "en"]
         self.removed = removed
         self.audience = audience
+        self.language_switch = language_switch
         self.default = default_source_id(data)
         self.anchored = {}
 
@@ -2027,7 +2028,7 @@ class HtmlRenderer:
             return '<span class="anc bad" title="%s">%s</span>' % (_esc(reason), _esc(text))
         if not turn:
             return '<a class="anc" href="#src-%s" title="%s">%s</a>' % (_esc(sid), _esc(a.get("quote") or ""), _esc(text))
-        tip = "%s %s\uff1a%s" % (turn["speaker"], turn["ts"] or "", turn["text"][:160])
+        tip = "%s %s%s%s" % (turn["speaker"], turn["ts"] or "", self.L["colon"], turn["text"][:160])
         return '<a class="anc" href="#%s" title="%s">%s</a>' % (self.turn_id(sid, turn), _esc(tip), _esc(text))
 
     def anchors(self, anchors):
@@ -2047,7 +2048,7 @@ class HtmlRenderer:
             if not turns:
                 return m.group(0)
             t = turns[0]
-            tip = "%s\uff1a%s" % (t["speaker"], t["text"][:160])
+            tip = "%s%s%s" % (t["speaker"], self.L["colon"], t["text"][:160])
             return '<a class="anc ts" href="#%s" title="%s">%s</a>' % (self.turn_id(self.default, t), _esc(tip),
                                                                       m.group(1))
         return TS_RE.sub(link, s)
@@ -2088,7 +2089,11 @@ class HtmlRenderer:
              '<meta name="generator" content="biz-retro-analyzer %s">' % VERSION,
              "<title>%s</title><style>%s</style></head><body><main class=\"page\">" % (_esc(m["reportTitle"]), css)]
         mode_names = {"A": "Mode A · Fact Pack", "B": "Mode B · Retro Pack", "C": "Mode C · Audit Pack"}
-        o.append('<header class="hero"><p class="eyebrow">%s · %s</p><h1>%s</h1>' % (
+        o.append('<header class="hero">')
+        if self.language_switch:
+            lab, href = self.language_switch
+            o.append('<p class="lang-switch"><a href="%s">%s</a></p>' % (_esc(href), _esc(lab)))
+        o.append('<p class="eyebrow">%s · %s</p><h1>%s</h1>' % (
             _esc(mode_names.get(m.get("outputMode"), m.get("outputMode"))), _esc(L["evidenceFirst"]),
             _esc(m["reportTitle"])))
         if m.get("lead"):
@@ -2316,13 +2321,13 @@ class HtmlRenderer:
         return "\n".join(o) + "\n"
 
 
-def render_html(data, indexes=None, audience=None, css=None):
+def render_html(data, indexes=None, audience=None, css=None, language_switch=None):
     normalize_audit_lists(data)
     audience = audience or data.get("meta", {}).get("audience") or "internal"
     shown, removed = redact(data, audience)
     css = css if css is not None else read_text(CSS_PATH)
     lang = data.get("meta", {}).get("language") or ("zh-CN" if has_cjk(data["meta"].get("reportTitle", "")) else "en")
-    return HtmlRenderer(shown, indexes or {}, lang, removed, audience).render(css)
+    return HtmlRenderer(shown, indexes or {}, lang, removed, audience, language_switch).render(css)
 
 
 def _parse_source_overrides(args):
@@ -2333,6 +2338,16 @@ def _parse_source_overrides(args):
         sid, path = item.split("=", 1)
         overrides[sid.strip()] = Path(path.strip())
     return overrides
+
+
+def _parse_language_switch(args):
+    raw = getattr(args, "language_switch", None)
+    if not raw:
+        return None
+    if "=" not in raw:
+        raise SystemExit("error: --language-switch expects LABEL=HREF, got %r" % raw)
+    label, href = raw.split("=", 1)
+    return (label.strip(), href.strip())
 
 
 def cmd_render(args):
@@ -2355,7 +2370,7 @@ def cmd_render(args):
         out = render_markdown(redact(data, audience)[0])
     else:
         indexes, _ = load_source_indexes(data, Path(args.input).resolve().parent, overrides)
-        out = render_html(data, indexes, args.audience)
+        out = render_html(data, indexes, args.audience, language_switch=_parse_language_switch(args))
     _write_output(out, args.output)
     if failed:
         print("warning: %d protocol check(s) fail: %s (run validate for details)" % (
@@ -2443,6 +2458,8 @@ def build_parser():
                    help="redact for the audience (default: meta.audience or internal)")
     p.add_argument("-t", "--transcript", help="transcript for the first source-layer source")
     p.add_argument("-s", "--source", action="append", metavar="ID=PATH", help="transcript for a source id")
+    p.add_argument("--language-switch", metavar="LABEL=HREF",
+                   help="header link to an alternate-language page")
     return parser
 
 

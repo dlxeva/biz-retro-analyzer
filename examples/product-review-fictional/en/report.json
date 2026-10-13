@@ -1,0 +1,1301 @@
+{
+  "schemaVersion": "2.0",
+  "meta": {
+    "reportTitle": "Q3 review · AI Smart Replenishment Suggestions",
+    "reportDate": "2026-10-13",
+    "outputMode": "C",
+    "projectStage": "Go / no-go review · revisit in two weeks",
+    "subtitle": "Fictional material for a biz-retro-analyzer demo. The company, people, and numbers are invented.",
+    "lead": "What Zhou called in the room was a time-boxed evaluation: alerts first, a light demo for replenishment, look again in two weeks. The follow-up group message rewrote that as “replenishment confirmed as a Q3 priority, alerts after the demo.” Both premises for replenishment — data coverage and what customers actually asked for — were contradicted in the meeting.",
+    "language": "en",
+    "audience": "internal",
+    "interactionContext": "formal_meeting",
+    "analysisWindow": "00:00-05:05, 06:40-14:00 (Zhou in the room 08:30-12:15)",
+    "noiseNote": "05:05-06:40 room-booking / screen drop and 14:00-14:50 small talk were isolated. 10:15 contains “dinner”; that line is kept because it is evidence.",
+    "generatedBy": "Hand analysis following SKILL.md Mode C, then written as report JSON"
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "label": "Q3 product-review transcript",
+      "layer": "source",
+      "type": "speech-to-text transcript",
+      "path": "transcript.txt",
+      "speakerAttribution": "reliable",
+      "note": "About 15 minutes, speakers A-E"
+    },
+    {
+      "id": "S2",
+      "label": "Gao Yuan's post-meeting group message",
+      "layer": "source",
+      "type": "group chat",
+      "path": "group-message.txt",
+      "note": "Shows how Gao stated the conclusion, not that the meeting made those conclusions"
+    },
+    {
+      "id": "C1",
+      "label": "Lin Xiaolu's background note",
+      "layer": "context",
+      "type": "user note",
+      "path": "context.txt",
+      "note": "The person asking for the analysis; not independent evidence"
+    }
+  ],
+  "summary": [
+    {
+      "label": "Decision",
+      "headline": "The room decided on a time-boxed evaluation, not a kickoff",
+      "body": "Both tracks in parallel, alerts first, a light demo for replenishment, revisit in two weeks.",
+      "status": "Confirmed",
+      "strength": "High",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12",
+          "quote": "alerts first"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "11:45",
+          "quote": "Keep the demo light"
+        }
+      ]
+    },
+    {
+      "label": "Consistency",
+      "headline": "The group message disagrees with the CEO in three places",
+      "body": "“Confirmed as a Q3 priority,” “priority after the demo,” and “customer demand is validated” are not in the transcript.",
+      "status": "Confirmed",
+      "strength": "High",
+      "anchors": [
+        {
+          "source": "S2",
+          "quote": "confirmed as a Q3 priority"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "09:32",
+          "quote": "I didn't say replenishment had to go first"
+        }
+      ]
+    },
+    {
+      "label": "Premises",
+      "headline": "Data coverage is about 7%; customers asked for alerts",
+      "body": "Stores with 90 days of SKU-level inventory: about 7%. A named customer said the system should not decide order quantities.",
+      "status": "Confirmed",
+      "strength": "High",
+      "anchors": [
+        {
+          "speaker": "B Su Qing",
+          "ts": "02:10",
+          "quote": "about seven percent"
+        },
+        {
+          "speaker": "D Lin Xiaolu",
+          "ts": "03:55",
+          "quote": "don't let the system decide for us"
+        }
+      ]
+    },
+    {
+      "label": "Consensus",
+      "headline": "“Both tracks” is a false consensus",
+      "body": "A four-person team cannot staff both tracks. Priority was never defined. After Zhou left it was rewritten unilaterally.",
+      "status": "Inferred",
+      "strength": "Medium",
+      "anchors": [
+        {
+          "speaker": "C Ma Jun",
+          "ts": "11:33"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:22",
+          "quote": "staff the demo first"
+        }
+      ]
+    }
+  ],
+  "evidenceLayer": [
+    {
+      "title": "Source 1 · review transcript",
+      "source": "S1",
+      "status": "Confirmed",
+      "notes": "Who said what. Said is not the same as true.",
+      "points": [
+        {
+          "text": "The six person-month estimate was never formally done by engineering.",
+          "anchors": [
+            {
+              "speaker": "C Ma Jun",
+              "ts": "01:35",
+              "quote": "we never did a formal estimate"
+            }
+          ]
+        },
+        {
+          "text": "Of 1,200+ active stores, about 7% (eighty-something) have 90 straight days of SKU-level inventory records.",
+          "anchors": [
+            {
+              "speaker": "B Su Qing",
+              "ts": "02:10"
+            }
+          ]
+        },
+        {
+          "text": "First-half churn: 41 accounts; only 3 left explicitly for Shelfwise.",
+          "anchors": [
+            {
+              "speaker": "B Su Qing",
+              "ts": "02:38",
+              "quote": "only three of them left explicitly for Shelfwise"
+            }
+          ]
+        },
+        {
+          "text": "Named customers asked for inventory alerts, not for the system to decide order quantities.",
+          "anchors": [
+            {
+              "speaker": "D Lin Xiaolu",
+              "ts": "03:22"
+            },
+            {
+              "speaker": "D Lin Xiaolu",
+              "ts": "03:55"
+            }
+          ]
+        },
+        {
+          "text": "Hearth Kitchen would pay extra for alerts, about two or three thousand a year; Lin has QBR notes.",
+          "anchors": [
+            {
+              "speaker": "D Lin Xiaolu",
+              "ts": "07:15",
+              "quote": "two or three thousand a year"
+            }
+          ]
+        },
+        {
+          "text": "Strategy-meeting notes do not mention replenishment; Zhou said he did not put it first.",
+          "anchors": [
+            {
+              "speaker": "B Su Qing",
+              "ts": "06:58"
+            },
+            {
+              "speaker": "E Zhou",
+              "ts": "09:32"
+            }
+          ]
+        },
+        {
+          "text": "Gao revised “twenty-plus owners” down to “seven or eight,” with no notes.",
+          "anchors": [
+            {
+              "speaker": "A Gao Yuan",
+              "ts": "10:15",
+              "quote": "seven or eight for sure"
+            }
+          ]
+        },
+        {
+          "text": "After Zhou left, Gao reset priority to “staff the demo first.”",
+          "anchors": [
+            {
+              "speaker": "A Gao Yuan",
+              "ts": "12:25"
+            },
+            {
+              "speaker": "A Gao Yuan",
+              "ts": "13:22"
+            }
+          ]
+        }
+      ],
+      "evidenceNotes": [
+        {
+          "claim": "The “twenty-plus owners” Gao opened with have no written support",
+          "status": "Confirmed",
+          "strength": "High",
+          "basis": "Source quote/paraphrase",
+          "anchors": [
+            {
+              "speaker": "A Gao Yuan",
+              "ts": "10:15",
+              "quote": "No notes, no list"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Source 2 · post-meeting group message (Gao Yuan)",
+      "source": "S2",
+      "status": "Confirmed",
+      "notes": "Proves Gao stated the meeting this way. Does not prove the meeting made those conclusions.",
+      "points": [
+        {
+          "text": "Calls replenishment “confirmed as a Q3 priority.”",
+          "anchors": [
+            {
+              "source": "S2",
+              "quote": "confirmed as a Q3 priority"
+            }
+          ]
+        },
+        {
+          "text": "Puts alerts at “priority after the demo.”",
+          "anchors": [
+            {
+              "source": "S2",
+              "quote": "priority after the demo"
+            }
+          ]
+        },
+        {
+          "text": "States “customer demand is validated.”",
+          "anchors": [
+            {
+              "source": "S2",
+              "quote": "customer demand is validated"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Who are the seven or eight owners Gao mentioned, and did they ask the system to decide quantities or just to ping them.",
+    "Of the eighty-something stores with records, how many are complete enough to train on.",
+    "Whether Shelfwise actually shipped replenishment, and at what price (nobody checked in the room)."
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "decision": "Stand up inventory alerts first",
+      "decidedBy": "E Zhou",
+      "owner": "Ma Jun (engineering)",
+      "due": "Q3 schedule, unset",
+      "status": "Needs validation",
+      "followUp": "At 13:22 Gao changed this to “priority after the demo”; the group message kept the rewrite",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12",
+          "quote": "alerts first"
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "decision": "A light replenishment demo for a few large accounts",
+      "decidedBy": "E Zhou",
+      "owner": "Gao Yuan (claimed at 11:28)",
+      "due": "two weeks",
+      "status": "Needs validation",
+      "followUp": "The group message upgraded this to “confirmed as a Q3 priority” and dropped “keep the demo light”",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "11:45",
+          "quote": "Keep the demo light"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "11:28"
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "decision": "Revisit at the same time in two weeks",
+      "decidedBy": "E Zhou",
+      "owner": "unassigned",
+      "due": "two weeks",
+      "status": "Confirmed",
+      "followUp": "The group message does not mention the revisit",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "12:15",
+          "quote": "same time in two weeks"
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "decision": "Product takes a first look at inventory-module coverage",
+      "decidedBy": "E Zhou",
+      "owner": "“together”; no single owner",
+      "due": "unset",
+      "status": "Needs validation",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "12:05"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "12:10",
+          "quote": "We'll look at it together"
+        }
+      ]
+    },
+    {
+      "id": "D5",
+      "decision": "Do not tell Hearth Kitchen that alerts are being built",
+      "decidedBy": "A Gao Yuan (after the CEO left)",
+      "owner": "Lin Xiaolu",
+      "due": "until the demo is ready",
+      "status": "Assumption",
+      "followUp": "Not Zhou's decision; it stalls the only paying-signal customer",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:02",
+          "quote": "Don't tell them yet"
+        }
+      ]
+    }
+  ],
+  "minutesCheck": [
+    {
+      "written": "AI Smart Replenishment Suggestions confirmed as a Q3 priority",
+      "spoken": "Both tracks, alerts first, a demo for replenishment, revisit in two weeks",
+      "verdict": "inconsistent",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12"
+        },
+        {
+          "source": "S2",
+          "quote": "confirmed as a Q3 priority"
+        }
+      ]
+    },
+    {
+      "written": "Inventory alerts scheduled, priority after the demo",
+      "spoken": "Alerts first. “Priority after the demo” is Gao, after Zhou had left",
+      "verdict": "inconsistent",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:22",
+          "quote": "priority sits behind the replenishment demo"
+        }
+      ]
+    },
+    {
+      "written": "Customer demand is validated (multiple owners asked)",
+      "spoken": "Seven or eight, no notes; customer success heard alerts, not replenishment",
+      "verdict": "inconsistent",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "10:15"
+        },
+        {
+          "speaker": "D Lin Xiaolu",
+          "ts": "09:45"
+        }
+      ]
+    },
+    {
+      "written": "Competitor already shipped; window is tight",
+      "spoken": "Unchecked in the room; 3 of 41 churned accounts left explicitly for Shelfwise",
+      "verdict": "partial",
+      "anchors": [
+        {
+          "speaker": "B Su Qing",
+          "ts": "02:38"
+        }
+      ]
+    },
+    {
+      "written": "Demo in two weeks (Product leads, Eng supports)",
+      "spoken": "Gao takes the demo; Zhou said keep it light",
+      "verdict": "consistent",
+      "note": "The qualifier “keep the demo light” was dropped",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "11:28"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "11:45"
+        }
+      ]
+    }
+  ],
+  "claimLedger": [
+    {
+      "claim": "Talked to twenty-plus owners; they basically all want replenishment",
+      "claimant": "A Gao Yuan",
+      "support": "Personal impression",
+      "counter": "At 10:15 he revised to seven or eight, no notes",
+      "status": "Needs validation",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "00:15",
+          "quote": "twenty-plus owners"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "10:15"
+        }
+      ]
+    },
+    {
+      "claim": "Lost accounts basically all went to the competitor",
+      "claimant": "A Gao Yuan",
+      "support": "None",
+      "counter": "3 of 41 left explicitly for Shelfwise",
+      "status": "Needs validation",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "00:38"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "02:38"
+        }
+      ]
+    },
+    {
+      "claim": "Ticket lift around 20%",
+      "claimant": "A Gao Yuan",
+      "support": "Unnamed “industry reports”",
+      "counter": "Nobody checked",
+      "status": "Assumption",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "00:55",
+          "quote": "around twenty percent"
+        }
+      ]
+    },
+    {
+      "claim": "Six person-months ships a usable version; 90% accuracy is not a problem",
+      "claimant": "A Gao Yuan",
+      "support": "“I talked to people on your team”",
+      "counter": "Engineering never estimated; no baseline",
+      "status": "Needs validation",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "01:20"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "01:35"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "04:20",
+          "quote": "I don't even have a baseline"
+        }
+      ]
+    },
+    {
+      "claim": "This is the direction Zhou set",
+      "claimant": "A Gao Yuan",
+      "support": "Last strategy meeting",
+      "counter": "Notes do not say replenishment; Zhou denied it",
+      "status": "Needs validation",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "06:40",
+          "quote": "this is the direction Zhou set"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "06:58"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "09:32"
+        }
+      ]
+    },
+    {
+      "claim": "Replenishment sells north of $100k a year",
+      "claimant": "A Gao Yuan",
+      "support": "None",
+      "counter": "Su Qing did not find a $100k package on Shelfwise's site (to confirm)",
+      "status": "Assumption",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "07:35"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "07:55"
+        }
+      ]
+    },
+    {
+      "claim": "Broad consensus that demand is real",
+      "claimant": "A Gao Yuan",
+      "support": "None",
+      "counter": "Ma Jun and Su Qing corrected it in the room",
+      "status": "Needs validation",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "08:36"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "08:50",
+          "quote": "that's not a full consensus"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "09:05"
+        }
+      ]
+    },
+    {
+      "claim": "Customers asked for alerts and will pay",
+      "claimant": "D Lin Xiaolu",
+      "support": "Customer wording + QBR notes",
+      "counter": "Two named accounts, one paying signal",
+      "status": "Inferred",
+      "strength": "Medium",
+      "anchors": [
+        {
+          "speaker": "D Lin Xiaolu",
+          "ts": "03:22"
+        },
+        {
+          "speaker": "D Lin Xiaolu",
+          "ts": "07:15"
+        }
+      ]
+    }
+  ],
+  "projectThread": [
+    {
+      "label": "00:00-00:55",
+      "title": "Conclusion first",
+      "body": "“Has to get built, move now”: twenty-plus owners, competitor churn, +20% tickets, six person-months.",
+      "note": "None of the opening claims had a checkable source in the room"
+    },
+    {
+      "label": "01:35-04:55",
+      "title": "Three independent counters",
+      "body": "Engineering (estimate, data prerequisite), data (7%, 41/3), customer success (the ask is alerts).",
+      "status": "Confirmed",
+      "anchors": [
+        {
+          "speaker": "C Ma Jun",
+          "ts": "01:35"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "02:10"
+        },
+        {
+          "speaker": "D Lin Xiaolu",
+          "ts": "03:22"
+        }
+      ]
+    },
+    {
+      "label": "06:40-07:08",
+      "title": "Borrowed authority",
+      "body": "“Zhou set this direction” is contradicted by the notes and, at 09:32, by Zhou.",
+      "status": "Confirmed",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "06:40"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "06:58"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "09:32"
+        }
+      ]
+    },
+    {
+      "label": "08:30-10:28",
+      "title": "CEO walks in and asks for records",
+      "body": "Gao's “consensus” recap is corrected on the spot. Zhou asks for a list; Gao revises the number.",
+      "status": "Confirmed",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "08:36"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "08:50"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "10:08"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "10:15"
+        }
+      ]
+    },
+    {
+      "label": "11:12-12:15",
+      "title": "Parallel compromise",
+      "body": "Alerts first + a light demo + two-week revisit. Staffing and owners left open.",
+      "status": "Inferred",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "11:33"
+        }
+      ]
+    },
+    {
+      "label": "12:25-13:50",
+      "title": "Rewrite in the authority gap",
+      "body": "After Zhou left, priority became demo-first, and Hearth Kitchen was told not to hear about alerts.",
+      "status": "Confirmed",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "12:25"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:02"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:22"
+        }
+      ]
+    },
+    {
+      "label": "After",
+      "title": "Written lock-in",
+      "body": "The group message ships the rewritten version as “the meeting recap.”",
+      "status": "Confirmed",
+      "anchors": [
+        {
+          "source": "S2",
+          "quote": "Please proceed on this"
+        }
+      ]
+    }
+  ],
+  "threadNotes": [
+    {
+      "claim": "The live priority is Gao's, set after Zhou left, not Zhou's",
+      "status": "Inferred",
+      "strength": "Medium",
+      "basis": "Source quote/paraphrase",
+      "highRiskType": "control",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:22",
+          "quote": "staff the demo first"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:35",
+          "quote": "I'll take it up with Zhou"
+        }
+      ],
+      "toValidate": "At the two-week revisit, does Zhou accept this ordering"
+    }
+  ],
+  "influenceChain": [
+    {
+      "actor": "A Gao Yuan",
+      "move": "Triple frame: demand is real + competitor shipped + Zhou already decided",
+      "adoptedBy": "Nobody. Three people each push back.",
+      "effect": "The frame is already weak before the CEO arrives",
+      "status": "Confirmed",
+      "strength": "High",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "00:15"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "00:38"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "06:40"
+        }
+      ]
+    },
+    {
+      "actor": "A Gao Yuan",
+      "move": "Gives the late CEO a “consensus” recap",
+      "adoptedBy": "Corrected on the spot by Ma Jun and Su Qing",
+      "effect": "Zhou turns to customer success instead",
+      "status": "Confirmed",
+      "strength": "High",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "08:36"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "08:50"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "09:32"
+        }
+      ]
+    },
+    {
+      "actor": "E Zhou",
+      "move": "“Both tracks + keep the demo light”",
+      "adoptedBy": "Gao takes the demo; Ma flags a staffing collision and gets no answer",
+      "effect": "The resource conflict is parked",
+      "status": "Inferred",
+      "strength": "Medium",
+      "riskIfWrong": "If Zhou had a private ranking, this is unclear speech, not a false consensus",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "11:33"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "11:45"
+        }
+      ]
+    },
+    {
+      "actor": "A Gao Yuan",
+      "move": "Reorders priority after Zhou leaves, then locks it in writing",
+      "adoptedBy": "The group message, sent to everyone",
+      "effect": "Execution order is the reverse of Zhou's words",
+      "status": "Confirmed",
+      "strength": "High",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "12:25"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:22"
+        },
+        {
+          "source": "S2",
+          "quote": "priority after the demo"
+        }
+      ]
+    }
+  ],
+  "stakeholders": [
+    {
+      "party": "A Gao Yuan",
+      "role": "VP of Product · proposer",
+      "statedPosition": "Replenishment must ship in Q3; demand is real; competitor already shipped",
+      "apparentMotive": "Keep the proposal visible and keep its resource priority",
+      "status": "Inferred",
+      "strength": "Low",
+      "basis": "Source quote/paraphrase",
+      "evidenceNote": "The pattern repeats at two points; motive itself has no direct evidence",
+      "anchors": [
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "00:00",
+          "quote": "this has to get built"
+        },
+        {
+          "speaker": "A Gao Yuan",
+          "ts": "13:22"
+        },
+        {
+          "source": "S2",
+          "quote": "Please proceed on this"
+        }
+      ]
+    },
+    {
+      "party": "B Su Qing",
+      "role": "data analyst",
+      "statedPosition": "Correct claims with numbers",
+      "apparentMotive": "Keep the decision on checkable figures",
+      "status": "Inferred",
+      "strength": "Medium",
+      "anchors": [
+        {
+          "speaker": "B Su Qing",
+          "ts": "02:10"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "02:38"
+        },
+        {
+          "speaker": "B Su Qing",
+          "ts": "07:55"
+        }
+      ]
+    },
+    {
+      "party": "C Ma Jun",
+      "role": "head of engineering",
+      "statedPosition": "You can't skip the data; alerts first",
+      "apparentMotive": "Avoid a delivery promise the team cannot keep",
+      "status": "Inferred",
+      "strength": "Medium",
+      "anchors": [
+        {
+          "speaker": "C Ma Jun",
+          "ts": "04:20",
+          "quote": "you can't skip the data"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "10:35"
+        },
+        {
+          "speaker": "C Ma Jun",
+          "ts": "11:33"
+        }
+      ]
+    },
+    {
+      "party": "D Lin Xiaolu",
+      "role": "customer success",
+      "statedPosition": "Customers asked for alerts, and one will pay",
+      "apparentMotive": "Deliver what the account actually asked for",
+      "status": "Inferred",
+      "strength": "Medium",
+      "anchors": [
+        {
+          "speaker": "D Lin Xiaolu",
+          "ts": "03:22"
+        },
+        {
+          "speaker": "D Lin Xiaolu",
+          "ts": "07:15"
+        }
+      ]
+    },
+    {
+      "party": "E Zhou",
+      "role": "CEO",
+      "statedPosition": "Data-driven operations; time-boxed evaluation",
+      "apparentMotive": "Don't kill the proposal, and don't kick it off on thin evidence",
+      "status": "Assumption",
+      "strength": "Low",
+      "evidenceNote": "In the room about four minutes",
+      "anchors": [
+        {
+          "speaker": "E Zhou",
+          "ts": "09:32"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "10:08"
+        },
+        {
+          "speaker": "E Zhou",
+          "ts": "11:12"
+        }
+      ]
+    }
+  ],
+  "understandingMap": {
+    "rows": [
+      {
+        "party": "A Gao Yuan",
+        "problem": {
+          "level": "mixed",
+          "note": "Separates owners from procurement; the evidence is informal"
+        },
+        "advancementPath": {
+          "level": "strong",
+          "note": "Sets the agenda, takes an owner, writes it down"
+        },
+        "deliveryConstraints": {
+          "level": "thin",
+          "note": "Six person-months and 90% have no basis"
+        },
+        "decisionMechanics": {
+          "level": "strong",
+          "note": "Uses the window while the CEO is in the room"
+        },
+        "anchors": [
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "11:28"
+          },
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "12:25"
+          }
+        ]
+      },
+      {
+        "party": "B Su Qing",
+        "problem": {
+          "level": "mixed"
+        },
+        "advancementPath": {
+          "level": "thin"
+        },
+        "deliveryConstraints": {
+          "level": "mixed"
+        },
+        "decisionMechanics": {
+          "level": "unclear"
+        },
+        "anchors": [
+          {
+            "speaker": "B Su Qing",
+            "ts": "02:10"
+          }
+        ]
+      },
+      {
+        "party": "C Ma Jun",
+        "problem": {
+          "level": "mixed"
+        },
+        "advancementPath": {
+          "level": "mixed"
+        },
+        "deliveryConstraints": {
+          "level": "strong",
+          "note": "Data prerequisite, headcount"
+        },
+        "decisionMechanics": {
+          "level": "thin",
+          "note": "Pushes twice, then goes quiet"
+        },
+        "anchors": [
+          {
+            "speaker": "C Ma Jun",
+            "ts": "04:20"
+          },
+          {
+            "speaker": "C Ma Jun",
+            "ts": "11:33"
+          }
+        ]
+      },
+      {
+        "party": "D Lin Xiaolu",
+        "problem": {
+          "level": "strong",
+          "note": "Has customer wording and QBR notes"
+        },
+        "advancementPath": {
+          "level": "thin"
+        },
+        "deliveryConstraints": {
+          "level": "unclear"
+        },
+        "decisionMechanics": {
+          "level": "thin"
+        },
+        "anchors": [
+          {
+            "speaker": "D Lin Xiaolu",
+            "ts": "03:55"
+          }
+        ]
+      },
+      {
+        "party": "E Zhou",
+        "problem": {
+          "level": "unclear",
+          "note": "Missed the first 8.5 minutes"
+        },
+        "advancementPath": {
+          "level": "mixed"
+        },
+        "deliveryConstraints": {
+          "level": "thin",
+          "note": "Underweights what a real-data demo costs"
+        },
+        "decisionMechanics": {
+          "level": "strong",
+          "note": "Asks for a list and notes"
+        },
+        "anchors": [
+          {
+            "speaker": "E Zhou",
+            "ts": "10:08"
+          },
+          {
+            "speaker": "E Zhou",
+            "ts": "11:45"
+          }
+        ]
+      }
+    ],
+    "readout": [
+      "The hardest evidence sits with the three people who understand decision mechanics the least. The person who understands how to move a decision has the weakest evidence."
+    ]
+  },
+  "audit": {
+    "userNarrative": "Lin Xiaolu: Gao's claims don't have much under them, but he held the room, and Zhou never really made a call.",
+    "supportedJudgments": [
+      {
+        "claim": "The group message and the CEO disagree on priority and how decided it was",
+        "status": "Confirmed",
+        "strength": "High",
+        "basis": "Source quote/paraphrase",
+        "anchors": [
+          {
+            "speaker": "E Zhou",
+            "ts": "11:12",
+            "quote": "alerts first"
+          },
+          {
+            "source": "S2",
+            "quote": "priority after the demo"
+          }
+        ]
+      },
+      {
+        "claim": "Both premises for replenishment are unvalidated, and both were contradicted in the room",
+        "status": "Confirmed",
+        "strength": "High",
+        "anchors": [
+          {
+            "speaker": "B Su Qing",
+            "ts": "02:10"
+          },
+          {
+            "speaker": "D Lin Xiaolu",
+            "ts": "03:55"
+          }
+        ]
+      },
+      {
+        "claim": "“Both tracks” is a false consensus: the staffing collision was raised and not answered",
+        "status": "Inferred",
+        "strength": "Medium",
+        "basis": "Source quote/paraphrase",
+        "anchors": [
+          {
+            "speaker": "C Ma Jun",
+            "ts": "11:33"
+          },
+          {
+            "speaker": "E Zhou",
+            "ts": "11:45"
+          }
+        ]
+      }
+    ],
+    "weakJudgments": [
+      {
+        "claim": "The user's “Gao has nothing under him” overreaches: an informal base of seven or eight owners still exists",
+        "status": "Inferred",
+        "strength": "Medium",
+        "anchors": [
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "10:15"
+          }
+        ]
+      },
+      {
+        "claim": "The user's “Zhou never made a call” is off: Zhou called a time-boxed evaluation; what stayed vague is resource priority",
+        "status": "Inferred",
+        "strength": "Medium",
+        "anchors": [
+          {
+            "speaker": "E Zhou",
+            "ts": "12:15",
+            "quote": "that's the call"
+          }
+        ]
+      },
+      {
+        "claim": "Gao is deliberately misleading the CEO and the team",
+        "status": "Assumption",
+        "strength": "Low",
+        "highRiskType": "bad_faith",
+        "note": "A different-reading-of-the-same-meeting explanation still fits",
+        "toValidate": "At the two-week revisit, does Gao treat 11:12 and the group message as the same decision"
+      }
+    ],
+    "explicitAssumptions": [
+      {
+        "claim": "Owners actually want the system to decide restock quantities",
+        "status": "Assumption",
+        "strength": "Low",
+        "toValidate": "Interview three of the named owners"
+      },
+      {
+        "claim": "Shelfwise has shipped replenishment and prices it above $100k",
+        "status": "Needs validation",
+        "strength": "Low",
+        "toValidate": "Check the public site and sales material"
+      }
+    ],
+    "suspiciousActions": [
+      {
+        "action": "After the CEO left, Gao rewrote priority and told the room not to mention alerts to Hearth Kitchen",
+        "informationChange": "Gao may think a demo gets big-account feedback faster, and alerts can wait",
+        "pressureOrMisjudgment": "After three people pushed back, he needs something showable before the two-week revisit",
+        "strategicMisdirection": "Use the authority gap and a written recap so execution order lands ahead of the CEO's call",
+        "status": "Needs validation",
+        "anchors": [
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "13:02"
+          },
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "13:22"
+          },
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "13:35"
+          }
+        ]
+      }
+    ],
+    "consensusCheck": [
+      "Fast close: proposed at 11:12, Zhou gone at 12:15; the staffing issue was raised once (11:33).",
+      "“Do both”: two tracks, no ranking.",
+      "Authority-driven: one CEO sentence closes it; the person who flagged the collision gets no answer."
+    ],
+    "validationTargets": [
+      "Gao's list of 7–8 owners; interview three of them",
+      "Sample how often the eighty-something stores actually stop logging",
+      "Ask Zhou to confirm the priority he meant"
+    ]
+  },
+  "actions": {
+    "doNow": [
+      {
+        "text": "Send a neutral recap in Zhou's words and ask him to confirm",
+        "owner": "Lin Xiaolu",
+        "anchors": [
+          {
+            "speaker": "E Zhou",
+            "ts": "11:12"
+          },
+          {
+            "speaker": "E Zhou",
+            "ts": "11:45"
+          }
+        ]
+      },
+      {
+        "text": "Ma Jun writes down a four-person Q3 staffing plan and asks the CEO to rank it",
+        "owner": "C Ma Jun",
+        "anchors": [
+          {
+            "speaker": "C Ma Jun",
+            "ts": "11:33"
+          }
+        ]
+      },
+      {
+        "text": "Give inventory-module coverage a single owner and a target",
+        "anchors": [
+          {
+            "speaker": "E Zhou",
+            "ts": "12:05"
+          },
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "12:10"
+          }
+        ]
+      }
+    ],
+    "doLater": [
+      {
+        "text": "Interview three customers with the same questions, splitting “alert me” from “decide for me”"
+      },
+      {
+        "text": "Sample data quality; check competitor features and pricing"
+      }
+    ],
+    "validateBeforeCommit": [
+      {
+        "text": "Whether Hearth Kitchen's extra spend can go in a contract; whether the customer is told is Zhou's call",
+        "anchors": [
+          {
+            "speaker": "D Lin Xiaolu",
+            "ts": "07:15"
+          },
+          {
+            "speaker": "A Gao Yuan",
+            "ts": "13:02"
+          }
+        ]
+      },
+      {
+        "text": "No external promise of end of August, six person-months, or 90% accuracy until engineering has estimated",
+        "anchors": [
+          {
+            "speaker": "C Ma Jun",
+            "ts": "01:35"
+          }
+        ]
+      }
+    ],
+    "oneLinePositioning": "The two-week revisit should compare evidence, not volume: alerts have a paying signal; replenishment still needs one."
+  },
+  "methodNotes": [
+    "Build the decision ledger before reading the group message: written recaps are the fastest way to overwrite what was said.",
+    "Noise hints from preprocess are hints: the 10:15 “over dinner” line is the most important correction in the meeting."
+  ],
+  "references": [
+    {
+      "label": "Transcript",
+      "path": "transcript.txt",
+      "reason": "Source 1, original evidence"
+    },
+    {
+      "label": "Group message",
+      "path": "group-message.txt",
+      "reason": "Source 2, written recap after the meeting"
+    },
+    {
+      "label": "Background note",
+      "path": "context.txt",
+      "reason": "Source 3, frames the question only"
+    }
+  ]
+}

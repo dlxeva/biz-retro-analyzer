@@ -10,6 +10,15 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-10-13 (demo language)
+
+- English fictional transcript and Mode C report JSON in `examples/product-review-fictional/en/`
+- GitHub Pages `/demo/` is the English report (English UI labels, English fonts first); Chinese report moved to `/demo/zh/`
+- Language toggle on both demo pages; landing defaults to English and links to Chinese
+- `render --language-switch LABEL=HREF` adds the header link
+
+---
+
 ## 2026-10-13
 
 ### README first screen, live demo, string-assumption coerce

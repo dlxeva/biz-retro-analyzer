@@ -313,7 +313,8 @@ class ExampleSyncTest(unittest.TestCase):
 
 QUICK_REPORT = ROOT / "examples" / "quickstart.report.json"
 FICTIONAL = ROOT / "examples" / "product-review-fictional"
-REPORTS = [QUICK_REPORT, FICTIONAL / "report.json"]
+FICTIONAL_EN = FICTIONAL / "en"
+REPORTS = [QUICK_REPORT, FICTIONAL / "report.json", FICTIONAL_EN / "report.json"]
 
 
 def load_json(path):
@@ -437,10 +438,10 @@ class ValidateReportJsonTest(TempDirMixin, unittest.TestCase):
 
 class RenderTest(TempDirMixin, unittest.TestCase):
     @staticmethod
-    def html(path, audience=None):
+    def html(path, audience=None, language_switch=None):
         data = load_json(path)
         indexes, _ = retro_tool.load_source_indexes(data, path.parent)
-        return retro_tool.render_html(data, indexes, audience)
+        return retro_tool.render_html(data, indexes, audience, language_switch=language_switch)
 
     def test_html_has_sections_and_linked_anchors(self):
         page = self.html(FICTIONAL / "report.json")
@@ -460,7 +461,8 @@ class RenderTest(TempDirMixin, unittest.TestCase):
 
     def test_markdown_render_passes_markdown_validate(self):
         cases = [(QUICK_REPORT, [QUICK_TRANSCRIPT]),
-                 (FICTIONAL / "report.json", [FICTIONAL / "transcript.txt", FICTIONAL / "group-message.txt"])]
+                 (FICTIONAL / "report.json", [FICTIONAL / "transcript.txt", FICTIONAL / "group-message.txt"]),
+                 (FICTIONAL_EN / "report.json", [FICTIONAL_EN / "transcript.txt", FICTIONAL_EN / "group-message.txt"])]
         for path, sources in cases:
             data = load_json(path)
             md = retro_tool.render_markdown(data)
@@ -531,10 +533,23 @@ class RenderTest(TempDirMixin, unittest.TestCase):
         self.assertIn("does not match the schema", err)
 
     def test_pages_demo_matches_fictional_render(self):
-        demo = ROOT / "docs" / "demo" / "index.html"
-        self.assertTrue(demo.is_file(), "generate with: python3 scripts/retro_tool.py render %s -o %s" % (
-            FICTIONAL / "report.json", demo))
-        self.assertEqual(demo.read_text(encoding="utf-8"), self.html(FICTIONAL / "report.json"))
+        en_demo = ROOT / "docs" / "demo" / "index.html"
+        zh_demo = ROOT / "docs" / "demo" / "zh" / "index.html"
+        self.assertTrue(en_demo.is_file(), "render %s -o %s --language-switch 中文=./zh/" % (
+            FICTIONAL_EN / "report.json", en_demo))
+        self.assertTrue(zh_demo.is_file(), "render %s -o %s --language-switch English=../" % (
+            FICTIONAL / "report.json", zh_demo))
+        self.assertEqual(en_demo.read_text(encoding="utf-8"),
+                         self.html(FICTIONAL_EN / "report.json", language_switch=("中文", "./zh/")))
+        self.assertEqual(zh_demo.read_text(encoding="utf-8"),
+                         self.html(FICTIONAL / "report.json", language_switch=("English", "../")))
+        self.assertIn('lang="en"', en_demo.read_text(encoding="utf-8")[:200])
+        self.assertIn("Structured Fact Record", en_demo.read_text(encoding="utf-8"))
+        self.assertIn("Segoe UI", en_demo.read_text(encoding="utf-8"))
+        self.assertLess(en_demo.read_text(encoding="utf-8").index("Segoe UI"),
+                        en_demo.read_text(encoding="utf-8").index("PingFang SC"))
+        self.assertIn('href="./zh/"', en_demo.read_text(encoding="utf-8"))
+        self.assertIn('href="../"', zh_demo.read_text(encoding="utf-8"))
 
 
 class AuditCoerceTest(TempDirMixin, unittest.TestCase):

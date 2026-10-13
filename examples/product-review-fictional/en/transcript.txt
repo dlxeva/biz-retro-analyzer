@@ -1,0 +1,200 @@
+A Gao Yuan 00:00
+Okay, I think that's everyone. Let's get going. One item today: AI Smart Replenishment Suggestions, and whether it goes into Q3. I'll start with the punchline — I think this has to get built, and we should move on it now.
+
+A Gao Yuan 00:15
+Why. I've spent the last two months talking to customer owners. Call it twenty-plus owners. Pretty much every one of them asked, can you just tell me what to order tomorrow. That demand is not me guessing.
+
+A Gao Yuan 00:38
+Second, the competitor. Shelfwise shipped replenishment last month. The accounts we lost recently, they basically all went there. If we miss this window, it's gone.
+
+A Gao Yuan 00:55
+Third, the value. Industry reports put the ticket lift at around twenty percent, plus better turns. So my ask is six person-months in Q3, live by the end of August.
+
+C Ma Jun 01:15
+Gao, hang on — who estimated the six person-months.
+
+A Gao Yuan 01:20
+I talked to people on your team. Six person-months for a usable version should be enough. The algorithms are mature. Hitting ninety percent accuracy is not a problem.
+
+C Ma Jun 01:35
+Yeah... we never did a formal estimate. And I want to put a prerequisite on the table. Replenishment suggestions need SKU-level inventory — every store, every SKU, daily in and out. Most of our customers don't have that. A lot of them only run POS. They never turned on the inventory module.
+
+A Gao Yuan 01:58
+That's fine. We can get them onto inventory once the feature exists. Ship it and they'll start logging stock.
+
+B Su Qing 02:10
+I have a number from last week. Of the twelve hundred plus active stores, the ones with ninety straight days of SKU-level inventory records are about seven percent. That's eighty-something stores.
+
+A Gao Yuan 02:28
+Seven percent is still eighty-something stores. Start there, get a win, then roll it out.
+
+B Su Qing 02:38
+And on the churn piece. I pulled first-half churn: forty-one accounts. The tagged reasons, top of the list, are price, POS stability, and slow implementation. Only three of them left explicitly for Shelfwise. One of those three mentioned replenishment. The other two were price.
+
+A Gao Yuan 03:05
+Those churn tags are not gospel. People don't tell you the real reason when they leave. I talked to a few of those owners off the record. They think we have nothing smart in the product. That's pretty clear.
+
+D Lin Xiaolu 03:22
+Can I jump in. I own a few of the big East-region accounts. Customers have asked, yes — Hearth Kitchen, and a bakery chain. What they actually asked for is inventory alerts. Ping me when we're about to stock out, ping me when something's about to expire. Not "have the system decide how much to buy."
+
+A Gao Yuan 03:48
+That's the same thing one step earlier. Alerts plus a recommendation is replenishment. It's one demand.
+
+D Lin Xiaolu 03:55
+I don't think it is. Hearth Kitchen's procurement manager said, we decide how much to buy — don't let the system decide for us. If it blows up, whose name is on it.
+
+A Gao Yuan 04:10
+That's procurement. Of course procurement says that. If the system does the math, what's their job. Owners want this.
+
+C Ma Jun 04:20
+Can I. Whether it's alerts or replenishment, you can't skip the data. If only seven percent of stores have it, six person-months ships something eighty stores can use, and I don't even know if those eighty are clean. Ninety percent accuracy — I will not commit to that. I don't even have a baseline.
+
+A Gao Yuan 04:45
+Ma, that's conservative. Last year on the loyalty campaign you also said you couldn't do it, and then you shipped it.
+
+C Ma Jun 04:55
+Loyalty was a rules engine. That's not the same class of problem as prediction.
+
+(00:05:05 – 00:06:40 someone walks in asking if this room is booked, the screen drops and comes back, someone says the lunch order is at reception; about a minute and a half off-topic)
+
+A Gao Yuan 06:40
+Alright, back. One more thing I want on the record. This is the direction Zhou set. At the last strategy meeting he said this year we go after intelligence, and replenishment is the obvious intelligence play.
+
+B Su Qing 06:58
+I, uh, I read the strategy-meeting notes. They say "raise data-driven operations." They don't say replenishment.
+
+A Gao Yuan 07:08
+The notes are high-level. I know what Zhou meant.
+
+D Lin Xiaolu 07:15
+One more from Hearth Kitchen. If we can do inventory alerts, they said they'd pay extra — something like two or three thousand a year. Their procurement lead said that in last month's QBR. I have the notes.
+
+A Gao Yuan 07:35
+Two or three thousand is nothing. Replenishment we can sell north of a hundred thousand a year. That's a high-value module.
+
+C Ma Jun 07:45
+Is the hundred thousand based on anything.
+
+A Gao Yuan 07:48
+That's where Shelfwise sits. That's what I heard.
+
+B Su Qing 07:55
+Shelfwise's public pricing is per store. I didn't find a hundred-thousand package. I can double-check.
+
+A Gao Yuan 08:05
+Okay, okay, let's not get stuck on that.
+
+E Zhou 08:30
+Sorry I'm late — the last meeting ran over. Where are you.
+
+A Gao Yuan 08:36
+We're on replenishment. Broad consensus that the demand is real, the competitor already shipped, and we want it in Q3. Now we're talking resources.
+
+C Ma Jun 08:50
+Uh, Zhou — that's not a full consensus. My concern is the data. Only seven percent of stores have usable inventory data. I cannot commit to accuracy.
+
+B Su Qing 09:05
+Churn doesn't really back the competitor story either. Forty-one accounts, three left explicitly for Shelfwise.
+
+E Zhou 09:15
+Okay. Gao, your take.
+
+A Gao Yuan 09:18
+The data is limited, but we can't wait for perfect data before we ship or we never ship. My vote is still go, and grow the data as we go.
+
+E Zhou 09:32
+What I said at the strategy meeting was data-driven operations. Replenishment is a direction. I didn't say replenishment had to go first. Lin, what are you hearing from customers.
+
+D Lin Xiaolu 09:45
+What I've heard, the ask is alerts, and one account will pay for it. Replenishment suggestions — I have not heard a customer ask for that directly.
+
+A Gao Yuan 09:58
+That's not what I'm hearing. I'm talking to owners. They think further out.
+
+E Zhou 10:08
+Fine. Those twenty-plus customers — do you have a list, or any notes.
+
+A Gao Yuan 10:15
+I'll put a list together. Most of it was over dinner. No notes, no list. Twenty-plus was probably high — seven or eight for sure.
+
+E Zhou 10:28
+Okay.
+
+C Ma Jun 10:35
+Zhou, a proposal. We do inventory alerts first. That's mostly rules, about three person-months, and it pulls inventory-module adoption up. Then we evaluate replenishment once we have data.
+
+A Gao Yuan 10:52
+Alerts are too thin. Customers won't pay for that. Shelfwise is already on replenishment. If we ship an alert, it looks small.
+
+D Lin Xiaolu 11:02
+Hearth Kitchen did say they'd pay for alerts...
+
+A Gao Yuan 11:05
+One customer is not a market.
+
+E Zhou 11:12
+Alright. I hear both sides. Run both tracks in parallel. Alerts first, get that standing, and do a demo for replenishment so a few big accounts can react. We'll revisit in two weeks.
+
+A Gao Yuan 11:28
+Sounds good. I'll take the replenishment demo.
+
+C Ma Jun 11:33
+Zhou, if it's both tracks, my team is four people in Q3. Alerts is three person-months. A replenishment demo on real data is at least two people, and that...
+
+E Zhou 11:45
+Keep the demo light. A sketch that explains the idea is enough.
+
+C Ma Jun 11:52
+...okay. We'll put a plan together.
+
+B Su Qing 11:58
+Then who's owning inventory-module adoption — getting that coverage number up.
+
+E Zhou 12:05
+Product can take a first look. Gao.
+
+A Gao Yuan 12:10
+Sure. We'll look at it together.
+
+E Zhou 12:15
+That's the call. Same time in two weeks, we go through it again. I have to run — another meeting.
+
+(00:12:20 Zhou leaves)
+
+A Gao Yuan 12:25
+Okay. Per Zhou, the replenishment demo is the priority. Ma, you schedule alerts. Su, send me the eighty-store list. I'll pick a few for the demo.
+
+B Su Qing 12:40
+I can send it. I haven't checked quality. A lot of those stores probably logged a month or two and then stopped.
+
+A Gao Yuan 12:48
+Just send it. I'll look.
+
+D Lin Xiaolu 12:55
+Hearth Kitchen and the alert — should I tell them we're building it.
+
+A Gao Yuan 13:02
+Don't tell them yet. Wait until the demo's ready and show them replenishment. That's a step up from alerts.
+
+D Lin Xiaolu 13:10
+...okay.
+
+C Ma Jun 13:15
+Let me confirm. The alert track — is that a real Q3 schedule, or is that a demo too.
+
+A Gao Yuan 13:22
+Schedule alerts normally, but priority sits behind the replenishment demo. Staff the demo first.
+
+C Ma Jun 13:30
+Zhou just said alerts first...
+
+A Gao Yuan 13:35
+Zhou wants both. The way I read the priority is this. I'll take it up with Zhou if there's an issue.
+
+C Ma Jun 13:45
+...okay.
+
+A Gao Yuan 13:50
+That's it for today. Thanks everyone.
+
+(00:14:00 – 00:14:50 someone asks where team dinner is, someone says the AC is freezing, recording ends)

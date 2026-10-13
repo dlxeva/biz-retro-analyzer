@@ -18,10 +18,13 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
       background: var(--bg);
       color: var(--ink);
       line-height: 1.6;
+    }
+    body.show-zh {
+      font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
     }
     .wrap { width: min(920px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0 80px; }
     .lang { text-align: right; font-size: 14px; color: var(--muted); }
@@ -72,7 +75,7 @@
       </p>
       <p class="note">Same fictional Q3 product review. Left: a generic AI summary. Right: what the transcript actually supports.</p>
       <img class="shot" src="./before-after.png" alt="Generic AI summary versus biz-retro-analyzer">
-      <p class="note">People, company, and data in the demo are entirely fictional. Source files live in <code>examples/product-review-fictional/</code>.</p>
+      <p class="note">People, company, and data in the demo are entirely fictional. Source files live in <code>examples/product-review-fictional/en/</code>. Chinese report: <a href="./demo/zh/">/demo/zh/</a>.</p>
     </div>
 
     <div class="zh">
@@ -80,10 +83,10 @@
       <p class="sub"><code>biz-retro-analyzer</code> —— 开源 Agent Skill，专做会后审计</p>
       <p class="hero">纪要告诉你大家说了什么，它告诉你哪句话其实没人证明过。</p>
       <p>
-        <a class="cta" href="./demo/">Live demo report</a>
+        <a class="cta" href="./demo/zh/">在线演示报告</a>
         <a class="cta ghost" href="https://github.com/dlxeva/biz-retro-analyzer">GitHub</a>
       </p>
-      <p class="note">同一场虚构 Q3 评审会。左：普通 AI 纪要。右：逐字稿实际支撑的内容。</p>
+      <p class="note">同一场虚构 Q3 评审会。左：普通 AI 纪要。右：逐字稿实际支撑的内容。英文演示在 <a href="./demo/">/demo/</a>。</p>
       <img class="shot" src="./before-after-zh.png" alt="普通纪要 vs biz-retro-analyzer">
       <p class="note">演示中的人物、公司、数据全部虚构。原始材料在 <code>examples/product-review-fictional/</code>。</p>
     </div>
@@ -101,7 +104,7 @@
     }
     document.getElementById("to-en").addEventListener("click", function (e) { e.preventDefault(); show("en"); });
     document.getElementById("to-zh").addEventListener("click", function (e) { e.preventDefault(); show("zh"); });
-    if (location.hash === "#zh" || (navigator.language || "").toLowerCase().indexOf("zh") === 0) show("zh");
+    if (location.hash === "#zh") show("zh");
   </script>
 </body>
 </html>

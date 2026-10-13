@@ -23,21 +23,44 @@
 
 body {
   margin: 0;
-  font-family: "PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
   background: linear-gradient(180deg, #edf2f5 0%, #f6f7f8 100%);
   color: var(--ink);
   line-height: 1.65;
+}
+
+html[lang^="zh"] body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
 }
 
 .page { width: min(1100px, calc(100% - 32px)); margin: 24px auto 48px; }
 
 /* ---------- Hero ---------- */
 .hero {
+  position: relative;
   padding: 30px 34px 26px;
   border-radius: 22px;
   background: linear-gradient(135deg, rgba(24,56,79,.97), rgba(28,82,116,.90));
   color: #f7fbff;
 }
+
+.lang-switch {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.lang-switch a {
+  color: #e8f3fa;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 8px;
+  padding: 4px 10px;
+}
+
+.lang-switch a:hover { background: rgba(255,255,255,.12); }
 .hero .eyebrow { color:#bad5e8; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
 .hero h1 { margin:10px 0 8px; font-size:clamp(26px,3.4vw,38px); line-height:1.15; }
 .hero .lead { margin:0; max-width:880px; color:#d9ebf7; font-size:15px; }

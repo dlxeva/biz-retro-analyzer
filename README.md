@@ -34,7 +34,7 @@ Feed the same transcript plus that group message to a generic AI and to biz-retr
 
 A generic summary reads as a smoothly aligned meeting. This report sees the group message quietly rewriting the boss's decision.
 
-*People, company, and data are entirely fictional. [Full transcript](./examples/product-review-fictional/transcript.txt) · [Full HTML report](https://dlxeva.github.io/biz-retro-analyzer/demo/)*
+*People, company, and data are entirely fictional. [Full transcript](./examples/product-review-fictional/en/transcript.txt) · [Full HTML report](https://dlxeva.github.io/biz-retro-analyzer/demo/)*
 
 ## What it does
 - **Ledgers every claim against evidence.** Each conclusion gets a status (confirmed / needs validation / assumption / conflicts with source) and a timestamp anchor — or it gets flagged.
