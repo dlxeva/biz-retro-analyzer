@@ -1,75 +1,113 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.com/biz-retro-analyzer/output-schema.json",
+  "$id": "https://github.com/dlxeva/biz-retro-analyzer/references/output-schema.json",
   "title": "Biz Retro Analyzer Report Data",
+  "description": "Single source of truth for a report. `retro_tool.py render` turns it into HTML or Markdown; `retro_tool.py validate` checks it against this schema and resolves its anchors against the source transcripts.",
   "type": "object",
-  "required": [
-    "meta",
-    "summary",
-    "evidenceLayer",
-    "projectThread",
-    "stakeholders",
-    "understandingMap",
-    "audit",
-    "actions",
-    "references"
-  ],
+  "required": ["schemaVersion", "meta", "sources", "evidenceLayer", "actions"],
   "properties": {
+    "schemaVersion": { "const": "2.0" },
     "meta": {
       "type": "object",
-      "required": [
-        "reportTitle",
-        "reportDate",
-        "outputMode",
-        "projectStage"
-      ],
+      "required": ["reportTitle", "reportDate", "outputMode"],
       "properties": {
-        "reportTitle": { "type": "string" },
+        "reportTitle": { "type": "string", "minLength": 1 },
         "reportDate": { "type": "string" },
-        "outputMode": { "type": "string" },
+        "outputMode": { "enum": ["A", "B", "C"], "description": "A Fact Pack, B Retro Pack, C Audit Pack. HTML (Mode D) is a rendering of any of them." },
         "projectStage": { "type": "string" },
         "subtitle": { "type": "string" },
         "lead": { "type": "string" },
-        "contextNote": { "type": "string" }
+        "language": { "type": "string", "description": "BCP 47 tag; zh-* renders Chinese labels, anything else English." },
+        "audience": { "enum": ["internal", "leadership", "external"], "description": "Default audience; render --audience overrides it." },
+        "interactionContext": { "type": "string", "description": "formal_meeting, working_session, informal_debrief, private_side_conversation, asymmetric-awareness conversation" },
+        "analysisWindow": { "type": "string", "description": "Effective window, e.g. 00:00-14:00, excluding noise." },
+        "noiseNote": { "type": "string" },
+        "generatedBy": { "type": "string" }
       },
       "additionalProperties": false
     },
-    "summary": {
+    "sources": {
       "type": "array",
       "minItems": 1,
+      "description": "Input stack. Anchors refer to these ids. Only layer=source can confirm a fact.",
       "items": {
         "type": "object",
-        "required": ["label", "headline", "body", "status"],
+        "required": ["id", "label", "layer"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+          "label": { "type": "string" },
+          "layer": { "enum": ["source", "context", "later_reasoning"] },
+          "type": { "type": "string", "description": "transcript, notes, chat log, field notes, video analysis" },
+          "date": { "type": "string" },
+          "path": { "type": "string", "description": "Transcript path relative to the JSON file; used to resolve anchors." },
+          "speakerAttribution": { "enum": ["reliable", "partial", "unreliable", "none"] },
+          "note": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["headline", "status"],
         "properties": {
           "label": { "type": "string" },
           "headline": { "type": "string" },
           "body": { "type": "string" },
-          "status": {
-            "type": "string",
-            "enum": ["Confirmed", "Inferred", "Assumption", "Needs validation"]
-          }
+          "status": { "$ref": "#/$defs/status" },
+          "strength": { "$ref": "#/$defs/strength" },
+          "anchors": { "$ref": "#/$defs/anchors" }
         },
         "additionalProperties": false
       }
     },
     "evidenceLayer": {
       "type": "array",
+      "minItems": 1,
+      "description": "Structured Fact Record: what was said, per source. No motive language.",
       "items": {
         "type": "object",
-        "required": ["title", "sourceType", "status", "points"],
+        "required": ["title", "points"],
         "properties": {
           "title": { "type": "string" },
-          "sourceType": { "type": "string" },
-          "status": {
-            "type": "string",
-            "enum": ["Confirmed", "Inferred", "Assumption", "Needs validation"]
-          },
-          "sourceDate": { "type": "string" },
+          "source": { "type": "string", "description": "id from sources" },
+          "status": { "$ref": "#/$defs/status" },
           "notes": { "type": "string" },
           "points": {
             "type": "array",
-            "items": { "type": "string" }
-          }
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["text"],
+              "properties": {
+                "text": { "type": "string" },
+                "anchors": { "$ref": "#/$defs/anchors" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "evidenceNotes": { "type": "array", "items": { "$ref": "#/$defs/judgment" } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "openQuestions": { "type": "array", "items": { "type": "string" }, "description": "Open factual gaps." },
+    "decisions": {
+      "type": "array",
+      "description": "Decision ledger: decisions actually made in the source, who made them, and whether later material rewrote them.",
+      "items": {
+        "type": "object",
+        "required": ["decision", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "decision": { "type": "string" },
+          "decidedBy": { "type": "string" },
+          "owner": { "type": "string" },
+          "due": { "type": "string" },
+          "status": { "$ref": "#/$defs/status" },
+          "followUp": { "type": "string", "description": "What happened to it afterwards (drift, rewrite, confirmation)." },
+          "anchors": { "$ref": "#/$defs/anchors" }
         },
         "additionalProperties": false
       }
@@ -78,114 +116,165 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["dateLabel", "title", "body"],
+        "required": ["title", "body"],
         "properties": {
-          "dateLabel": { "type": "string" },
+          "label": { "type": "string", "description": "Time or date label, e.g. 02:50-03:25" },
           "title": { "type": "string" },
           "body": { "type": "string" },
-          "note": { "type": "string" }
+          "note": { "type": "string" },
+          "status": { "$ref": "#/$defs/status" },
+          "anchors": { "$ref": "#/$defs/anchors" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "threadNotes": { "type": "array", "items": { "$ref": "#/$defs/judgment" }, "description": "Evidence-risk notes on the thread." },
+    "influenceChain": {
+      "type": "array",
+      "description": "Advancement / Influence Chain: who introduced a frame, who adopted it, what it changed.",
+      "items": {
+        "type": "object",
+        "required": ["actor", "move", "status"],
+        "properties": {
+          "actor": { "type": "string" },
+          "move": { "type": "string" },
+          "adoptedBy": { "type": "string" },
+          "effect": { "type": "string" },
+          "status": { "$ref": "#/$defs/status" },
+          "strength": { "$ref": "#/$defs/strength" },
+          "riskIfWrong": { "type": "string" },
+          "anchors": { "$ref": "#/$defs/anchors" }
         },
         "additionalProperties": false
       }
     },
     "stakeholders": {
       "type": "array",
+      "description": "Stakeholder Motive Readout. apparentMotive is a High-Risk Claim Gate field: it needs anchors.",
       "items": {
         "type": "object",
-        "required": ["party", "statedPosition", "apparentMotive", "confidence"],
+        "required": ["party", "statedPosition", "apparentMotive", "status", "strength"],
         "properties": {
           "party": { "type": "string" },
           "role": { "type": "string" },
           "statedPosition": { "type": "string" },
           "apparentMotive": { "type": "string" },
-          "confidence": {
-            "type": "string",
-            "enum": ["High", "Medium", "Low"]
-          },
-          "evidenceBasis": { "type": "string" },
-          "status": {
-            "type": "string",
-            "enum": ["Confirmed", "Inferred", "Assumption", "Needs validation"]
-          }
+          "status": { "$ref": "#/$defs/status" },
+          "strength": { "$ref": "#/$defs/strength" },
+          "basis": { "$ref": "#/$defs/basis" },
+          "evidenceNote": { "type": "string" },
+          "anchors": { "$ref": "#/$defs/anchors" }
         },
         "additionalProperties": false
       }
     },
     "understandingMap": {
+      "type": "object",
+      "description": "Participant Understanding Map. Provide rows, or omittedReason when speaker attribution or evidence is too thin.",
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["party", "problem", "advancementPath", "deliveryConstraints", "decisionMechanics"],
+            "properties": {
+              "party": { "type": "string" },
+              "role": { "type": "string" },
+              "problem": { "$ref": "#/$defs/understanding" },
+              "advancementPath": { "$ref": "#/$defs/understanding" },
+              "deliveryConstraints": { "$ref": "#/$defs/understanding" },
+              "decisionMechanics": { "$ref": "#/$defs/understanding" },
+              "anchors": { "$ref": "#/$defs/anchors" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "readout": { "type": "array", "items": { "type": "string" } },
+        "omittedReason": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "claimLedger": {
       "type": "array",
+      "description": "Claims made in the meeting, scored on evidence, not on the person.",
       "items": {
         "type": "object",
-        "required": [
-          "party",
-          "domainUnderstanding",
-          "workflowUnderstanding",
-          "deliveryUnderstanding",
-          "organizationalUnderstanding"
-        ],
+        "required": ["claim", "status"],
         "properties": {
-          "party": { "type": "string" },
-          "domainUnderstanding": { "type": "string" },
-          "workflowUnderstanding": { "type": "string" },
-          "deliveryUnderstanding": { "type": "string" },
-          "organizationalUnderstanding": { "type": "string" },
-          "commentary": { "type": "string" }
+          "claim": { "type": "string" },
+          "claimant": { "type": "string" },
+          "support": { "type": "string" },
+          "counter": { "type": "string" },
+          "status": { "$ref": "#/$defs/status" },
+          "strength": { "$ref": "#/$defs/strength" },
+          "anchors": { "$ref": "#/$defs/anchors" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "minutesCheck": {
+      "type": "array",
+      "description": "Written minutes or follow-up messages compared with what was actually said.",
+      "items": {
+        "type": "object",
+        "required": ["written", "spoken", "verdict"],
+        "properties": {
+          "written": { "type": "string" },
+          "spoken": { "type": "string" },
+          "verdict": { "enum": ["consistent", "partial", "inconsistent"] },
+          "note": { "type": "string" },
+          "anchors": { "$ref": "#/$defs/anchors" }
         },
         "additionalProperties": false
       }
     },
     "audit": {
       "type": "object",
-      "required": [
-        "supportedJudgments",
-        "weakJudgments",
-        "explicitAssumptions",
-        "validationTargets"
-      ],
+      "description": "Judgment and Reverse Audit.",
       "properties": {
-        "supportedJudgments": {
+        "userNarrative": { "type": "string" },
+        "supportedJudgments": { "type": "array", "items": { "$ref": "#/$defs/judgment" } },
+        "weakJudgments": { "type": "array", "items": { "$ref": "#/$defs/judgment" } },
+        "explicitAssumptions": { "type": "array", "items": { "$ref": "#/$defs/judgment" } },
+        "estimateRisks": { "type": "array", "items": { "type": "string" }, "description": "Likely overestimates / underestimates." },
+        "validationTargets": { "type": "array", "items": { "type": "string" } },
+        "suspiciousActions": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "object",
+            "required": ["action", "informationChange", "pressureOrMisjudgment", "strategicMisdirection", "status"],
+            "properties": {
+              "action": { "type": "string" },
+              "informationChange": { "type": "string" },
+              "pressureOrMisjudgment": { "type": "string" },
+              "strategicMisdirection": { "type": "string" },
+              "status": { "$ref": "#/$defs/status" },
+              "anchors": { "$ref": "#/$defs/anchors" }
+            },
+            "additionalProperties": false
+          }
         },
-        "weakJudgments": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "explicitAssumptions": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "validationTargets": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
+        "consensusCheck": { "type": "array", "items": { "type": "string" } }
       },
       "additionalProperties": false
     },
     "actions": {
       "type": "object",
-      "required": ["doNow", "doLater", "validateBeforeCommit"],
+      "required": ["doNow"],
       "properties": {
-        "doNow": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "doLater": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "validateBeforeCommit": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
+        "doNow": { "type": "array", "items": { "$ref": "#/$defs/action" } },
+        "doLater": { "type": "array", "items": { "$ref": "#/$defs/action" } },
+        "validateBeforeCommit": { "type": "array", "items": { "$ref": "#/$defs/action" } },
         "oneLinePositioning": { "type": "string" }
       },
       "additionalProperties": false
     },
+    "methodNotes": { "type": "array", "items": { "type": "string" } },
     "references": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["label", "path", "reason"],
+        "required": ["label", "reason"],
         "properties": {
           "label": { "type": "string" },
           "path": { "type": "string" },
@@ -195,5 +284,62 @@
       }
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "status": { "enum": ["Confirmed", "Inferred", "Assumption", "Needs validation"] },
+    "strength": { "enum": ["High", "Medium", "Low"] },
+    "basis": { "enum": ["Source quote/paraphrase", "Cross-source pattern", "User context", "Later reasoning only"] },
+    "anchor": {
+      "type": "object",
+      "description": "Points at a moment in a source. ts and quote are resolved against the transcript by validate.",
+      "properties": {
+        "source": { "type": "string", "description": "id from sources; defaults to the first source with layer=source" },
+        "speaker": { "type": "string", "description": "Speaker label as it appears in the transcript, e.g. C 周主任" },
+        "ts": { "type": "string", "pattern": "^\\d{1,2}:\\d{2}(:\\d{2})?([-~]\\d{1,2}:\\d{2}(:\\d{2})?)?$" },
+        "quote": { "type": "string", "description": "Short verbatim phrase from the source" },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "anchors": { "type": "array", "items": { "$ref": "#/$defs/anchor" } },
+    "judgment": {
+      "type": "object",
+      "required": ["claim", "status"],
+      "properties": {
+        "claim": { "type": "string" },
+        "status": { "$ref": "#/$defs/status" },
+        "strength": { "$ref": "#/$defs/strength" },
+        "basis": { "$ref": "#/$defs/basis" },
+        "highRiskType": {
+          "enum": ["motive", "intent", "budget_pricing", "political", "control", "bad_faith"],
+          "description": "Set for claim types covered by the High-Risk Claim Gate."
+        },
+        "anchors": { "$ref": "#/$defs/anchors" },
+        "toValidate": { "type": "string", "description": "What would validate it" },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "understanding": {
+      "type": "object",
+      "required": ["level"],
+      "properties": {
+        "level": { "enum": ["strong", "mixed", "thin", "unclear"] },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "object",
+      "required": ["text"],
+      "properties": {
+        "text": { "type": "string" },
+        "owner": { "type": "string" },
+        "due": { "type": "string" },
+        "status": { "$ref": "#/$defs/status" },
+        "anchors": { "$ref": "#/$defs/anchors" }
+      },
+      "additionalProperties": false
+    }
+  }
 }

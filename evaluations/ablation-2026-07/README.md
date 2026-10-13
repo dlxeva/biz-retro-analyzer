@@ -2,6 +2,15 @@
 
 A four-condition ablation study and a calibration study of the skill, using five synthetic cases (three werewolf, two business).
 
+## Errata (2026-10-12)
+
+The tables and numbers in this folder are **unchanged**. Read them with these notes. This is not a new run.
+
+1. **67/67 undercounts one miss.** `references/output-templates.md` defines `<50` as inverse leaning. In `04-calibration-final.md`, Case 3 "赵顾问与B有利益关联" is true and the analyst scored **45**. Counted as a miss, the result is **66/67**. The original report recorded it as "方向未错".
+2. **Rubric circularity.** The seven-dimension rubric scores the skill's own output structure. Removing reverse audit zeros the reverse-audit dimension (14 of the ~19-point drop, about 74%). Removing evidence tags hits the two dimensions that check tags (14 of the ~18-point drop, about 78%). Treat those component-contribution numbers as "the output included the section the rubric looks for", not as independent quality gains. The remaining drop is the part that can be read as a quality effect.
+3. **Outputs are not in the repo.** `01-case1-single-ablation.md` indexes `inputs/` and `outputs/` that were never committed. The answer-key path in that report was a local absolute path; the file is `evaluations/adversarial-dialogue-werewolf/part-b-hidden-answer-key.md`.
+4. **Single scorer, synthetic cases.** N = 5, one model, one non-blind scorer. Identity accuracy was already ~100% without the skill. The skill's claimed value is process discipline, which this study can illustrate but not independently prove.
+
 ## What is in here
 
 | File | Content |

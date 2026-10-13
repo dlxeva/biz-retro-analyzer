@@ -1,4 +1,4 @@
 interface:
   display_name: "Biz Retro Analyzer"
-  short_description: "Turn messy post-meeting materials into evidence-backed retros and HTML reports"
-  default_prompt: "Use $biz-retro-analyzer to analyze meeting transcripts, notes, field observations, and follow-up reasoning into structured facts, project thread, stakeholder motives, reverse-audit notes, next-step actions, or an HTML report."
+  short_description: "Evidence-disciplined retro of meeting transcripts: facts, motives, reverse audit, HTML report"
+  default_prompt: "Use $biz-retro-analyzer to analyze meeting transcripts, notes, field observations, and follow-up reasoning into structured facts, a project thread, stakeholder motives, a reverse audit, and next actions. Prefer report JSON plus `scripts/retro_tool.py render` when the user wants HTML. Do not treat later reasoning as source evidence."

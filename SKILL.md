@@ -1,6 +1,6 @@
 ---
 name: biz-retro-analyzer
-description: Turn conversations, field observations, and follow-up reasoning from complex collaborative projects into evidence-backed analysis of participant understanding, coordination structure, decision traces, reversals, and next-step actions. Use when the user asks to 复盘会后对话, 分析录音, 拆会议纪要, 提炼项目脉络, 做关键判断纠偏, or turn messy conversations into structured facts, judgments, and follow-up actions.
+description: Evidence-disciplined analysis of meeting transcripts, notes, chat logs, field notes and follow-up conversations from multi-party projects. Separates what was said from what it means, tags every judgment with evidence status and source anchors, and produces a fact record, project thread, stakeholder motive and participant understanding readouts, a reverse audit of the user's own conclusions, and next actions, as Markdown or an HTML report. Use when the user wants to 复盘 / review a meeting or project, 分析录音 / 逐字稿 / 会议纪要, check whether minutes or a follow-up message match what was actually said, work out who decided what and who drove it, or 纠偏 / stress-test a conclusion they already hold. Do not use for a plain meeting summary or action-item list, transcription or translation only, personality profiling, or general writing.
 ---
 
 # Biz Retro Analyzer
@@ -58,15 +58,25 @@ Use this skill when the request is about:
 
 Typical trigger phrases:
 
-- "复盘这次商务面谈"
-- "分析会后录音"
-- "把会议纪要拆开"
-- "做项目脉络总结"
-- "帮我做关键判断和纠偏"
-- "把这些对话沉淀成过程文档"
-- "把这些材料整理成可复用方法"
-- "做 post-meeting analysis"
-- "analyze these transcripts and extract project decisions"
+| 中文 | English |
+| --- | --- |
+| 复盘这次商务面谈 | Debrief this client meeting |
+| 分析会后录音 / 这份逐字稿 | Analyze this recording / transcript |
+| 把会议纪要拆开，看看哪些是真定了 | Break down these minutes: what was actually decided? |
+| 会后群消息和会上说的一致吗 | Does the follow-up message match what was said? |
+| 做项目脉络总结 | Trace how this project got here |
+| 帮我做关键判断和纠偏 | Stress-test my read of this situation |
+| 谁在推动这件事，谁真正拍板 | Who is driving this, and who actually decides? |
+| 把这些对话沉淀成过程文档 / 可复用方法 | Turn these conversations into a reusable playbook |
+
+Do not use this skill when:
+
+- the user only wants a short summary, minutes, or an action-item list and has not asked for judgment (answer directly)
+- the task is transcription, translation, or reformatting only
+- the request is to profile someone's personality or to plan manipulation of a person
+- the material is a single document with no conversation or multi-party context (a contract, a spec)
+
+If unsure, do the light version (Mode A) and offer the deeper modes.
 
 ## Runtime Reading Budget
 
@@ -78,10 +88,11 @@ The repository contains two kinds of files: **runtime protocol** (read during an
 
 ### Read by mode (only when needed)
 
-- Mode A / light analysis: `SKILL.md` is usually enough
-- Mode B / standard retro: add `references/input-modes.md`, `references/output-templates.md`
-- Mode C / audit: add `references/analysis-checks.md`, `references/reverse-audit.md`, `references/failure-modes.md`
-- Mode D / HTML: add `references/html-output-mode.md`, `references/output-schema.json`, `assets/html-report-template.html`, `assets/html-report.css`
+- Mode A / light analysis: `SKILL.md` only. Use Structure A below; skip the reference files the workflow mentions.
+- Mode B / standard retro: add `references/input-modes.md`, `references/output-templates.md`, `references/analysis-checks.md`
+- Mode C / audit: Mode B files plus `references/reverse-audit.md`, `references/failure-modes.md`
+- Very smooth or ratification-style meeting (see Workflow step 0): add `references/honest-limits.md`
+- Mode D / HTML: add `references/html-output-mode.md`, `references/output-schema.json`; read `assets/html-report-template.html` and `assets/html-report.css` only when hand-filling without Python
 
 ### Never read during runtime analysis
 
@@ -90,7 +101,7 @@ These are project and evaluation assets. They are for humans, maintainers, and t
 - `tests/` (test cases, expected checks, run records)
 - `evaluations/` (adversarial cases, ablation studies, calibration reports, answer keys)
 - `examples/` (worked walkthroughs — useful for humans learning the skill, not for runtime)
-- `scripts/` (CLI tooling for preprocessing and validation — run by humans, not loaded as runtime context)
+- `scripts/` (CLI for preprocess, scaffold, validate and render — run it, but do not load its source as runtime context)
 - `ROADMAP.md`, `CHANGELOG.md`, `PUBLISHING.md`, `EVALUATION.md`
 - `README.md`, `README.zh-CN.md`
 
@@ -98,7 +109,7 @@ If you are evaluating or stress-testing the skill itself, that is a research con
 
 ## Input Modes
 
-Read `references/input-modes.md` before deciding output depth.
+For Mode B and Mode C, read `references/input-modes.md` before deciding output depth. For Mode A, this section is enough.
 If the user wants the deliverable as HTML, also read `references/html-output-mode.md`.
 
 If the user provides audio instead of text, first transcribe it into a usable transcript before running deeper analysis.  
@@ -171,9 +182,12 @@ Acceptable anchors include:
 
 Examples:
 
+- `Source anchor: Director Zhou 04:15 “那就按两步走”` (preferred for timestamped transcripts: speaker, time, verbatim quote)
 - `Source anchor: Meeting 2, Wang Bin paraphrase`
 - `Source anchor: Field note, afternoon walkthrough`
 - `Source anchor: Transcript section on pricing`
+
+When the source has timestamps, prefer `<speaker> <MM:SS> “<verbatim quote>”`. Quote marks mean verbatim; put paraphrases outside them. This is the form `scripts/retro_tool.py validate` can check against the transcript.
 
 If a claim cannot be anchored even loosely, downgrade it or omit it.
 
@@ -203,14 +217,19 @@ Default rules:
 
 ## Workflow
 
+0. Check that the material can answer the question.
+   - Was the meeting meant to decide something, or to display a decision made elsewhere? Did participants have room to change the outcome?
+   - If it looks like ratification or performance (smooth, no disagreement, no new information), read `references/honest-limits.md`, say so up front, and keep motive and false-consensus readings at `Needs validation`.
+   - If the material is too thin for the requested mode, say what is missing and drop to Mode A instead of padding the output.
 1. Classify the input stack.
    - Identify which materials are raw evidence, contextual supplements, and later reasoning.
    - If the user mixed them together, separate them first.
    - If speaker labels are missing, mark that explicitly before deeper analysis.
    - If possible, classify each major source by interaction context: formal meeting, working session, informal debrief, private side conversation, or asymmetric-awareness conversation.
-   - Optional CLI: if the input is a raw speech-to-text transcript, run `python3 scripts/retro_tool.py preprocess <transcript.txt>` to detect speaker labels, flag noise lines, and get a coverage report before deeper analysis.
+   - Optional CLI (paths are relative to this file's directory): if the input is a raw speech-to-text transcript and you can run commands, run `python3 scripts/retro_tool.py preprocess <transcript.txt>` to split speaker turns and get a speaker-coverage report. Possible-noise lines are only hints: read each one before excluding it, because a side remark can carry key evidence.
 2. Build the fact layer.
-   - Follow `references/output-templates.md` for structured source-note output.
+   - Use Structure A below (Mode A) or `references/output-templates.md` (Mode B and C) for structured source notes.
+   - When written minutes or a follow-up message restate the outcome, compare them with what was said (Minutes vs Recording), and note who was present when each decision was made.
    - Keep original claims tied to specific meetings or materials.
    - Mark high-value factual statements as `Confirmed` unless the source itself is ambiguous.
    - Preserve context differences. Do not silently flatten formal and informal materials into the same evidence type.
@@ -227,10 +246,10 @@ Default rules:
    - Mark where structure calls are `Inferred` versus `Needs validation`.
 4. Build the judgment layer.
    - Summarize the user's current narrative.
-   - Then run the checks in `references/analysis-checks.md`.
+   - Then run the checks in `references/analysis-checks.md` (Mode B and C).
    - Label major judgments with claim status and evidence strength.
    - For suspicious or contradictory actions, split plausible explanations into information change, pressure or misjudgment, and strategic misdirection before assigning motive.
-   - Optional CLI: run `python3 scripts/retro_tool.py scaffold --mode B` to generate a structured output template with evidence-tag fields before filling in the analysis.
+   - Optional CLI: `python3 scripts/retro_tool.py scaffold --mode B` prints the canonical section skeleton with `<fill>` placeholders.
 5. Run reverse audit when needed.
    - If conclusions feel too neat, too fast, or too dependent on one narrator, read `references/reverse-audit.md`.
 6. Run pre-output audit.
@@ -242,7 +261,7 @@ Default rules:
    - Check whether suspicious action has been over-attributed to bad faith without considering non-bad-faith alternatives.
    - If the material is a multi-party discussion that reached agreement, run the Consensus Reality Check in `references/analysis-checks.md`. Flag fast, "do both", or authority-driven agreement as `Needs validation` rather than settled.
    - If the source is a raw transcript, confirm that non-business noise has been isolated and the effective analysis window is stated.
-   - Optional CLI: run `python3 scripts/retro_tool.py validate <analysis_output.md>` to automatically check for evidence tags, high-risk claim anchors, fact/judgment separation, understanding map presence, and unvalidated motive claims. Fix and re-run until PASS.
+   - Optional CLI: `python3 scripts/retro_tool.py validate <analysis.md> --transcript <transcript.txt>` is a lint. It checks protocol form (sections, tags, the High-Risk Claim Gate) and whether the timestamps, speakers and quotes cited as anchors exist in the transcript. When a check fails, fix the claim itself: cite a real anchor, narrow the wording, lower the status, or drop the claim. Never add tags, anchor labels or keywords only to satisfy the check. A PASS says the form is sound and the anchors resolve; it does not say the judgments are right.
 7. Close with action output.
    - Recommend current next actions, later evidence-gathering steps, and reusable lessons.
    - If important evidence is still missing, use `references/interview-gap-prompts.md`.
@@ -254,11 +273,21 @@ Default rules:
    - Do not interrupt early analysis just to ask about HTML.
    - Offer HTML as an upgrade near the end when the output is clearly shareable or presentation-shaped.
 9. Render to HTML only after the structure is stable.
-   - If the user wants HTML, map the analysis to `references/output-schema.json`.
-   - Then use `assets/html-report-template.html` and `assets/html-report.css`.
+   - Write the analysis as report JSON following `references/output-schema.json` (`python3 scripts/retro_tool.py scaffold --mode B --format json` gives a skeleton). The JSON is the single source of truth; HTML and Markdown are renderings of it.
+   - Run `python3 scripts/retro_tool.py validate report.json`, then `python3 scripts/retro_tool.py render report.json -o report.html`. Before the page leaves the room, render with `--audience leadership` or `--audience external`.
+   - If Python is not available, fill `assets/html-report-template.html` by hand and inline `assets/html-report.css`.
    - Keep evidence tags visible in the rendered page.
 
 ## Output Modes
+
+Choose the mode before writing:
+
+- **Mode A** when the user wants to know what was said or decided, when the material is thin, or when speaker attribution is unreliable.
+- **Mode B** when the user wants to understand how the project is moving, who wants what, or what to do next. This is the default when the request is open-ended and the material is rich.
+- **Mode C** when the user already holds a strong conclusion, asks whether they are right (纠偏), or will use the result for a commitment, pricing, or a decision about people.
+- **Mode D** is a rendering, not a depth: any of A, B, or C can be delivered as HTML.
+
+When two modes fit, pick the lighter one and offer the heavier one at the end.
 
 ### Mode A: Fact Pack
 
@@ -305,8 +334,8 @@ Default rule:
 Use when the user wants the retro delivered as a report page instead of Markdown.
 
 - build the fact, thread, motive, understanding, audit, and action layers first
-- map the structured output into the report schema
-- render with visible evidence tags and source references
+- write them as report JSON (`references/output-schema.json`), then render with `scripts/retro_tool.py render`
+- render with visible evidence tags and source references; anchors link to the transcript appendix
 - prefer report-style layout over generic BI dashboard visuals
 - when the user did not request HTML but the output is mature enough, recommend this mode as an upgrade rather than assuming it up front
 
@@ -353,10 +382,10 @@ Always produce one or more of the following, depending on the request:
 - **Evidence notes**:
 ```
 
-### Structure B: Project Retro
+### Structure B: Project Thread
 
 ```md
-## Project Retro
+## Project Thread
 
 - **Current stage**:
 - **How the goal narrowed or shifted**:
@@ -367,14 +396,27 @@ Always produce one or more of the following, depending on the request:
 - **Evidence-risk notes**:
 ```
 
+### Structure B1: Stakeholder Motive Readout
+
+```md
+## Stakeholder Motive Readout
+
+| Party | What they say | What they appear to want | Status | Strength | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
+```
+
+Every row needs an evidence anchor. A motive stays below `Confirmed` unless the party said it outright.
+
 ### Structure B2: Participant Understanding Map
 
 ```md
 ## Participant Understanding Map
 
-| Party / Voice | Understands the project problem itself | Understands the actual advancement path | Understands execution and delivery constraints | Understands decision and organizational mechanics | Main evidence |
+| Party / Voice | Problem itself | Advancement path | Execution / delivery constraints | Decision / organizational mechanics | Evidence anchor |
 | --- | --- | --- | --- | --- | --- |
 ```
+
+Fill each cell with a level (`strong` / `mixed` / `thin` / `unclear`) and a short reason.
 
 Use this section when later project strategy depends on who really understands the issue.
 If the source supports it, add a short readout on:
@@ -385,10 +427,10 @@ If the source supports it, add a short readout on:
 
 Interpret the columns as:
 
-- `Understands the project problem itself`
-- `Understands the actual advancement path`
-- `Understands execution and delivery constraints`
-- `Understands decision and organizational mechanics`
+- `Problem itself`: understands the project problem itself
+- `Advancement path`: understands the actual advancement path
+- `Execution / delivery constraints`: understands execution and delivery constraints
+- `Decision / organizational mechanics`: understands decision and organizational mechanics
 
 In Mode B and Mode C, treat this section as required by default when speaker attribution is reliable.
 If omitted, explicitly state one of:
@@ -401,8 +443,8 @@ If omitted, explicitly state one of:
 ```md
 ## Advancement / Influence Chain
 
-| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Confidence | Risk if wrong |
-| --- | --- | --- | --- | --- | --- | --- |
+| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Status | Strength | Risk if wrong |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
 Use this section when the project or conversation moves because a frame, authority, or decision path is passed between actors.
@@ -447,6 +489,16 @@ For suspicious or contradictory actions that materially affect the conclusion, p
 - **Pressure or misjudgment explanation**:
 - **Strategic-misdirection explanation**:
 - **Current status**:
+```
+
+### Structure C2: Current Actions
+
+```md
+## Current Actions
+
+- **Do now**: (each item cites the evidence that triggers it, e.g. `Evidence: Lin Wei 03:58`)
+- **Do later**:
+- **Must validate before deeper commitment**:
 ```
 
 ### Structure D: Method Notes

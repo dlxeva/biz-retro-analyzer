@@ -10,6 +10,27 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-10-12
+
+### Preprocess, validate, and JSON-first render
+
+- `preprocess`: speaker labels accept names, letters, and numbered speakers; full-width and half-width colons are the same speaker; document labels such as 结论 / 备注 are not speakers; noise is a hint and is never deleted
+- `validate`: timestamps, speakers, and quotes in anchors are resolved against the source transcript. The gold sample in `examples/quickstart-output.md` PASSes (one deliberate vocabulary WARN). Empty scaffolds FAIL. Keyword-stuffing does not PASS. SKILL.md no longer treats extra tags as a way to satisfy the check
+- Report JSON (`references/output-schema.json` v2) is the single source of truth. `render` writes single-file HTML (inline CSS, transcript appendix, audience redaction) or Markdown. `scaffold --format json` emits a `<fill>` skeleton
+- Section names and understanding-map columns are the same in SKILL.md, templates, scaffold, and render. Mode D is a rendering of A/B/C
+- Examples: `examples/quickstart.report.json` and a fictional Mode C meeting in `examples/product-review-fictional/`
+- Tests: `tests/test_retro_tool.py` (Ubuntu 3.8 / 3.12, Windows 3.12). Render output is LF on every platform (`read_text` folds CRLF; files are written as UTF-8 bytes).
+
+Why: the previous validate could fail a correct gold sample and pass an empty template; HTML was hand-copied from Markdown.
+
+### Protocol, eval hygiene, docs
+
+- SKILL.md: positive and negative triggers with zh/en parity; Mode A no longer contradicts the read budget; workflow step 0 is the honest-limits fit check; short mode-selection rule; optional Decision / Claim / Minutes ledgers
+- Failure modes: post-meeting rewrite, authority vacuum, partial attendance
+- Test inputs no longer contain Purpose / Expected Pressure / Run Goal or the case-04 answer. Expected checks for cases 01, 05, and 06 match what the transcript can support
+- Ablation / calibration **scores were not rerun**. Errata in `evaluations/ablation-2026-07/README.md`: under the skill's own `<50` = inverse-leaning rule the calibration set is 66/67, not 67/67; most of the reverse-audit and evidence-tag deltas are definitional in the rubric
+- `INSTALL.md`, CI (`python -m unittest discover -s tests -v` on Ubuntu 3.8/3.12 and Windows 3.12), README CLI wording
+
 ## 2026-07-14
 
 ### CLI tool integration
@@ -65,7 +86,7 @@ Limitations (stated in `evaluations/ablation-2026-07/README.md`):
 
 - N=5 synthetic cases, single scorer, no statistical significance
 - LLM-generated cases may be more solvable than real-world material
-- calibration hit a methodological ceiling (zero errors across 67 data points); real-world cases are needed for meaningful ECE
+- calibration hit a methodological ceiling (reported as zero errors across 67 data points; see 2026-10-12 errata: 66/67 if the 45-score true proposition is counted as a miss); real-world cases are needed for meaningful ECE
 
 ### Runtime reading budget and numeric confidence guidance
 

@@ -2,7 +2,7 @@
 
 ## Noise handling (new protocol)
 
-- Must identify the final ~3-minute segment as non-research noise (reagent delivery, broken AC, department-retail talk, hallway interruption)
+- Must identify the final ~3-minute segment as non-research noise (reagent delivery, broken AC, department-retreat talk, hallway interruption)
 - Must state the effective analysis window (approximately the first 57 minutes)
 - Must not let noise content contribute to fact layer, motive reading, or understanding assessment
 - May note the weak relationship signal (shared workspace, collegial) but must tag it `Low`
@@ -24,7 +24,7 @@
 
 - Must include `Participant Understanding Map`
 - Must separate what each party said from what they appear to want
-- Must distinguish the two parties' understanding levels across at least: domain / workflow / delivery / organizational
+- Must distinguish the two parties' understanding levels across at least: problem itself / advancement path / execution and delivery constraints / decision and organizational mechanics
 - Must tag the route disagreement (capacity-first vs directions-first) with evidence status and anchor
 
 ## Seniority-structure awareness (academic setting)
@@ -46,3 +46,11 @@
 - Was a genuine either/or dissolved by "do both"? → Yes. Check.
 - Did agreement arrive suspiciously fast? → Yes, within two turns. Check.
 - Does a power/seniority gap make the consensus less trustworthy? → Yes, advisor-student. Check.
+
+## Scoring notes (removed from the input on 2026-10-12)
+
+These readings used to sit inside `input.md`. They belong here so a blind run is not handed the answer.
+
+- Excerpt 3 is the false-consensus test. "Map capacity first" and "select directions first" cannot both be the starting point. "Do both in parallel" does not say which line gates the other. Person B restating "we still need to map his capacity" is the tell.
+- Excerpt 4 is the hardest single fact: a three-person group, running over a year, with one sustained partner. Both speakers move past it.
+- Excerpt 5 should be isolated, not deleted. It weakly confirms a shared workspace and a collegial relationship (`Low`). State the analysis window as roughly the first 57 minutes.

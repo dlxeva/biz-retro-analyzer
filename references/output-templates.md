@@ -36,10 +36,14 @@ Rules:
 - Pair each numeric score with a one-line basis, so a reviewer can check whether the number matches the evidence.
 - High-Risk Claim Gate still applies: a motive or conflict-of-interest claim must stay below `Confirmed` regardless of the numeric score unless the source is explicit and narrow.
 
-## 1. Structured Meeting / Source Record
+## 1. Structured Fact Record
+
+One block per source under a single `## Structured Fact Record` heading.
 
 ```md
-## [Source Name]
+## Structured Fact Record
+
+### [Source Name]
 
 - **Type**: transcript / notes / observation / video analysis / other
 - **Context**:
@@ -54,6 +58,37 @@ Rules:
   - `Status`:
   - `Strength`:
   - `Basis`:
+```
+
+## 1B. Optional Ledgers (inside the Structured Fact Record)
+
+Use these when the material has explicit decisions, confident claims, or written minutes to check. Each row needs an evidence anchor. They render as tables in the HTML report and can be exported from it.
+
+Decision ledger: what was actually decided, by whom, and whether it was later rewritten. `Status` is the evidence status of "this was decided" (`Confirmed` / `Inferred` / `Assumption` / `Needs validation`); use `Follow-up` for drift, deferral, or a later rewrite. Record `Decided by` only when the source shows someone with authority saying yes; otherwise write the item as proposed and say who still has to decide.
+
+```md
+### Decision Ledger
+
+| # | Decision | Decided by | Owner | Due | Status | Follow-up | Evidence anchor |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+```
+
+Claim ledger: each factual claim made in the room, what supported it, and what contradicted it. It rates claims, not people.
+
+```md
+### Claim Ledger
+
+| Claim | Claimant | Support | Counter-evidence / correction | Status | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
+```
+
+Minutes vs recording: written conclusions (minutes, follow-up email, group message) compared with what was said. `Verdict` is `consistent` / `partial` / `inconsistent`; anchor both sides.
+
+```md
+### Minutes vs Recording
+
+| Written | Spoken | Verdict | Evidence anchor |
+| --- | --- | --- | --- |
 ```
 
 ## 2. Cross-Material Project Thread
@@ -82,8 +117,8 @@ Use this when the material shows that a project, decision, or shared narrative w
 ```md
 ## Advancement / Influence Chain
 
-| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Confidence | Risk if wrong |
-| --- | --- | --- | --- | --- | --- | --- |
+| Actor / Voice | Claim, frame, or action introduced | Who adopted or amplified it | What decision or next step it affected | Evidence anchor | Status | Strength | Risk if wrong |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
 Optional follow-on block:
@@ -105,8 +140,8 @@ This section is especially useful for multi-party sales, partner negotiations, p
 ```md
 ## Stakeholder Motive Readout
 
-| Party | What they say | What they appear to want | Confidence | Evidence basis |
-| --- | --- | --- | --- | --- |
+| Party | What they say | What they appear to want | Status | Strength | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
 ```
 
 If speaker labels are unreliable, replace this with:
@@ -114,8 +149,8 @@ If speaker labels are unreliable, replace this with:
 ```md
 ## Position Readout (Speaker-Unknown Mode)
 
-| Position / Voice | What appears in the material | What this position seems to want | Confidence | Evidence basis |
-| --- | --- | --- | --- | --- |
+| Position / Voice | What appears in the material | What this position seems to want | Status | Strength | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
 ```
 
 ## 3B. Participant Understanding Map
@@ -123,24 +158,26 @@ If speaker labels are unreliable, replace this with:
 ```md
 ## Participant Understanding Map
 
-| Party / Voice | Domain understanding | Workflow understanding | Delivery understanding | Organizational understanding | Confidence | Evidence basis |
-| --- | --- | --- | --- | --- | --- | --- |
+| Party / Voice | Problem itself | Advancement path | Execution / delivery constraints | Decision / organizational mechanics | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
 ```
 
-Suggested labels:
+Levels, one per cell followed by a short reason:
 
 - `strong`
 - `mixed`
 - `thin`
-- `unclear from material`
+- `unclear` (unclear from the material)
+
+The four columns are the same in `SKILL.md`, the report JSON (`understandingMap.rows[].problem / advancementPath / deliveryConstraints / decisionMechanics`) and the rendered HTML.
 
 Optional follow-on block when strategy depends on understanding gaps:
 
 ```md
 ## Strategy Implications from Participant Understanding
 
-- **Who can validate domain truth**:
-- **Who can validate workflow reality**:
+- **Who can validate the problem itself**:
+- **Who can validate the advancement path**:
 - **Who can support or distort delivery planning**:
 - **Who may sound confident but needs translation or narrowing**:
 - **How this should change the next meeting / proposal / demo strategy**:

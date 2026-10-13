@@ -164,7 +164,7 @@
 | `outputs/03-control-b-no-reverse-audit.md` | 对照B(无反向审计)分析 |
 | `outputs/04-control-c-no-evidence-tags.md` | 对照C(无证据标签)分析 |
 | `ablation-report.md` | 本报告 |
-| 答案区 | `/Users/hu/.zcode/skills/biz-retro-analyzer/evaluations/adversarial-dialogue-werewolf/part-b-hidden-answer-key.md`(技能内置,未污染子agent) |
+| 答案区 | `evaluations/adversarial-dialogue-werewolf/part-b-hidden-answer-key.md`（仓库内路径。原报告写了本机绝对路径，已替换。`inputs/` 和 `outputs/` 未提交。） |
 
 ---
 

@@ -5,6 +5,8 @@ This document describes a lightweight way to evaluate `biz-retro-analyzer`.
 The goal is not benchmark perfection.  
 The goal is to verify that the skill behaves consistently across realistic and stress-tested input stacks.
 
+Published ablation and calibration numbers in `evaluations/ablation-2026-07/` were not rerun for the 2026-10-12 tooling work. Read the errata in that folder's README before citing scores.
+
 ---
 
 ## What to Evaluate
