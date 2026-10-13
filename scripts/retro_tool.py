@@ -1232,6 +1232,48 @@ def _status_in(text, default):
     return m.group(1) if m else default
 
 
+def as_judgment_items(value, default_status="Assumption"):
+    """Treat a string as a single judgment; wrap string items inside a list."""
+    if value is None:
+        return []
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return []
+        return [{"claim": text, "status": _status_in(text, default_status)}]
+    if isinstance(value, dict):
+        return [value]
+    if isinstance(value, list):
+        items = []
+        for item in value:
+            if isinstance(item, str):
+                text = item.strip()
+                if text:
+                    items.append({"claim": text, "status": _status_in(text, default_status)})
+            else:
+                items.append(item)
+        return items
+    return value
+
+
+AUDIT_LIST_DEFAULTS = (
+    ("supportedJudgments", "Inferred"),
+    ("weakJudgments", "Needs validation"),
+    ("explicitAssumptions", "Assumption"),
+)
+
+
+def normalize_audit_lists(data):
+    """LLMs sometimes emit audit.explicitAssumptions as a string. Treat it as one item."""
+    audit = data.get("audit")
+    if not isinstance(audit, dict):
+        return data
+    for key, default in AUDIT_LIST_DEFAULTS:
+        if key in audit:
+            audit[key] = as_judgment_items(audit[key], default)
+    return data
+
+
 def upgrade_v1(data):
     """Best-effort upgrade of a schema v1 report (no schemaVersion). Unknown statuses become explicit defaults."""
     if data.get("schemaVersion") == SCHEMA_VERSION:
@@ -1273,11 +1315,18 @@ def upgrade_v1(data):
     out["understandingMap"] = {"rows": rows, "readout": [r["commentary"] for r in d.get("understandingMap", [])
                                                          if r.get("commentary")]}
     a = d.get("audit", {})
+
+    def v1_claims(raw, default):
+        if isinstance(raw, str):
+            raw = [raw] if raw.strip() else []
+        return [{"claim": x, "status": _status_in(x if isinstance(x, str) else "", default)}
+                for x in (raw or []) if not isinstance(x, dict)] + [
+            x for x in (raw or []) if isinstance(x, dict)]
+
     out["audit"] = {
-        "supportedJudgments": [{"claim": x, "status": _status_in(x, "Inferred")} for x in a.get("supportedJudgments", [])],
-        "weakJudgments": [{"claim": x, "status": _status_in(x, "Needs validation")} for x in a.get("weakJudgments", [])],
-        "explicitAssumptions": [{"claim": x, "status": _status_in(x, "Assumption")}
-                                for x in a.get("explicitAssumptions", [])],
+        "supportedJudgments": v1_claims(a.get("supportedJudgments"), "Inferred"),
+        "weakJudgments": v1_claims(a.get("weakJudgments"), "Needs validation"),
+        "explicitAssumptions": v1_claims(a.get("explicitAssumptions"), "Assumption"),
         "validationTargets": a.get("validationTargets", []),
     }
     ac = d.get("actions", {})
@@ -1292,7 +1341,9 @@ def upgrade_v1(data):
 def load_report(path):
     data = json.loads(read_text(path))
     upgraded = data.get("schemaVersion") != SCHEMA_VERSION
-    return (upgrade_v1(data) if upgraded else data), upgraded
+    data = upgrade_v1(data) if upgraded else data
+    normalize_audit_lists(data)
+    return data, upgraded
 
 
 def iter_judgments(data):
@@ -1412,6 +1463,7 @@ def _checkable(anchors):
 
 def lint_report(data, mode=None, base_dir=None, overrides=None, upgraded=False):
     """Validate a schema v2 report: shape, protocol rules and anchor resolution. Returns (mode, checks)."""
+    normalize_audit_lists(data)
     checks = []
 
     def add(cid, title, items, info=None):
@@ -1633,6 +1685,7 @@ def md_table(headers, rows):
 
 
 def render_markdown(data):
+    normalize_audit_lists(data)
     m = data["meta"]
     out = ["# " + m.get("reportTitle", ""), ""]
     head = "Mode %s" % m.get("outputMode", "")
@@ -2264,6 +2317,7 @@ class HtmlRenderer:
 
 
 def render_html(data, indexes=None, audience=None, css=None):
+    normalize_audit_lists(data)
     audience = audience or data.get("meta", {}).get("audience") or "internal"
     shown, removed = redact(data, audience)
     css = css if css is not None else read_text(CSS_PATH)

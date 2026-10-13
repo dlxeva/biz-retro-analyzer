@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Meeting Didn't Say That · biz-retro-analyzer</title>
+  <meta name="description" content="Your meeting notes say what was said. This tells you what nobody actually proved.">
+  <style>
+    :root {
+      --bg: #0f1419;
+      --paper: #171d24;
+      --ink: #e8edf1;
+      --muted: #8b98a5;
+      --accent: #e85d5d;
+      --ok: #3dba7a;
+      --border: #2a3540;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    .wrap { width: min(920px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0 80px; }
+    .lang { text-align: right; font-size: 14px; color: var(--muted); }
+    .lang a { color: var(--muted); text-decoration: none; margin-left: 12px; }
+    .lang a:hover, .lang a.on { color: var(--ink); }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); letter-spacing: -0.03em; margin: 28px 0 8px; }
+    .sub { color: var(--muted); margin: 0 0 20px; }
+    .hero { font-size: 1.15rem; color: #d5dde4; margin: 0 0 24px; }
+    .cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 0 12px 28px 0;
+    }
+    .cta.ghost { background: transparent; border: 1px solid var(--border); color: var(--ink); }
+    img.shot {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin: 8px 0 32px;
+    }
+    .note { color: var(--muted); font-size: 0.92rem; }
+    footer { margin-top: 48px; color: var(--muted); font-size: 0.85rem; }
+    footer a { color: var(--muted); }
+    .zh { display: none; }
+    body.show-zh .en { display: none; }
+    body.show-zh .zh { display: block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="lang">
+      <a href="#en" id="to-en" class="on">English</a>
+      <a href="#zh" id="to-zh">简体中文</a>
+    </p>
+
+    <div class="en">
+      <h1>The Meeting Didn't Say That</h1>
+      <p class="sub"><code>biz-retro-analyzer</code> — an open-source Agent Skill for post-meeting audits</p>
+      <p class="hero">Your meeting notes say what was said. This tells you what nobody actually proved.</p>
+      <p>
+        <a class="cta" href="./demo/">Live demo report</a>
+        <a class="cta ghost" href="https://github.com/dlxeva/biz-retro-analyzer">GitHub</a>
+      </p>
+      <p class="note">Same fictional Q3 product review. Left: a generic AI summary. Right: what the transcript actually supports.</p>
+      <img class="shot" src="./before-after.png" alt="Generic AI summary versus biz-retro-analyzer">
+      <p class="note">People, company, and data in the demo are entirely fictional. Source files live in <code>examples/product-review-fictional/</code>.</p>
+    </div>
+
+    <div class="zh">
+      <h1>会后照妖镜</h1>
+      <p class="sub"><code>biz-retro-analyzer</code> —— 开源 Agent Skill，专做会后审计</p>
+      <p class="hero">纪要告诉你大家说了什么，它告诉你哪句话其实没人证明过。</p>
+      <p>
+        <a class="cta" href="./demo/">Live demo report</a>
+        <a class="cta ghost" href="https://github.com/dlxeva/biz-retro-analyzer">GitHub</a>
+      </p>
+      <p class="note">同一场虚构 Q3 评审会。左：普通 AI 纪要。右：逐字稿实际支撑的内容。</p>
+      <img class="shot" src="./before-after-zh.png" alt="普通纪要 vs biz-retro-analyzer">
+      <p class="note">演示中的人物、公司、数据全部虚构。原始材料在 <code>examples/product-review-fictional/</code>。</p>
+    </div>
+
+    <footer>
+      MIT · <a href="https://github.com/dlxeva/biz-retro-analyzer">dlxeva/biz-retro-analyzer</a>
+    </footer>
+  </div>
+  <script>
+    function show(lang) {
+      document.body.classList.toggle("show-zh", lang === "zh");
+      document.getElementById("to-en").classList.toggle("on", lang !== "zh");
+      document.getElementById("to-zh").classList.toggle("on", lang === "zh");
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    }
+    document.getElementById("to-en").addEventListener("click", function (e) { e.preventDefault(); show("en"); });
+    document.getElementById("to-zh").addEventListener("click", function (e) { e.preventDefault(); show("zh"); });
+    if (location.hash === "#zh" || (navigator.language || "").toLowerCase().indexOf("zh") === 0) show("zh");
+  </script>
+</body>
+</html>

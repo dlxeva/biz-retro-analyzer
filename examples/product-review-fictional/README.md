@@ -11,6 +11,8 @@
 | `report.html` | Rendered from `report.json`. |
 | `report.md` | Rendered from `report.json`. |
 
+Live demo (GitHub Pages): https://dlxeva.github.io/biz-retro-analyzer/demo/
+
 Commands, run from the repository root:
 
 ```bash

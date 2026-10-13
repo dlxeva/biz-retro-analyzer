@@ -10,6 +10,16 @@ The format is intentionally lightweight:
 
 ---
 
+## 2026-10-13
+
+### README first screen, live demo, string-assumption coerce
+
+- README (en/zh) first screen: product name **The Meeting Didn't Say That** / **会后照妖镜**, fictional POS/inventory Q3 review, before/after hero images in `docs/`
+- GitHub Pages from `/docs`: landing `docs/index.html`, live demo report at `docs/demo/index.html` (rendered from `examples/product-review-fictional/report.json`)
+- `validate` and `render` accept `audit.explicitAssumptions` as a string (treated as a single item) instead of crashing
+
+---
+
 ## 2026-10-12
 
 ### Preprocess, validate, and JSON-first render
