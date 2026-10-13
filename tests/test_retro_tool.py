@@ -530,6 +530,41 @@ class RenderTest(TempDirMixin, unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("does not match the schema", err)
 
+    def test_pages_demo_matches_fictional_render(self):
+        demo = ROOT / "docs" / "demo" / "index.html"
+        self.assertTrue(demo.is_file(), "generate with: python3 scripts/retro_tool.py render %s -o %s" % (
+            FICTIONAL / "report.json", demo))
+        self.assertEqual(demo.read_text(encoding="utf-8"), self.html(FICTIONAL / "report.json"))
+
+
+class AuditCoerceTest(TempDirMixin, unittest.TestCase):
+    """validate/render used to crash when audit.explicitAssumptions was a string."""
+
+    def test_explicit_assumptions_string_is_single_item(self):
+        data = load_json(FICTIONAL / "report.json")
+        claim = "owners actually want the system to decide restock quantities"
+        data["audit"]["explicitAssumptions"] = claim
+        path = self.write("report.json", json.dumps(data, ensure_ascii=False))
+        sources = ["-s", "S1=%s" % (FICTIONAL / "transcript.txt"),
+                   "-s", "S2=%s" % (FICTIONAL / "group-message.txt"),
+                   "-s", "C1=%s" % (FICTIONAL / "context.txt")]
+        code, out, err = run_cli("validate", path, *sources)
+        self.assertEqual(code, 0, out + err)
+        self.assertIn("Result: PASS", out)
+        html_path = self.tmp / "out.html"
+        code, _, err = run_cli("render", path, "-o", html_path, *sources)
+        self.assertEqual(code, 0, err)
+        page = html_path.read_text(encoding="utf-8")
+        self.assertIn(claim, page)
+        md = retro_tool.render_markdown(load_json(path))
+        self.assertIn(claim, md)
+        self.assertEqual(data["audit"]["explicitAssumptions"], claim,
+                         "coercion must not rewrite the caller's original string in the test fixture")
+        normalized = json.loads(json.dumps(data))
+        retro_tool.normalize_audit_lists(normalized)
+        self.assertEqual(normalized["audit"]["explicitAssumptions"],
+                         [{"claim": claim, "status": "Assumption"}])
+
 
 class NamingTest(unittest.TestCase):
     """Section names and table columns are the same in SKILL.md, templates, scaffold and render."""

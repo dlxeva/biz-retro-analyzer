@@ -2,24 +2,64 @@
   <a href="./README.md"><strong>English</strong></a> | <a href="./README.zh-CN.md">简体中文</a>
 </p>
 
-![Biz Retro Analyzer banner](./assets/banner.svg)
+# The Meeting Didn't Say That
+### `biz-retro-analyzer` — an open-source Agent Skill for post-meeting audits
 
-# Biz Retro Analyzer
+> **Your meeting notes say what was said. This tells you what nobody actually proved.**
 
-Evidence-first dialogue intelligence for messy project conversations.
+**[Live demo report](https://dlxeva.github.io/biz-retro-analyzer/demo/)**
 
-`biz-retro-analyzer` is a reusable agent skill for turning raw project conversations into structured facts, influence chains, judgment audits, and next actions.
+> "I ran it on a review meeting. The HTML it gave me afterwards genuinely scared me."
+> — dlxeva, author
 
-Use it when the important question is not only "what was said?", but:
+![Generic summary vs biz-retro-analyzer](docs/before-after.png)
 
-- which facts are actually supported
-- which claims are participant assertions
-- who understands the problem, advancement path, constraints, and decision mechanics
-- who introduced a frame, who adopted it, and who made it actionable
-- which judgments are strong, weak, or still need validation
-- what should happen next
+## A fictional review meeting
 
-It is designed for conversation-heavy work in complex collaborative projects where ordinary summaries are too smooth and too shallow.
+A company that makes POS and inventory software holds a Q3 product review. There is one agenda item: whether **AI restock suggestions** should go into Q3.
+
+- **Gao Yuan** (VP of Product) is the proposer. He opens with "this has to be done," citing conversations with twenty-plus customers and a competitor already shipping.
+- **Ma Jun** (head of engineering) asks who estimated six person-months, and admits the team never did a formal estimate.
+- **Su Qing** (data analyst) brings numbers: of 1,200+ active stores, only 7% have usable inventory data; of 41 customers who churned in the first half, only 3 left explicitly for a competitor.
+- **Zhou** (CEO) joins in the second half, hears the room out, decides "run both tracks in parallel, revisit in two weeks," then leaves.
+- Twenty minutes after the meeting, Gao Yuan posts a "meeting conclusion" in the project group chat.
+
+Feed the same transcript plus that group message to a generic AI and to biz-retro-analyzer:
+
+| How a generic AI summary writes it | How biz-retro-analyzer reads it |
+|---|---|
+| "Q3 review aligned with Zhou. Restock confirmed as a Q3 priority." | **Conflicts with source.** Zhou's words were: "Run both tracks — alerts first, a demo for restock — we'll revisit in two weeks." A two-week time-boxed evaluation was rewritten as "approved / kicked off." |
+| "Inventory alerts scheduled after the demo." | **Reversed after the decision-maker left.** As soon as Zhou left, Gao Yuan announced "staff the demo first"; Ma Jun objected on the spot. Zhou had said "alerts first." |
+| "Customer demand validated." | **Needs validation.** Gao Yuan himself revised "twenty-plus customers" down to "seven or eight," mostly dinner chats, no records. |
+
+A generic summary reads as a smoothly aligned meeting. This report sees the group message quietly rewriting the boss's decision.
+
+*People, company, and data are entirely fictional. [Full transcript](./examples/product-review-fictional/transcript.txt) · [Full HTML report](https://dlxeva.github.io/biz-retro-analyzer/demo/)*
+
+## What it does
+- **Ledgers every claim against evidence.** Each conclusion gets a status (confirmed / needs validation / assumption / conflicts with source) and a timestamp anchor — or it gets flagged.
+- **Checks what happened *after* the meeting.** Compares follow-up messages and "alignment" summaries with what was actually said, and catches quiet rewrites.
+- **Runs a reverse audit.** Argues the opposite conclusion and asks whether the same evidence supports it too — including against *your own* framing — then outputs a shareable HTML report.
+
+## 30-second quickstart
+
+Install as an Agent Skill — layouts for Claude Code, Cursor, and Codex are in [`INSTALL.md`](./INSTALL.md). Then paste a transcript (plus any post-meeting messages) and ask: *"Audit this meeting and give me the HTML report."*
+
+Optional CLI (`scripts/retro_tool.py`, Python 3.8+, zero dependencies):
+
+```bash
+python3 scripts/retro_tool.py preprocess meeting.txt -o meeting_annotated.txt
+python3 scripts/retro_tool.py scaffold --mode B --format json -o report.json
+python3 scripts/retro_tool.py validate report.json
+python3 scripts/retro_tool.py validate analysis.md -t meeting.txt
+python3 scripts/retro_tool.py render report.json -o report.html
+```
+
+## Honest limits
+- **Performative meetings** (where the real decision was made elsewhere) are hard for it. See [`references/honest-limits.md`](./references/honest-limits.md).
+- **Garbage in, garbage out:** it needs a transcript with reasonably reliable speaker labels.
+- **Evals are preliminary.** Current results come from a handful of synthetic cases scored by a single grader with a rubric that partly rewards the very features being tested. Treat them as a smoke test, not proof.
+- **It flags, it doesn't judge people.** A "conflicts with source" flag says the record doesn't match, not why. The report lists innocent explanations alongside strategic ones.
 
 ---
 

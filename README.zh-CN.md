@@ -2,24 +2,64 @@
   <a href="./README.md">English</a> | <a href="./README.zh-CN.md"><strong>简体中文</strong></a>
 </p>
 
-![Biz Retro Analyzer banner](./assets/banner.svg)
+# 会后照妖镜
+### `biz-retro-analyzer` —— 开源 Agent Skill，专做会后审计
 
-# Biz Retro Analyzer / 复杂对话情报分析 Skill
+> **纪要告诉你大家说了什么，它告诉你哪句话其实没人证明过。**
 
-一个证据优先的复杂对话情报分析 Skill，用来把混乱的项目对话拆成事实记录、推进链、判断审计和下一步行动。
+**[Live demo report](https://dlxeva.github.io/biz-retro-analyzer/demo/)**
 
-`biz-retro-analyzer` 适合处理复杂协作型项目中的原始对话材料，并把它们转化为可复用的分析资产。
+> 「拿评审会去跑，会后的 HTML 直接把我吓着。」
+> —— dlxeva，作者
 
-它关注的不只是“大家说了什么”，还包括：
+![普通纪要 vs biz-retro-analyzer](docs/before-after-zh.png)
 
-- 哪些事实真的有证据支撑
-- 哪些只是参与方自己的说法
-- 谁真正理解问题、推进路径、执行约束和决策机制
-- 谁提出了某个叙事，谁接住了它，谁让它变成实际行动
-- 哪些判断可靠，哪些判断证据不足，哪些还需要验证
-- 下一步应该做什么
+## 一场虚构的评审会
 
-它适用于对话密集、材料混杂、判断不断变化的复杂协作项目。普通摘要往往太顺滑，也太浅。
+一家做门店收银和库存软件的公司开 Q3 产品评审会，议题只有一个：「AI 智能补货建议」要不要进 Q3。
+
+- **高远**（产品副总裁）是提案人，开场就说「这个必须做」，理由是聊过二十多个客户、竞品已经上线。
+- **马骏**（研发负责人）追问六个人月是谁估的，坦言组里没正式评估过。
+- **苏晴**（数据分析师）拿出数据：1200 多家活跃门店里，只有 7% 有可用的库存数据；上半年流失的 41 家客户里，明确去了竞品的只有 3 家。
+- **周总**（CEO）后半段才进来，听完定了「两条线并行，两周后再看」，然后先走了。
+- 会后 20 分钟，高远在项目群里发了一条「会议结论」。
+
+拿同一份逐字稿加那条群消息，分别交给普通 AI 和 biz-retro-analyzer：
+
+| 普通 AI 纪要怎么写 | biz-retro-analyzer 怎么看 |
+|---|---|
+| 「Q3 评审会已与周总对齐，补货确定为 Q3 重点方向。」 | **与源材料冲突。** 周总的原话是「两条线并行，预警先做起来，补货同步做个 demo……两周后我们再看」。这是一个两周的限时评估，到了群消息里成了「已立项」。 |
+| 「库存预警排在 demo 之后。」 | **决策者离场后被反转。** 周总一走，高远就宣布「人手先保 demo」，马骏当场提出质疑。周总定的是「预警先做」。 |
+| 「客户需求已验证。」 | **待验证。** 高远自己在会上就把「二十多个客户」改口成「七八个」，而且大多是饭局上聊的，没有记录。 |
+
+普通纪要读起来是一场顺利对齐的会；它看到的是，会后那条群消息悄悄改写了老板的决定。
+
+*人物、公司、数据全部虚构。[完整逐字稿](./examples/product-review-fictional/transcript.txt) · [完整 HTML 报告](https://dlxeva.github.io/biz-retro-analyzer/demo/)*
+
+## 它做三件事
+- **给每条主张记账。** 每个结论标上证据状态（已确认 / 待验证 / 假设 / 与源材料冲突）和时间戳锚点，对不上的标红。
+- **查会后发生了什么。** 拿会后的群消息、「对齐」纪要和会上原话逐条比对，抓出悄悄的改写。
+- **反向审计。** 把结论反过来推一遍，看同样的证据是否也说得通——包括反审你自己的叙事，最后输出可转发的 HTML 报告。
+
+## 30 秒上手
+
+按 Agent Skill 安装——Claude Code、Cursor、Codex 的目录布局见 [`INSTALL.md`](./INSTALL.md)。然后贴入逐字稿（以及会后消息），说：「审计这场会，给我 HTML 报告。」
+
+可选 CLI（`scripts/retro_tool.py`，Python 3.8+，无第三方依赖）：
+
+```bash
+python3 scripts/retro_tool.py preprocess meeting.txt -o meeting_annotated.txt
+python3 scripts/retro_tool.py scaffold --mode B --format json -o report.json
+python3 scripts/retro_tool.py validate report.json
+python3 scripts/retro_tool.py validate analysis.md -t meeting.txt
+python3 scripts/retro_tool.py render report.json -o report.html
+```
+
+## 坦白说它的局限
+- **表演性会议**（真正的决定在会外做的）它分析不好，见 [`references/honest-limits.md`](./references/honest-limits.md)。
+- **输入决定上限：** 需要发言人标签基本可靠的逐字稿。
+- **评测还很初步。** 目前结果来自少量合成案例、单一评分人，且评分量规部分奖励的正是被测功能本身。只能当冒烟测试，不能当证明。
+- **它标记事实，不审判人。** 「与源材料冲突」只说明记录对不上，不说明动机；报告会把无心和有意的解释并列。
 
 ---
 
