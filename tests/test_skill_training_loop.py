@@ -45,7 +45,7 @@ class IterativeLearningTest(unittest.TestCase):
             run = Path(tmp) / "train"
             state = loop.train(fake, run, max_cases=2)
             self.assertFalse(state["complete"])
-            self.assertEqual(state["calls"], 6)
+            self.assertEqual(state["calls"], 8)
             names = state["development_cases"]
             first = (run / "cycles" / names[0] / "C-forward.response.md")
             second = (run / "cycles" / names[1] / "C-forward.prompt.md")
@@ -56,7 +56,7 @@ class IterativeLearningTest(unittest.TestCase):
             self.assertIn("C delta step 2",
                           (run / "C-delta.md").read_text(encoding="utf-8"))
             self.assertNotIn("Expert checks (revealed AFTER forward)", forward_next)
-            self.assertIn("B delta step 1",
+            self.assertIn("B delta step 2",
                           (run / "cycles" / names[1] / "B-distill.prompt.md")
                           .read_text(encoding="utf-8"))
 
@@ -67,13 +67,14 @@ class IterativeLearningTest(unittest.TestCase):
             training = root / "training"
             result = loop.train(fake, training)
             self.assertTrue(result["complete"])
-            self.assertEqual(result["calls"], 18)
-            self.assertEqual(fake.n_b, 6)
+            self.assertEqual(result["calls"], 24)
+            self.assertEqual(fake.n_b, 12)
             self.assertEqual(fake.n_c, 6)
+            self.assertEqual(result["usage"]["C"]["calls"], 12)
             manifest = json.loads((training / "manifest.json")
                                   .read_text(encoding="utf-8"))
             self.assertEqual(manifest["delta_sha256"]["B"],
-                             loop.digest("## Rule\nB delta step 6"))
+                             loop.digest("## Rule\nB delta step 12"))
             out = root / "eval"
             evaluation = loop.evaluate(fake, training, out)
             self.assertTrue(evaluation["complete"])
@@ -89,7 +90,31 @@ class IterativeLearningTest(unittest.TestCase):
             self.assertNotIn("Expert checks (revealed AFTER forward)", sample)
             self.assertNotIn("holdout-gold.json", sample)
             self.assertNotIn("## Expert checks", sample)
-            self.assertIn("Test", "Test")  # no hidden-key oracle in this double
+            self.assertEqual(result["usage"]["B"]["calls"], 12)
+
+    def test_no_change_delta_is_reported_and_evaluated_as_frozen(self):
+        class NoChangeBackend(FakeBackend):
+            def __call__(self, prompt):
+                self.prompts.append(prompt)
+                if prompt.startswith("# Arm B:") or prompt.startswith("# Arm C:"):
+                    return {"text": "NO_CHANGE", "model": self.model_id}
+                return {"text": "No extra rules", "model": self.model_id}
+        fake = NoChangeBackend()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            training = root / "training"
+            result = loop.train(fake, training)
+            self.assertTrue(result["complete"])
+            self.assertEqual(result["delta_sha256"]["B"], loop.digest(""))
+            evaluation = loop.evaluate(fake, training, root / "eval")
+            self.assertEqual(evaluation["no_change_arms"], ["B", "C"])
+            p_b = (root / "eval" / "traces" / "B" /
+                   "h01-authorized-pilot" / "eval-B.prompt.md").read_text(
+                       encoding="utf-8")
+            p_s = (root / "eval" / "traces" / "S" /
+                   "h01-authorized-pilot" / "eval-S.prompt.md").read_text(
+                       encoding="utf-8")
+            self.assertEqual(p_b, p_s)
 
     def test_external_calls_require_explicit_authorization(self):
         with self.assertRaises(ValueError):
