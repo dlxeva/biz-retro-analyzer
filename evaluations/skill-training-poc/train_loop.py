@@ -89,6 +89,24 @@ def distill_prompt(source: str, checks: str, bundle: str, previous: str) -> str:
     )
 
 
+def refine_distill_prompt(source: str, checks: str, bundle: str,
+                          previous: str, draft: str) -> str:
+    """Budget-matched second pass for B, without any reconstruction."""
+    return (
+        "# Arm B: direct-rule refinement (second call)\n"
+        "Review the proposed delta solely against the labeled expert example "
+        "and frozen Skill. Remove redundancy and over-specific rules. "
+        "This is still direct knowledge distillation; you have no agent "
+        "reconstruction to inspect. Return ONLY the COMPLETE updated Skill "
+        "delta (maximum 1000 characters) or NO_CHANGE.\n\n"
+        "## Frozen Skill\n" + bundle
+        + "\n\n## Previous accepted B delta\n" + (previous or "(empty)")
+        + "\n\n## First-pass draft delta\n" + (draft or "(empty)")
+        + "\n\n## Development source\n" + source
+        + "\n\n## Expert checks\n" + checks
+    )
+
+
 def reconstruct_forward_prompt(source: str, bundle: str, previous: str) -> str:
     # CRITICAL: later rounds use the previous C delta, not just frozen S.
     arm = "C" if previous.strip() else "S"
@@ -214,6 +232,25 @@ def record_call(backend: Callable[[str], dict], prompt: str, stage: str,
     return answer
 
 
+def summarize_usage(log: Path) -> dict:
+    """Never substitute zero for missing usage data (local command provider)."""
+    summary = {}
+    for line in log.read_text(encoding="utf-8").splitlines():
+        event = json.loads(line)
+        arm = event["stage"].split(".")[0]
+        stats = summary.setdefault(arm, {
+            "calls": 0, "calls_with_token_usage": 0,
+            "input_tokens_reported": 0, "output_tokens_reported": 0,
+        })
+        stats["calls"] += 1
+        i, o = event.get("input_tokens"), event.get("output_tokens")
+        if isinstance(i, int) and isinstance(o, int):
+            stats["calls_with_token_usage"] += 1
+            stats["input_tokens_reported"] += i
+            stats["output_tokens_reported"] += o
+    return summary
+
+
 def train(backend: Callable[[str], dict], out: Path, max_cases: int = 6) -> dict:
     if max_cases < 1 or max_cases > 6:
         raise ValueError("max_cases must be in 1..6")
@@ -237,7 +274,12 @@ def train(backend: Callable[[str], dict], out: Path, max_cases: int = 6) -> dict
         b_reply = record_call(
             backend, distill_prompt(source, checks, bundle, b_delta),
             "B.distill", case_id, out / "cycles", log)
-        b_delta = validate_delta(b_reply, b_delta)
+        b_draft = validate_delta(b_reply, b_delta)
+        b_review = record_call(
+            backend, refine_distill_prompt(source, checks, bundle,
+                                           b_delta, b_draft),
+            "B.refine", case_id, out / "cycles", log)
+        b_delta = validate_delta(b_review, b_draft)
         forward = record_call(
             backend, reconstruct_forward_prompt(source, bundle, c_delta),
             "C.forward", case_id, out / "cycles", log)
@@ -252,7 +294,8 @@ def train(backend: Callable[[str], dict], out: Path, max_cases: int = 6) -> dict
     (out / "B-delta.md").write_text(b_delta + "\n", encoding="utf-8")
     (out / "C-delta.md").write_text(c_delta + "\n", encoding="utf-8")
     state["complete"] = max_cases == 6
-    state["calls"] = max_cases * 3
+    state["calls"] = max_cases * 4
+    state["usage"] = summarize_usage(log)
     state["delta_sha256"] = {"B": digest(b_delta), "C": digest(c_delta)}
     (out / "manifest.json").write_text(
         json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -274,8 +317,6 @@ def evaluate(backend: Callable[[str], dict], training_dir: Path,
         data = (training_dir / (arm + "-delta.md")).read_text(encoding="utf-8").strip()
         if digest(data) != prior["delta_sha256"][arm]:
             raise ValueError("Learned delta changed after training")
-        if arm in arms and not data:
-            raise ValueError("Learned delta empty: record no-change instead of fake progress")
         deltas[arm] = data
     out = safe_output_dir(out)
     (out / "outputs").mkdir()
@@ -287,6 +328,7 @@ def evaluate(backend: Callable[[str], dict], training_dir: Path,
         "arms": list(arms), "case_ids": [x[0] for x in holdout],
         "backend": getattr(backend, "label", "test-double"),
         "model": getattr(backend, "model_id", "test-double"),
+        "no_change_arms": [a for a in ("B", "C") if not deltas[a]],
         "complete": False,
         "warning": "Blinded human review required; no performance conclusion yet.",
     }
@@ -294,7 +336,11 @@ def evaluate(backend: Callable[[str], dict], training_dir: Path,
         json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     for arm in arms:
         for case_id, source in holdout:
-            prompt = poc.model_prompt(arm, source, bundle, deltas.get(arm, ""))
+            # A genuinely empty delta is a no-change result: run S unmodified,
+            # but keep the arm labeled B/C for honest paired evaluation.
+            effective_arm = "S" if arm in ("B", "C") and not deltas[arm] else arm
+            prompt = poc.model_prompt(effective_arm, source, bundle,
+                                      deltas.get(arm, ""))
             answer = record_call(backend, prompt, "eval." + arm, case_id,
                                  out / "traces" / arm, log)
             folder = out / "outputs" / arm
@@ -302,6 +348,7 @@ def evaluate(backend: Callable[[str], dict], training_dir: Path,
             (folder / (case_id + ".md")).write_text(answer + "\n",
                                                     encoding="utf-8")
     state["complete"], state["calls"] = True, len(arms) * len(holdout)
+    state["usage"] = summarize_usage(log)
     (out / "manifest.json").write_text(
         json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return state
