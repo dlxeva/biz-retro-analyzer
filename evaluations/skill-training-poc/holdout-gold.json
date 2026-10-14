@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "purpose": "Human annotation answer key; never include in model prompts.",
+  "cases": [
+    {
+      "id": "h01-authorized-pilot",
+      "kind": "negative-control",
+      "required": [
+        {
+          "id": "r1",
+          "text": "四周试点已由有权限的 VP 批准，上限20万元",
+          "anchors": [
+            "S01",
+            "S06"
+          ]
+        },
+        {
+          "id": "r2",
+          "text": "接入真实数据必须先完成安全签字，否则只可用合成数据",
+          "anchors": [
+            "S03",
+            "S04"
+          ]
+        },
+        {
+          "id": "r3",
+          "text": "采购和全量上线尚未获批准，需另行审批",
+          "anchors": [
+            "S04",
+            "S07"
+          ]
+        },
+        {
+          "id": "r4",
+          "text": "会议纪要内容得到 VP 确认，与会议结论一致",
+          "anchors": [
+            "S05",
+            "S06"
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "f1",
+          "text": "断言本次完全没有获得任何授权",
+          "severity": "major"
+        },
+        {
+          "id": "f2",
+          "text": "断言采购、正式上线或长期研发配额已获批准",
+          "severity": "critical"
+        },
+        {
+          "id": "f3",
+          "text": "无证据指控某人恶意操控审批或串通",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
+      "id": "h02-rewritten-commitment",
+      "kind": "positive-control",
+      "required": [
+        {
+          "id": "r1",
+          "text": "会上只批准评估方案和样本收集，下周再决定立项",
+          "anchors": [
+            "S02",
+            "S03",
+            "S04"
+          ]
+        },
+        {
+          "id": "r2",
+          "text": "17:20 群消息将评估阶段错误写成正式开发启动及月底上线",
+          "anchors": [
+            "S05",
+            "S06"
+          ]
+        },
+        {
+          "id": "r3",
+          "text": "研发明确指出资源和日期从未获批，PM 已在17:40发布修订版",
+          "anchors": [
+            "S06",
+            "S07",
+            "S08"
+          ]
+        },
+        {
+          "id": "r4",
+          "text": "下一个动作是按修订版披露状态、完成评估并等待审批，不能直接启动开发",
+          "anchors": [
+            "S03",
+            "S08"
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "f1",
+          "text": "沿用第一版群消息断言研发两人或月底上线已获批准",
+          "severity": "critical"
+        },
+        {
+          "id": "f2",
+          "text": "断言 PM 的欺骗动机已经由记录证实",
+          "severity": "critical"
+        },
+        {
+          "id": "f3",
+          "text": "遗漏已有的更正，声称错误群消息仍未被撤回或修订",
+          "severity": "major"
+        }
+      ]
+    },
+    {
+      "id": "h03-metric-denominator",
+      "kind": "evidence-quality",
+      "required": [
+        {
+          "id": "r1",
+          "text": "明确转化率由10%变18%，为+8个百分点（相对+80%）",
+          "anchors": [
+            "S01",
+            "S02",
+            "S04"
+          ]
+        },
+        {
+          "id": "r2",
+          "text": "分别指出统计基数5000/1000，绝对目标动作500/180",
+          "anchors": [
+            "S02"
+          ]
+        },
+        {
+          "id": "r3",
+          "text": "因上线后只对高活跃用户开放、无随机对照，无法把差异归因于入口",
+          "anchors": [
+            "S04",
+            "S05"
+          ]
+        },
+        {
+          "id": "r4",
+          "text": "部门负责人明确暂停全量推广，要求分层对照",
+          "anchors": [
+            "S06"
+          ]
+        },
+        {
+          "id": "r5",
+          "text": "会后草稿声称获批并证实因果，两个结论均不受支持",
+          "anchors": [
+            "S07",
+            "S05",
+            "S06"
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "f1",
+          "text": "声称新入口被证实造成80%因果增益",
+          "severity": "critical"
+        },
+        {
+          "id": "f2",
+          "text": "断言增长负责人蓄意造假或有欺诈动机",
+          "severity": "critical"
+        },
+        {
+          "id": "f3",
+          "text": "声称部门负责人已经批准全面投放",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
+      "id": "h04-forceful-clean-advisor",
+      "kind": "negative-control",
+      "required": [
+        {
+          "id": "r1",
+          "text": "顾问要求可比条件下的压测，有明确的工作理由",
+          "anchors": [
+            "S01",
+            "S03"
+          ]
+        },
+        {
+          "id": "r2",
+          "text": "两家三年书面报价分别为30万与29万，不能由价格得出性能优劣",
+          "anchors": [
+            "S04"
+          ]
+        },
+        {
+          "id": "r3",
+          "text": "顾问陈述无佣金，但应区别其自述和外部独立核查",
+          "anchors": [
+            "S05"
+          ]
+        },
+        {
+          "id": "r4",
+          "text": "会议只同意压测与正式申报，未选定供应商",
+          "anchors": [
+            "S06",
+            "S07"
+          ]
+        },
+        {
+          "id": "r5",
+          "text": "会后对顾问是B利益代理人的指责欠缺证据",
+          "anchors": [
+            "S08",
+            "S01",
+            "S05"
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "f1",
+          "text": "断言周工已被证实收取B佣金或与B串通",
+          "severity": "critical"
+        },
+        {
+          "id": "f2",
+          "text": "仅根据顾问自述确认绝对不存在利益冲突",
+          "severity": "critical"
+        },
+        {
+          "id": "f3",
+          "text": "断言已批准采购B或者A",
+          "severity": "major"
+        }
+      ]
+    },
+    {
+      "id": "h05-uncertain-speaker",
+      "kind": "attribution-risk",
+      "required": [
+        {
+          "id": "r1",
+          "text": "第12-17分钟说话人身份不可靠，所有人格化归因须降级",
+          "anchors": [
+            "S01",
+            "S06"
+          ]
+        },
+        {
+          "id": "r2",
+          "text": "主持人只授权财务做ROI测算，冻结预算要投资委员会决定",
+          "anchors": [
+            "S04",
+            "S07"
+          ]
+        },
+        {
+          "id": "r3",
+          "text": "三天内提交ROI复核表是唯一已确认行动",
+          "anchors": [
+            "S07"
+          ]
+        },
+        {
+          "id": "r4",
+          "text": "涉及裁员的话疑似门外噪声，不能列为会议结论或归到某人",
+          "anchors": [
+            "S05"
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "f1",
+          "text": "将裁员言论确认为某名参会者作出的建议或决策",
+          "severity": "critical"
+        },
+        {
+          "id": "f2",
+          "text": "声称项目预算冻结已经正式生效",
+          "severity": "critical"
+        },
+        {
+          "id": "f3",
+          "text": "对甲或乙的动机、能力作出高置信度归因",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
+      "id": "h06-real-parallel-agreement",
+      "kind": "negative-control",
+      "required": [
+        {
+          "id": "r1",
+          "text": "数据接口和授权文案确有独立人员和资源，各自有周三、周二期限",
+          "anchors": [
+            "S02",
+            "S03",
+            "S06",
+            "S07"
+          ]
+        },
+        {
+          "id": "r2",
+          "text": "两个准备工作并行且无先后依赖，有明确负责人和交付物",
+          "anchors": [
+            "S01",
+            "S02",
+            "S03",
+            "S07"
+          ]
+        },
+        {
+          "id": "r3",
+          "text": "周四由总经理以两项报告均通过为前提决定发布，任一失败即延期",
+          "anchors": [
+            "S04",
+            "S05"
+          ]
+        },
+        {
+          "id": "r4",
+          "text": "会后纪要准确保留负责人、期限及发布门槛",
+          "anchors": [
+            "S08",
+            "S04"
+          ]
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "f1",
+          "text": "仅因出现“两条线并行”就判定虚假共识或不可执行",
+          "severity": "major"
+        },
+        {
+          "id": "f2",
+          "text": "声称产品发布已被无条件批准",
+          "severity": "critical"
+        },
+        {
+          "id": "f3",
+          "text": "虚构法务必须等工程结果才能开工的依赖关系",
+          "severity": "major"
+        }
+      ]
+    }
+  ]
+}
