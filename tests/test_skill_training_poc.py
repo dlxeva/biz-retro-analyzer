@@ -113,9 +113,51 @@ class ReconstructionPocTest(unittest.TestCase):
             reviews.write_text("\n".join(json.dumps(r) for r in data) + "\n",
                                encoding="utf-8")
             result = poc.score_file(reviews, mapping, tmp / "report.json")
-            self.assertTrue(result["complete"])
+            self.assertFalse(result["complete"])
+            self.assertFalse(result["four_arm_complete"])
+            self.assertEqual(result["summary"]["A"]["mapped"], 1)
+            self.assertEqual(result["summary"]["A"]["expected"], 6)
             self.assertEqual(result["summary"]["A"]["mean_score"], 100)
             self.assertEqual(result["summary"]["S"]["mean_score"], 100)
+
+
+    def test_full_24_report_blind_review_is_complete(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            gold = json.loads(poc.GOLD.read_text(encoding="utf-8"))
+            outputs = root / "outputs"
+            for arm in poc.ARMS:
+                for case in gold["cases"]:
+                    folder = outputs / arm
+                    folder.mkdir(parents=True, exist_ok=True)
+                    (folder / (case["id"] + ".md")).write_text(
+                        "Synthetic review only", encoding="utf-8")
+            mapping = root / "private-mapping.json"
+            self.assertEqual(
+                poc.blind_outputs(outputs, root / "blind", mapping), 24)
+            entries = json.loads(mapping.read_text(encoding="utf-8"))
+            by_case = {x["id"]: x for x in gold["cases"]}
+            rows = []
+            for blind_id, item in entries.items():
+                g = by_case[item["case_id"]]
+                rows.append({
+                    "blind_id": blind_id,
+                    "covered": [x["id"] for x in g["required"]],
+                    "violations": [], "supported_claims": 5,
+                    "unsupported_claims": 0, "valid_anchors": 5,
+                    "invalid_anchors": 0, "unsupported_high_risk_claims": 0,
+                })
+            review = root / "review.jsonl"
+            review.write_text(
+                "\n".join(json.dumps(x) for x in rows) + "\n",
+                encoding="utf-8")
+            result = poc.score_file(review, mapping, root / "scores.json")
+            self.assertTrue(result["complete"])
+            self.assertTrue(result["four_arm_complete"])
+            self.assertTrue(all(x["reviewed"] == 6 and x["mapped"] == 6
+                                for x in result["summary"].values()))
+            with self.assertRaises(ValueError):
+                poc.blind_outputs(outputs, root / "blind", root / "new-map.json")
 
 
 if __name__ == "__main__":
