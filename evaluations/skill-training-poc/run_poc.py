@@ -150,6 +150,8 @@ def train_pack(out: Path) -> None:
 
 
 def blind_outputs(outputs: Path, blind_dir: Path, mapping_path: Path) -> int:
+    if (blind_dir.exists() and any(blind_dir.iterdir())) or mapping_path.exists():
+        raise ValueError("Blind output directory and mapping must be fresh")
     try:
         mapping_path.resolve().relative_to(blind_dir.resolve())
     except ValueError:
@@ -212,6 +214,15 @@ def score_file(reviews: Path, mapping_path: Path, output: Path) -> dict:
     gold = json.loads(GOLD.read_text(encoding="utf-8"))
     by_case = {c["id"]: c for c in gold["cases"]}
     mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+    expected_cases = {case_id for case_id, _ in cases()}
+    mapped_pairs = []
+    for item in mapping.values():
+        arm, case_id = item["arm"], item["case_id"]
+        if arm not in ARMS or case_id not in expected_cases:
+            raise ValueError("Unknown arm/case in blind mapping")
+        mapped_pairs.append((arm, case_id))
+    if len(set(mapped_pairs)) != len(mapped_pairs):
+        raise ValueError("Duplicate arm/case in blind mapping")
     rows, seen = [], set()
     for raw in reviews.read_text(encoding="utf-8").splitlines():
         if not raw.strip():
@@ -228,10 +239,11 @@ def score_file(reviews: Path, mapping_path: Path, output: Path) -> dict:
     summary = {}
     for a in arms:
         group = [r for r in rows if r["arm"] == a]
-        expected = sum(v["arm"] == a for v in mapping.values())
+        mapped = {v["case_id"] for v in mapping.values() if v["arm"] == a}
         summary[a] = {
-            "reviewed": len(group), "expected": expected,
-            "complete": len(group) == expected,
+            "reviewed": len(group), "expected": len(expected_cases),
+            "mapped": len(mapped),
+            "complete": len(group) == len(expected_cases) and mapped == expected_cases,
             "mean_score": round(statistics.mean(r["score"] for r in group), 2)
                           if group else None,
             "mean_recall": round(statistics.mean(r["recall"] for r in group), 4)
@@ -241,6 +253,8 @@ def score_file(reviews: Path, mapping_path: Path, output: Path) -> dict:
     result = {"study": "biz-skill-training-poc-v0", "scoring": "human-annotated",
               "caveat": "Exploratory synthetic-case scores, not proof of generalization.",
               "complete": bool(summary) and all(v["complete"] for v in summary.values()),
+              "four_arm_complete": set(summary) == set(ARMS) and
+                                   all(v["complete"] for v in summary.values()),
               "summary": summary, "cases": rows}
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n",
