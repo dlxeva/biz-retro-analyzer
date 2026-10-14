@@ -270,6 +270,8 @@ def train(backend: Callable[[str], dict], out: Path, max_cases: int = 6) -> dict
         "development_cases": [x[0] for x in dev], "complete": False,
         "backend": getattr(backend, "label", "test-double"),
         "model": getattr(backend, "model_id", "test-double"),
+        "generation": {"temperature": 0,
+                       "max_tokens": getattr(backend, "max_output_tokens", None)},
         "warning": "Old development cases previously influenced the frozen Skill.",
     }
     (out / "manifest.json").write_text(
@@ -315,6 +317,12 @@ def evaluate(backend: Callable[[str], dict], training_dir: Path,
         raise ValueError("Evaluation requires a completed six-case training run")
     if prior.get("base_commit") != poc.BASE_COMMIT or prior.get("bundle_sha256") != bundle_hash:
         raise ValueError("Frozen baseline changed between training and evaluation")
+    if prior.get("model") != getattr(backend, "model_id", "test-double"):
+        raise ValueError("Evaluation must use the same pinned model ID as training")
+    expected_generation = {"temperature": 0,
+                           "max_tokens": getattr(backend, "max_output_tokens", None)}
+    if prior.get("generation") != expected_generation:
+        raise ValueError("Evaluation generation settings differ from training")
     if not arms or not set(arms) <= set(poc.ARMS) or len(set(arms)) != len(arms):
         raise ValueError("Invalid / duplicate experiment arms")
     deltas = {}
@@ -333,6 +341,7 @@ def evaluate(backend: Callable[[str], dict], training_dir: Path,
         "arms": list(arms), "case_ids": [x[0] for x in holdout],
         "backend": getattr(backend, "label", "test-double"),
         "model": getattr(backend, "model_id", "test-double"),
+        "generation": expected_generation,
         "no_change_arms": [a for a in ("B", "C") if not deltas[a]],
         "complete": False,
         "warning": "Blinded human review required; no performance conclusion yet.",
