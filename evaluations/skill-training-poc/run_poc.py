@@ -91,7 +91,7 @@ def prepare(arms: list[str], out: Path, deltas: dict[str, Path]) -> dict:
     delta_text = {}
     for a in arms:
         if a in ("B", "C"):
-            if a not in deltas or not deltas[a].is_file():
+            if not deltas.get(a) or not deltas[a].is_file():
                 raise ValueError(f"Arm {a} needs an existing --delta-{a.lower()} file")
             delta_text[a] = deltas[a].read_text(encoding="utf-8")
             if not delta_text[a].strip():
