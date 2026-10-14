@@ -161,7 +161,8 @@ class ChatCompletionsBackend:
     label = "chat-completions"
 
     def __init__(self, endpoint: str, model_id: str, key_env: str,
-                 authorized: bool, timeout: int = 180):
+                 authorized: bool, timeout: int = 180,
+                 max_output_tokens: int = 3000):
         if not authorized:
             raise ValueError("API inference requires --authorize-api-spend")
         parsed = urllib.parse.urlparse(endpoint)
@@ -175,12 +176,16 @@ class ChatCompletionsBackend:
             raise ValueError("API key environment variable unavailable: " + key_env)
         self.endpoint, self.model_id, self.token = endpoint, model_id, token
         self.timeout = timeout
+        if max_output_tokens < 1:
+            raise ValueError("max_output_tokens must be positive")
+        self.max_output_tokens = max_output_tokens
 
     def __call__(self, prompt: str) -> dict:
         payload = json.dumps({
             "model": self.model_id,
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0, "stream": False,
+            "max_tokens": self.max_output_tokens,
         }).encode("utf-8")
         headers = {"Content-Type": "application/json"}
         if self.token:
@@ -363,6 +368,10 @@ def cli() -> None:
     p.add_argument("--command", help="Trusted local process: stdin prompt, stdout text")
     p.add_argument("--endpoint", help="Full https://.../chat/completions URL")
     p.add_argument("--api-key-env", default="OPENAI_API_KEY")
+    p.add_argument("--max-api-calls", type=int, default=0,
+                   help="Required API call budget: >=24 full training, >=24 full evaluation")
+    p.add_argument("--max-output-tokens", type=int, default=3000,
+                   help="Per-call max_tokens for Chat Completions")
     p.add_argument("--authorize-api-spend", action="store_true",
                    help="Explicit permission for potentially billed API calls")
     p.add_argument("--timeout", type=int, default=180)
@@ -371,8 +380,14 @@ def cli() -> None:
     p.add_argument("--training-dir", type=Path)
     p.add_argument("--arms", default="A,S,B,C")
     args = p.parse_args()
-    if args.timeout < 1:
-        p.error("Timeout must be positive")
+    if args.timeout < 1 or args.max_output_tokens < 1:
+        p.error("Timeout and token limit must be positive")
+    requested_arms = tuple(x.strip().upper() for x in args.arms.split(","))
+    planned_calls = (args.max_cases * 4 if args.action == "train"
+                     else len(requested_arms) * len(poc.cases()))
+    if args.provider == "chat-completions" and args.max_api_calls < planned_calls:
+        p.error("Set --max-api-calls to at least " + str(planned_calls)
+                + " for this explicitly authorized run")
     if args.provider == "command":
         if not args.command:
             p.error("--command required for local-command provider")
@@ -382,14 +397,14 @@ def cli() -> None:
             p.error("--endpoint required for chat-completions")
         backend = ChatCompletionsBackend(
             args.endpoint, args.model, args.api_key_env,
-            args.authorize_api_spend, args.timeout)
+            args.authorize_api_spend, args.timeout, args.max_output_tokens)
     if args.action == "train":
         result = train(backend, args.out, max_cases=args.max_cases)
     else:
         if not args.training_dir:
             p.error("--training-dir required for evaluation")
-        arms = tuple(x.strip().upper() for x in args.arms.split(","))
-        result = evaluate(backend, args.training_dir, args.out, arms=arms)
+        result = evaluate(backend, args.training_dir, args.out,
+                          arms=requested_arms)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
