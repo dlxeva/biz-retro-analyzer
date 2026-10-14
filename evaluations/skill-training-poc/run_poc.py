@@ -131,8 +131,17 @@ def train_pack(out: Path) -> None:
             "subsequent rounds. Do not change frozen Biz Retro rules.\n\n"
             "## Case source\n" + inp + "\n## Expert checks\n" + checks
             + "\n## Current delta\n[PASTE PREVIOUS B DELTA HERE]\n", encoding="utf-8")
+        forward_template = model_prompt("S", inp, bundle)
+        if i > 1:
+            forward_template = forward_template.replace(
+                "\n\n## Task\n",
+                "\n\n### Previous C Skill delta (manual template)\n"
+                "[PASTE C DELTA FROM THE PREVIOUS ROUND HERE]\n"
+                "Frozen evidence and ethics rules take priority.\n\n## Task\n",
+                1,
+            )
         (out / f"C-forward-{i:02d}.md").write_text(
-            model_prompt("S", inp, bundle), encoding="utf-8")
+            forward_template, encoding="utf-8")
         (out / f"C-backward-{i:02d}.md").write_text(
             "# Reconstruction feedback\n\nCompare this agent reconstruction with "
             "the expert checks. Identify specific, verifiable decision mistakes; "
