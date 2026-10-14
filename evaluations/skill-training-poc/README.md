@@ -26,92 +26,16 @@
 
 ## 3. 实验操作
 
-所有命令在仓库根目录执行。脚本只使用 Python 标准库，完全不调用 LLM、Codex 或付费 API。
+本实验的**真实训练与评测运行入口**为 [RUNBOOK.md](RUNBOOK.md)，对应可执行脚本：
 
-### 3.1 准备训练提示包
+- `train_loop.py`：按训练案例顺序动态进行 B 的直接归纳与规则复查，及 C 的逐轮 Forward + Backward。每一轮 C Forward 都读取**上一轮更新后的 C Skill**。六案例 B/C 共 24 次模型调用。
+- `train_loop.py eval`：在冻结基础模型上运行 A/S/B/C 各 6 个案例，共 24 次模型调用，严格排除隐藏答案。
+- `run_poc.py blind` 与 `run_poc.py score`：生成匿名待审报告，按检查点统计覆盖、引用与严重误报。**只有 24 份全部评审才标记四组研究完整。**
+- `run_poc.py train-pack`：保留给研究者查看训练 Prompt 结构的手工模板。它不能自行进行逐轮状态注入与模型推理，**不推荐作为正式实验入口**。
 
-```bash
-python3 evaluations/skill-training-poc/run_poc.py train-pack \
-  --out /tmp/biz-train-pack
-```
+运行器仅采用 Python 标准库。外部 API 模型需要由实际执行者显式提供密钥、启用可能产生费用的模型调用、设置每轮调用预算和单次最大输出 Token。本次修改没有消耗 Codex 额度，也没有启动模型推理。
 
-每个开发案例生成三份材料：
-
-1. `B-distill-XX.md`：向模型提供同一案例的源材料与人工专家检查点，让它直接修订累计的 `B-delta.md`。
-2. `C-forward-XX.md`：向模型提供冻结的 Biz Retro 协议与案例源材料，得到**真实的、完整的**重建报告。
-3. `C-backward-XX.md`：再提供本轮 C 的真实报告、同一案例的专家检查点与上轮 `C-delta.md`，要求从具体错误归纳并更新规则。
-
-按案例 01→06 顺序分别滚动更新 B、C 的 delta，记录每轮报告、修订内容、模型版本、推理参数和实际 token/美元成本。B 与 C 使用相同开发案例、顺序、冻结 Skill 和 delta 字数上限。C 多了 Forward 调用，必须公开报告训练成本；如果要做严格同成本对照，允许 B 在相同训练预算内进行额外迭代，并预先记录预算上限。
-
-**禁止把测试集结果当作迭代反馈。** 如果一次测试后想修改规则，必须更换新的测试集才可再次宣称泛化。
-
-### 3.2 构造四组模型输入
-
-```bash
-python3 evaluations/skill-training-poc/run_poc.py prepare \
-  --arms A,S,B,C \
-  --delta-b /tmp/B-delta.md \
-  --delta-c /tmp/C-delta.md \
-  --out /tmp/biz-test-prompts
-```
-
-目前还没有训练得到的 delta 文件，所以可以先执行：
-
-```bash
-python3 evaluations/skill-training-poc/run_poc.py prepare \
-  --arms A,S --out /tmp/biz-test-prompts
-```
-
-脚本会验证冻结 `SKILL.md` 指纹，并输出每组 6 个模型输入与 `manifest.json`（含输入哈希）。生成的 Prompt 只包含测试 **input**，不会打开 `holdout-gold.json`。
-
-**重要隔离要求**：用独立且无仓库工具权限的模型会话执行这些 prompt。不要让 Codex/Claude Code 在整个仓库根目录自主搜索；评测材料和答案就在这个仓库里，工具扫描会导致答案泄漏。不要在测试推理时使用训练案例或此前测试输出作为会话历史。
-
-固定一个模型、版本、temperature、最大输出 token、任务提示和输出格式；最初运行一次全组联调，后续建议跨 3 个独立随机种子复跑。保留完整报告文本及真实调用成本。
-
-模型结果保存为：
-
-```text
-/tmp/biz-outputs/
-  A/h01-authorized-pilot.md
-  S/h01-authorized-pilot.md
-  B/h01-authorized-pilot.md
-  C/h01-authorized-pilot.md
-  ...其他案例同名...
-```
-
-### 3.3 匿名化与人工评价
-
-```bash
-python3 evaluations/skill-training-poc/run_poc.py blind \
-  --outputs /tmp/biz-outputs \
-  --blind-dir /tmp/biz-blind-reports \
-  --mapping /tmp/biz-private-mapping.json
-```
-
-评阅者只看 `biz-blind-reports` 的报告、对应源材料与 `holdout-gold.json` 的标准。分组映射单独保存，不给评阅者。每份输出都记一条 JSONL 评价：
-
-```json
-{"blind_id":"h01-authorized-pilot-<随机码>","covered":["r1","r2","r3"],"violations":[],"supported_claims":5,"unsupported_claims":0,"valid_anchors":5,"invalid_anchors":0,"unsupported_high_risk_claims":0}
-```
-
-字段定义：
-
-- `covered`：输出实际覆盖且正确的 required 检查点 ID；空话、仅套模板不给分。
-- `violations`：明确触犯 forbidden 的检查点 ID，按 major / critical 区分严重度。
-- `supported_claims` / `unsupported_claims`：报告中独立、对决策有影响的实质性断言数量。同一事实重复出现只记一次，推论应标明推论性质。
-- `valid_anchors` / `invalid_anchors`：引用源行且引用确实支持断言的数量/无效锚点数量。
-- `unsupported_high_risk_claims`：缺少依据却将动机、腐败、采购授权等高风险推测升级成事实的断言数量；这类断言也计入 `unsupported_claims`。
-
-建议双人独立评价、分歧仲裁。第一轮允许单人，但必须明确标记。
-
-```bash
-python3 evaluations/skill-training-poc/run_poc.py score \
-  --reviews /tmp/biz-review.jsonl \
-  --mapping /tmp/biz-private-mapping.json \
-  --out /tmp/biz-scored.json
-```
-
-**探索性汇总指标**：Gold 事实判断召回（60%）、实质断言精确率（30%）、证据锚点准确率（10%），扣除 major（8分）、critical（18分）与无据高风险断言（12分/条）。这个综合分数用于快速排查，不应替代分别披露的原始指标。评分工具会标出缺少评审的实验臂，防止把未完成评价当成全量结果。
+**禁止把测试集结果当作迭代反馈。** 如果一轮测试后修改模型参数、训练规则或数据选择，必须重新准备全新独立测试集才能报告确认性结果。
 
 ## 4. 预先锁定的结果解释
 
@@ -129,4 +53,4 @@ python3 evaluations/skill-training-poc/run_poc.py score \
 
 **尚未完成**：真实模型 Forward、B/C delta 的训练、24 份 A/S/B/C 测试报告、人工评分，以及任何模型增益结论。
 
-下一次执行时，从 `train-pack` 开始记录运行；不要修改 `SKILL.md`，也不要发布未经验证的新规则。原有 `evaluations/ablation-2026-07/` 的结论和 2026-10-12 勘误保持不动。
+下一次执行时，按照 [RUNBOOK.md](RUNBOOK.md) 从 `train_loop.py train` 开始运行真实模型；不要修改 `SKILL.md`，也不要发布未经验证的新规则。原有 `evaluations/ablation-2026-07/` 的结论和 2026-10-12 勘误保持不动。
