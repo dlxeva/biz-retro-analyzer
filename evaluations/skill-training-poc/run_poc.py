@@ -150,7 +150,11 @@ def train_pack(out: Path) -> None:
 
 
 def blind_outputs(outputs: Path, blind_dir: Path, mapping_path: Path) -> int:
-    if mapping_path.resolve().is_relative_to(blind_dir.resolve()):
+    try:
+        mapping_path.resolve().relative_to(blind_dir.resolve())
+    except ValueError:
+        pass
+    else:
         raise ValueError("Mapping must be outside the reviewer-visible blind directory")
     expected = {key for key, _ in cases()}
     found = []
