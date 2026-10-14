@@ -116,6 +116,23 @@ class IterativeLearningTest(unittest.TestCase):
                        encoding="utf-8")
             self.assertEqual(p_b, p_s)
 
+    def test_mismatched_model_or_settings_block_evaluation(self):
+        fake = FakeBackend()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            training = root / "training"
+            loop.train(fake, training)
+            other = FakeBackend()
+            other.model_id = "different-model"
+            with self.assertRaises(ValueError):
+                loop.evaluate(other, training, root / "eval-mismatched")
+            other.model_id = fake.model_id
+            other.max_output_tokens = 1024
+            with self.assertRaises(ValueError):
+                loop.evaluate(other, training, root / "eval-settings")
+            self.assertFalse((root / "eval-mismatched").exists())
+            self.assertFalse((root / "eval-settings").exists())
+
     def test_external_calls_require_explicit_authorization(self):
         with self.assertRaises(ValueError):
             loop.ChatCompletionsBackend(
