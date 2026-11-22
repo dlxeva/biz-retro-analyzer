@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04  # GitHub provides Python 3.8 builds for this image.
             python: "3.8"
           - os: ubuntu-latest
             python: "3.12"
