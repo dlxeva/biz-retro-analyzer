@@ -43,7 +43,7 @@ A generic summary reads as a smoothly aligned meeting. This report sees the grou
 
 ## 30-second quickstart
 
-Install as an Agent Skill — layouts for Claude Code, Cursor, and Codex are in [`INSTALL.md`](./INSTALL.md). Then paste a transcript (plus any post-meeting messages) and ask: *"Audit this meeting and give me the HTML report."*
+Install as an Agent Skill using [the installation guide](./INSTALL.md). Give it a transcript, meeting note, or link your agent can access. With an open-ended request, it reads the source in order, chooses how deeply to review each part, and checks the project context that could change the next action. For a full audit with a web report, ask for that explicitly.
 
 Optional CLI (`scripts/retro_tool.py`, Python 3.8+, zero dependencies):
 
@@ -65,7 +65,7 @@ python3 scripts/retro_tool.py render report.json -o report.html
 
 ## Quick Start
 
-Use this skill when you have messy source material and want an evidence-aware retro instead of a generic summary.
+Use the prompt below when you explicitly want a full audit.
 
 Copy this prompt into your agent or model run:
 

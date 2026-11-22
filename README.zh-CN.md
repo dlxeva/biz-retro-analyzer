@@ -43,7 +43,7 @@
 
 ## 30 秒上手
 
-按 Agent Skill 安装——Claude Code、Cursor、Codex 的目录布局见 [`INSTALL.md`](./INSTALL.md)。然后贴入逐字稿（以及会后消息），说：「审计这场会，给我 HTML 报告。」
+按 [安装指南](./INSTALL.md) 装好后，给它一份逐字稿、纪要，或宿主有权读取的会议链接。没指定分析深度时，它会先按顺序读原文，再按每段做了什么决定查多深，并核对能改变后续行动的项目依据。需要完整审计或网页报告时，直接说明。
 
 可选 CLI（`scripts/retro_tool.py`，Python 3.8+，无第三方依赖）：
 
@@ -65,7 +65,7 @@ python3 scripts/retro_tool.py render report.json -o report.html
 
 ## 快速开始
 
-当你手里有混乱的原始材料，并且需要的不是通用摘要，而是带证据纪律的复盘时，可以直接使用下面这段提示词：
+明确要做一场完整审计时，可以用下面的提示词。
 
 ```md
 Use biz-retro-analyzer / Mode C: Audit Pack.

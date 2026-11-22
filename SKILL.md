@@ -1,6 +1,6 @@
 ---
 name: biz-retro-analyzer
-description: Evidence-disciplined analysis of meeting transcripts, notes, chat logs, field notes and follow-up conversations from multi-party projects. Separates what was said from what it means, tags every judgment with evidence status and source anchors, and produces a fact record, project thread, stakeholder motive and participant understanding readouts, a reverse audit of the user's own conclusions, and next actions, as Markdown or an HTML report. Use when the user wants to 复盘 / review a meeting or project, 分析录音 / 逐字稿 / 会议纪要, check whether minutes or a follow-up message match what was actually said, work out who decided what and who drove it, or 纠偏 / stress-test a conclusion they already hold. Do not use for a plain meeting summary or action-item list, transcription or translation only, personality profiling, or general writing.
+description: Review meeting links, transcripts, notes, field observations, and personal work recordings with source-backed facts and next actions. Choose a concise record, standard retro, or targeted audit when the user leaves the depth open. Use when the user provides meeting material for processing or asks to 复盘会议, 分析录音, 拆会议纪要, 梳理推进, or 审计判断. Supports project retrospectives, stakeholder and decision analysis, reverse audits, and HTML reporting.
 ---
 
 # Biz Retro Analyzer
@@ -50,6 +50,7 @@ and wants to produce:
 Use this skill when the request is about:
 
 - analyzing post-meeting business conversations
+- processing a meeting link, transcript, or work note with an open-ended request
 - turning transcripts or notes into structured retrospectives
 - identifying stakeholder motives and project direction shifts
 - separating source facts from later interpretation
@@ -74,9 +75,31 @@ Do not use this skill when:
 - the user only wants a short summary, minutes, or an action-item list and has not asked for judgment (answer directly)
 - the task is transcription, translation, or reformatting only
 - the request is to profile someone's personality or to plan manipulation of a person
-- the material is a single document with no conversation or multi-party context (a contract, a spec)
+- the material is a standalone contract or specification with no meeting or work note to review
 
-If unsure, do the light version (Mode A) and offer the deeper modes.
+## Choose depth from what happened
+
+When the user supplies identifiable meeting material without specifying an output, start with the available source and choose the depth yourself. Follow any explicit scope or format. For a meeting link, use the host's existing access to fetch the material. When a summary points to a transcript, follow that reference and check that it is the same meeting using the available title, date, and source links. A derived summary can locate passages and surface claims to check. Its repeated statements share the transcript's evidence lineage. If access fails or the transcript is missing, state the limit and use the available material within it.
+
+Read the transcript in order before settling what different parts mean. Use the activity, the relevant passage, and the response to it to decide the depth. Titles, keywords, and participant counts can help locate passages. Mixed meetings can use more than one depth. Keep the time or source anchor for material changes in activity and integrate the results into one report.
+
+- **A, concise record.** Record a status sync, confirmed fact, open idea, or personal reminder. For a solo note, preserve the speaker's intent, intended action, and conditions for returning to it.
+- **B, standard retro.** Use when people evaluate a concrete deliverable, give task-specific guidance, weigh consequential alternatives, or propose or make a handoff. Identify who did what, to which work item, and with what response. Preserve what was observed, what was proposed, and what is still pending.
+- **C, targeted audit.** Use when the user requests an audit or a material claim could change a decision, handoff, or acceptance and the support is thin, ambiguous, or in conflict. Name the claim and the action it would change, then check the relevant evidence. Use a full Audit Pack for a broad review.
+- **D, HTML.** Choose rendering after deciding how much analysis the material needs.
+
+## Verify facts before using them for follow-up
+
+Start with the question raised by the new source. Retrieve the project history that can change the answer or next action.
+
+- For a claimed change of direction, locate the original decision, its scope, and any later amendment.
+- For delivery and readiness, compare the original requirement, the actual deliverable version, and the applicable acceptance or test result.
+- For responsibility, handoff, or guidance, check the original assignment and the observed response or result. For a consequential named handoff, compare the recipient and the action with the same passage or a direct assignment. If summaries disagree, return to the exact wording and nearby responses. Keep the identity open if the original evidence remains ambiguous.
+- For causal or quality claims, check the conditions of the observation and credible alternative explanations.
+
+Match the event, work item, version, and applicable date. A plan, scoped authorization, proposal, or promise can support a next step. Evidence of actual execution is needed to mark that step done. Apply the same check to the headline, timeline, and follow-up record.
+
+A standalone transcript is enough to start. If no project history is available, carry forward the supported actions and name any specific evidence needed to resolve a consequential gap. The CLI can check the form and whether citations resolve. It takes a source read to check whether those citations support the exact claim.
 
 ## Runtime Reading Budget
 
@@ -109,7 +132,7 @@ If you are evaluating or stress-testing the skill itself, that is a research con
 
 ## Input Modes
 
-For Mode B and Mode C, read `references/input-modes.md` before deciding output depth. For Mode A, this section is enough.
+Use the source to choose the initial depth. For Mode B and Mode C, read `references/input-modes.md` when classifying the inputs. For Mode A, this section is enough.
 If the user wants the deliverable as HTML, also read `references/html-output-mode.md`.
 
 If the user provides audio instead of text, first transcribe it into a usable transcript before running deeper analysis.  
@@ -280,18 +303,11 @@ Default rules:
 
 ## Output Modes
 
-Choose the mode before writing:
-
-- **Mode A** when the user wants to know what was said or decided, when the material is thin, or when speaker attribution is unreliable.
-- **Mode B** when the user wants to understand how the project is moving, who wants what, or what to do next. This is the default when the request is open-ended and the material is rich.
-- **Mode C** when the user already holds a strong conclusion, asks whether they are right (纠偏), or will use the result for a commitment, pricing, or a decision about people.
-- **Mode D** is a rendering, not a depth: any of A, B, or C can be delivered as HTML.
-
-When two modes fit, pick the lighter one and offer the heavier one at the end.
+Choose the report structure after reading and routing the material. For a mixed meeting, use the lightest structure that can carry the supported findings. A targeted audit can be a short section within a retro. Use Mode C for a full Audit Pack, and Mode D when rendering to HTML.
 
 ### Mode A: Fact Pack
 
-Use when the user mainly wants structured source material.
+Use for short records, personal notes, and requests for structured source material.
 
 - structured notes per meeting/material
 - factual project timeline
@@ -299,7 +315,7 @@ Use when the user mainly wants structured source material.
 
 ### Mode B: Retro Pack
 
-Use when the user wants project progression plus interpretation.
+Use when the work in the meeting calls for a retro or the user asks for project progression and interpretation.
 
 - structured source notes
 - cross-material project thread
@@ -315,7 +331,7 @@ Default rule:
 
 ### Mode C: Audit Pack
 
-Use when the user already has strong conclusions and wants a harder review.
+Use when a full audit is warranted by the request or by consequential evidence gaps across the case.
 
 - retro pack
 - reverse-audit section

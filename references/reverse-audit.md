@@ -45,7 +45,7 @@ It is for stress-testing whether the current interpretation is actually supporte
 
 ## Output Form
 
-When you run reverse audit, produce at least:
+For a targeted audit, give the claim, the evidence for and against it, the scope of the finding, and the action or evidence still needed. For a full audit, cover the following as the material warrants:
 
 - 3 judgments that still look sound
 - 3 judgments that may be too confident

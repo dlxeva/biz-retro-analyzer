@@ -10,6 +10,13 @@ The format is intentionally lightweight:
 
 ---
 
+## Unreleased
+
+- Choose analysis depth from each part of the meeting. Handle status updates, work reviews, personal notes, and disputed claims in the same workflow.
+- Follow accessible source references from meeting notes to transcripts and check the exact facts that affect a decision, handoff, or acceptance.
+
+---
+
 ## 2026-10-13 (demo language)
 
 - English fictional transcript and Mode C report JSON in `examples/product-review-fictional/en/`
